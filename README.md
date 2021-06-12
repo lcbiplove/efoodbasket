@@ -9,3 +9,14 @@ This is the final efoodbasket repository. [Previous repo](https://lcbiplove.gith
 To check the development of the website,  you need to have following tools:
 1. [Xampp of PHP version 7.3.28 / PHP 7.3.28](https://www.apachefriends.org/download.html)
 2. [Oracle Database Express](https://www.oracle.com/database/technologies/xe-downloads.html)
+
+### OCI connection
+
+To connect oracle database with php, oci_connect() is used. Check out php official [docs](https://www.php.net/manual/en/function.oci-connect.php) to explore the usage of the function. 
+To enable oci facility, you can configure `php.ini` file from xampp by clicking `config` button on **Apache** tab. After you open the `php.ini` file in notepad, search for `oci` then, remove **semicolon(;)** infront of these two lines:
+```
+extension=oci8_12c
+extension=pdo_oci
+```
+Restart xampp. Now, your oci will be working. To check if oci is enabled. Go to the link: http://localhost/dashboard/phpinfo.php
+Below, you will get oci table, and see that `enabled` value inside table.
