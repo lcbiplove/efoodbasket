@@ -20,3 +20,31 @@ extension=pdo_oci
 ```
 Restart xampp. Now, your oci will be working. To check if oci is enabled. Go to the link: http://localhost/dashboard/phpinfo.php
 Below, you will get oci table, and see that `enabled` value inside table.
+
+After you have completed the installation of `Oracle express`, you should add users to the oracle database which credentials will be used in configuring oci. 
+Run cmd and type the code:
+```
+# Entering database commandline
+sqlplus
+
+# You will be prompted to enter username and passwod
+Enter username: sys as sysdba  # Type this
+Enter password: # Here, type the password that you entered while installing
+
+# Creation of user
+CREATE USER c##efoodbasket IDENTIFIED BY "pm..2021";
+
+# Grant permissions
+GRANT CONNECT, RESOURCE, DBA TO c##efoodbasket;
+
+# Exit from sqlplus
+exit
+
+# Login as efoodbasket user:
+sqlplus c##efoodbasket;
+```
+
+
+
+
+
