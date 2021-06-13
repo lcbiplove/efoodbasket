@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Signup | efoodbasket{% endblock %}
+
+{% block titleLinks %}
+    <link rel="stylesheet" type="text/css" href="/public/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/login.css">
+{% endblock %}
+
+{% block main %}
+    <div class="max-width-wrapper">
+        <div class="login-outer-wrapper">
+            <div class="login-wrapper">
+                <div class="login-side-banner">
+                </div>
+                <div class="login-container">
+                    <div>
+                        <img src="/public/images/efoodbasket-name.png" class="login-logo" alt="">
+                    </div>
+                    <div class="form-wrapper">
+                        <form class="login-form" action="#" method="POST" >
+                            <div class="inpt-wrapper">
+                                <label for="emailId">Email</label>
+                                <input id="emailId" type="email" name="email" placeholder="Your Email...">
+                            </div>
+                            <div class="inpt-wrapper">
+                                <label for="passwordId">Password</label>
+                                <input id="passwordId" type="password" name="password" placeholder="Your password...">
+                            </div>
+                            <div class="note-links-wrapper">
+                                <a href="#" class="note-link">
+                                    Forgot password?
+                                </a>
+                            </div>
+                            <div class="login-btn-wrapper">
+                                <button class="login-btn" type="submit">Login</button>
+                            </div>
+                        </form>
+                        <div class="login-footer">
+                            <span>New to e-food basket? </span>
+                            <a href="/signup/" class="note-link-under">Create Account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
