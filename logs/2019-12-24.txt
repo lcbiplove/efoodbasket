@@ -1,0 +1,232 @@
+[24-Dec-2019 11:23:24 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Biplove not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('biplove/dfds/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:24:14 Europe/Berlin] Uncaught exception: 'ErrorException' with message 'Trying to get property 'id' of non-object'
+Stack trace: #0 C:\xampp\htdocs\spidy\App\Controllers\Logged.php(36): Core\Error::errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 36, Array)
+#1 [internal function]: App\Controllers\Logged->homeAction()
+#2 C:\xampp\htdocs\spidy\Core\Controller.php(49): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\spidy\Core\Router.php(121): Core\Controller->__call('home', Array)
+#4 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('biploved/')
+#5 {main}
+Thrown in 'C:\xampp\htdocs\spidy\App\Controllers\Logged.php' on line 36
+[24-Dec-2019 11:24:19 Europe/Berlin] Uncaught exception: 'ErrorException' with message 'Trying to get property 'id' of non-object'
+Stack trace: #0 C:\xampp\htdocs\spidy\App\Controllers\Logged.php(36): Core\Error::errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 36, Array)
+#1 [internal function]: App\Controllers\Logged->homeAction()
+#2 C:\xampp\htdocs\spidy\Core\Controller.php(49): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\spidy\Core\Router.php(121): Core\Controller->__call('home', Array)
+#4 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bipd/')
+#5 {main}
+Thrown in 'C:\xampp\htdocs\spidy\App\Controllers\Logged.php' on line 36
+[24-Dec-2019 11:24:23 Europe/Berlin] Uncaught exception: 'ErrorException' with message 'Trying to get property 'id' of non-object'
+Stack trace: #0 C:\xampp\htdocs\spidy\App\Controllers\Logged.php(36): Core\Error::errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 36, Array)
+#1 [internal function]: App\Controllers\Logged->homeAction()
+#2 C:\xampp\htdocs\spidy\Core\Controller.php(49): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\spidy\Core\Router.php(121): Core\Controller->__call('home', Array)
+#4 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bipd/')
+#5 {main}
+Thrown in 'C:\xampp\htdocs\spidy\App\Controllers\Logged.php' on line 36
+[24-Dec-2019 11:24:29 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/df/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:24:36 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:25:25 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:26:28 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:27:15 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:28:00 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:28:19 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:28:28 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:28:37 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:28:54 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:29:06 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:29:20 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:29:21 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:29:40 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:31:27 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:32:11 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:32:37 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:32:47 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:33:08 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:33:20 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:37:18 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:37:49 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:38:04 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:39:02 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:39:03 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:39:14 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:43:01 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:43:16 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:43:22 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:43:46 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:44:01 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:44:40 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:44:56 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:45:04 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:45:14 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:45:25 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:45:43 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:46:04 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:46:23 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:46:37 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:46:54 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:48:23 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:48:30 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:48:52 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:51:20 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:52:39 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:53:34 Europe/Berlin] Uncaught exception: 'Exception' with message 'Controller class App\Controllers\Bfd not found'
+Stack trace: #0 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('bfd/dfd/')
+#1 {main}
+Thrown in 'C:\xampp\htdocs\spidy\Core\Router.php' on line 127
+[24-Dec-2019 11:54:07 Europe/Berlin] Uncaught exception: 'ErrorException' with message 'Trying to get property 'id' of non-object'
+Stack trace: #0 C:\xampp\htdocs\spidy\App\Controllers\Logged.php(36): Core\Error::errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 36, Array)
+#1 [internal function]: App\Controllers\Logged->homeAction()
+#2 C:\xampp\htdocs\spidy\Core\Controller.php(49): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\spidy\Core\Router.php(121): Core\Controller->__call('home', Array)
+#4 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('df/')
+#5 {main}
+Thrown in 'C:\xampp\htdocs\spidy\App\Controllers\Logged.php' on line 36
+[24-Dec-2019 11:58:24 Europe/Berlin] Uncaught exception: 'ErrorException' with message 'Trying to get property 'id' of non-object'
+Stack trace: #0 C:\xampp\htdocs\spidy\App\Controllers\Logged.php(36): Core\Error::errorHandler(8, 'Trying to get p...', 'C:\\xampp\\htdocs...', 36, Array)
+#1 [internal function]: App\Controllers\Logged->homeAction()
+#2 C:\xampp\htdocs\spidy\Core\Controller.php(49): call_user_func_array(Array, Array)
+#3 C:\xampp\htdocs\spidy\Core\Router.php(121): Core\Controller->__call('home', Array)
+#4 C:\xampp\htdocs\spidy\index.php(64): Core\Router->dispatch('df/')
+#5 {main}
+Thrown in 'C:\xampp\htdocs\spidy\App\Controllers\Logged.php' on line 36
