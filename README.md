@@ -9,6 +9,7 @@ This is the final efoodbasket repository. [Previous repo](https://lcbiplove.gith
 To check the development of the website,  you need to have following tools:
 1. [Xampp of PHP version 7.3.28 / PHP 7.3.28](https://www.apachefriends.org/download.html)
 2. [Oracle Database Express](https://www.oracle.com/database/technologies/xe-downloads.html)
+3. [Windows 64-bit with JDK 8 included](https://www.oracle.com/tools/downloads/sqldev-downloads.html)
 
 ### OCI connection
 
@@ -21,7 +22,7 @@ extension=pdo_oci
 Restart xampp. Now, your oci will be working. To check if oci is enabled. Go to the link: http://localhost/dashboard/phpinfo.php
 Below, you will get oci table, and see that `enabled` value inside table.
 
-After you have completed the installation of `Oracle express`, you should add users to the oracle database which credentials will be used in configuring oci. 
+After you have completed the installation of `Oracle express`, you should create a portable container (PDB). To enable, walk through [this tutorial](https://www.youtube.com/watch?v=gaelhF2us28). After you have added `XEPDB1`, you should add user to that container:
 Run cmd and type the code:
 ```
 # Entering database commandline
@@ -31,27 +32,30 @@ sqlplus
 Enter username: sys as sysdba  # Type this
 Enter password: # Here, type the password that you entered while installing
 
-# Creation of user
-CREATE USER c##efoodbasket IDENTIFIED BY "pm..2021";
+# Connect to PDB container
+connect SYSTEM/YOUR_PASSWORD@XEPDB1;
+
+# Creation of efoodbasket user
+CREATE USER efoodbasket IDENTIFIED BY "pm..2021";
 
 # Grant permissions
-GRANT CONNECT, RESOURCE, DBA TO c##efoodbasket;
+GRANT CONNECT, RESOURCE, DBA TO efoodbasket;
 
 # Exit from sqlplus
 exit
-
-# Login as efoodbasket user:
-sqlplus c##efoodbasket;
 ```
 
 To connect to our php, our code is like:
 ```php
-define('DB_USERNAME', 'c##efoodbasket');
+define('DB_USERNAME', 'efoodbasket');
 define('DB_PASSWORD', 'pm..2021');
 
-$connection = oci_connect (DB_USERNAME, DB_PASSWORD, "localhost/XE") or die(oci_error());
+$connection = oci_connect (DB_USERNAME, DB_PASSWORD, "//localhost:1521/XEPDB1") or die(oci_error());
 ```
 
+### References
+1. https://www.oracle.com/database/technologies/appdev/xe/quickstart.html
+2. https://www.php.net/manual/en/function.oci-connect.php
 
 
 
