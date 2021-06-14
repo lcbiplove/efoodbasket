@@ -24,9 +24,55 @@ class User extends \Core\Model
             $this->$key = $value;
         };
     }
+
+    /**
+     * Save / Insert data into user table
+     * 
+     * @return boolean true if success, false otherwise
+     */
+    public function save($role){
+        $connection = static::getDB();
+
+        $fullname = filter_var($this->fullName, FILTER_SANITIZE_STRING);
+        $email = filter_var($this->email, FILTER_SANITIZE_EMAIL);
+        $address = filter_var($this->address, FILTER_SANITIZE_STRING);
+        $contact = filter_var($this->contact, FILTER_SANITIZE_STRING);
+
+        $password = password_hash($this->password, PASSWORD_BCRYPT);
+        $user_role = $role;
+
+        date_default_timezone_set('Europe/London');
+        $joined_date = date('y-m-d h:i:s');
+
+        $sql_query = "INSERT INTO USERS (email, fullname, address, password, contact, user_role, joined_date) VALUES (:email, :fullname, :address, :password, :contact, :user_role, TO_DATE(:joined_date, 'YYYY-MM-DD HH24:MI:SS'))";
+
+        $data = [
+            ':email' => $email,
+            ':fullname' => $fullname,
+            ':address' => $address,
+            ':password' => $password,
+            ':contact' => $contact,
+            ':user_role' => $user_role,
+            ':joined_date' => $joined_date
+        ];
+
+        return $connection->prepare($sql_query)->execute($data);
+    }
+
+    // public function login($username, $password) {
+    //     $passwordHash = md5($password);
+    //     $query = "select * FROM registered_users WHERE user_name = ? AND password = ?";
+    //     $paramType = "ss";
+    //     $paramArray = array($username, $passwordHash);
+    //     $memberResult = $this->ds->select($query, $paramType, $paramArray);
+    //     if(!empty($memberResult)) {
+    //         $_SESSION["userId"] = $memberResult[0]["id"];
+    //         return true;
+    //     }
+    // }
 }
 
-class UserValidation 
+class UserValidation extends User
 {
     private $errors = [];
 
@@ -81,6 +127,16 @@ class UserValidation
      */
     private function validateEmail(){
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $pdo = static::getDB();
+            $sql = "select count(*) from users where email = :email";
+            $result = $pdo->prepare($sql);
+            $result->execute([$this->email]);
+
+            $rowsCount = $result->fetchColumn(); 
+
+            if($rowsCount >= 1){
+                return $this->errors['email'] = "Please enter another email, this email already exist.";
+            }
             return true;
         }
         return $this->errors['email'] = "Please enter the valid email";

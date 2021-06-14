@@ -26,6 +26,14 @@ class User extends \Core\Controller
             $validation = new Models\UserValidation($_POST);
             $errors = $validation->getErrors();
 
+            if(empty($errors)){
+                if($user->save('CUSTOMER')){
+                    // login user
+                }
+
+                return;
+            }
+
             View::renderTemplate('User/signup.html', [
                 'valid_data' => $user,
                 'errors' => $errors
