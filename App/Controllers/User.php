@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use \Core\View;
+use App\Models;
+use App\Models\UserValidation;
 
 /**
  * Home controller
@@ -19,6 +21,18 @@ class User extends \Core\Controller
      */
     public function signupAction()
     {
+        if(!empty($_POST)){
+            $user = new Models\User($_POST);
+            $validation = new Models\UserValidation($_POST);
+            $errors = $validation->getErrors();
+
+            View::renderTemplate('User/signup.html', [
+                'valid_data' => $user,
+                'errors' => $errors
+            ]);
+
+            return;
+        }
         View::renderTemplate('User/signup.html');
     }
 
