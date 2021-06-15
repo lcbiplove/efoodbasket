@@ -25,6 +25,8 @@ class User extends \Core\Controller
      */
     public function signupAction()
     {
+        $user = [];
+        $errors = [];
         if(!empty($_POST)){
             $user = new Models\User($_POST);
             $validation = new UserValidation($_POST);
@@ -38,22 +40,16 @@ class User extends \Core\Controller
                     $user = Models\User::getUserObjectFromEmail($user->email);
 
                     $this->sendVerifyCode($user);
-                    // TODO: SEND MAIL
 
                     $this->redirect('/user/verify-email/');
                 }
-
                 return;
             }
-
-            View::renderTemplate('User/signup.html', [
-                'valid_data' => $user,
-                'errors' => $errors
-            ]);
-
-            return;
         }
-        View::renderTemplate('User/signup.html');
+        View::renderTemplate('User/signup.html', [
+            'valid_data' => $user,
+            'errors' => $errors
+        ]);
     }
 
 
@@ -85,6 +81,7 @@ class User extends \Core\Controller
     public function verifyNoticeAction()
     {
         $email = isset($_SESSION['verify_email']) ? $_SESSION['verify_email'] : "";
+        $errors = [];
 
         if(!$email){
             $this->show404();
@@ -100,7 +97,14 @@ class User extends \Core\Controller
                 if($user->isEmailVerified()){
                     $this->redirect("/");
                 }
-                return;
+
+                $verified = $user->verifyEmail($code);
+
+                if($verified){
+                    unset($_SESSION['verify_email']);
+                    $this->redirect("/login/");
+                }
+                $errors['message'] = "Your code is invalid or may have expired.";
             }
             else if($resend){
                 $this->sendVerifyCode($user);
@@ -108,9 +112,17 @@ class User extends \Core\Controller
             }
         }
         
-        View::renderTemplate('User/verify-notice.html');
+        View::renderTemplate('User/verify-notice.html', [
+            'errors' => $errors
+        ]);
     }
 
+    /**
+     * Sends email with verification code
+     * 
+     * @param object to be sent user
+     * @return void
+     */
     public function sendVerifyCode($user)
     {
         if($user->isEmailVerified()){

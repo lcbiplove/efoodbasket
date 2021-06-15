@@ -20,8 +20,13 @@
                             We have sent you a 6-digits verification code to your email. Please check your inbox and enter the code below: 
                         </div>
                         <form class="otp-form" action="/user/verify-email/" method="post">
-                            <input type="number" name="code" placeholder="Your code...">
-                            <button>Submit</button>
+                            <div class="otp-inpt-wrapper">
+                                <input type="number" name="code" placeholder="Your code...">
+                                <button>Submit</button>
+                            </div>
+                            <div class="otp-error-div">
+                                <small class="red-text">{{ errors.message }}</small>
+                            </div>
                         </form>
                         <div>
                             *Note:- Code will expire after 5 minutes. 

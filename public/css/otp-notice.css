@@ -26,8 +26,15 @@
 }
 .otp-form {
     width: 100%;
-    display: flex;
     margin: 20px 0;
+}
+.otp-inpt-wrapper {
+    display: flex;
+    width: 100%;
+}
+.otp-error-div {
+    width: 100%;
+    align-self: flex-end;
 }
 .otp-form input {
     width: 100%;

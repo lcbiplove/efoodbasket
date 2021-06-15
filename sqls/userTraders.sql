@@ -1,23 +1,11 @@
 -- Blank space work for sqlplus
 SET sqlblanklines ON;
+SET SERVEROUTPUT ON;
 
 -- Sequences
 DROP SEQUENCE user_id_seq;
 CREATE SEQUENCE user_id_seq;
 
-
-
-
--- Triggers
-CREATE OR REPLACE TRIGGER user_auto_increment
-BEFORE INSERT ON users
-FOR EACH ROW
-BEGIN
-  SELECT user_id_seq.nextval
-  INTO :new.user_id
-  FROM dual;
-END;
-/
 
 
 
@@ -55,3 +43,18 @@ CREATE TABLE TRADERS (
     FOREIGN KEY (user_id) REFERENCES Users(user_id), 
 	CONSTRAINT	pk_Traderss PRIMARY KEY (trader_id)
 );
+
+
+-------------- Triggers -----------------------
+
+
+-- Triggers
+CREATE OR REPLACE TRIGGER user_auto_increment
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+  SELECT user_id_seq.nextval
+  INTO :new.user_id
+  FROM dual;
+END;
+/

@@ -135,6 +135,23 @@ class User extends \Core\Model
         ]);
     }
 
+    public function verifyEmail($code)
+    {
+        if($code === $this->isOtpValid()){
+            $pdo = static::getDB();
+
+            $sql = "UPDATE users SET is_verified = :is_verified WHERE email = :email";
+
+            $result = $pdo->prepare($sql);
+
+            return $result->execute([
+                ':email' => $this->email,
+                ':is_verified' => 'Y',
+            ]);
+        }
+        return false;
+    }
+
     /**
      * Checks if otp time is expired 
      * 
@@ -217,7 +234,7 @@ class UserValidation extends User
         if(preg_match($fullNamePattern, $this->fullname)){
             return true;
         }
-        return $this->errors['fullName'] = "Please enter the valid full name";
+        return $this->errors['fullname'] = "Please enter the valid full name";
     }
 
     /**
@@ -284,13 +301,18 @@ class UserValidation extends User
                 $this->errors['password'] = "Please enter the password with at least 8 characters with letters and numbers.";
             }
             if($this->password !== $this->confpass){
-                $this->errors['confPass'] = "Please retype, your password does not match.";
+                $this->errors['confpass'] = "Please retype, your password does not match.";
             }
             return;
         }
         return true;
     }
 
+    /**
+     * Check if terms is accepted
+     * 
+     * @return string Error message if invalid, true otherwise
+     */
     private function validateTerms(){
         if(isset($this->terms)){
             return true;
