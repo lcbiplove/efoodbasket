@@ -15,6 +15,69 @@ use App\Config;
 class Extra
 {
     /**
+     * Cookie success message type
+     * @var string
+     */
+    public const COOKIE_MESSAGE_SUCCESS = 'success';
+
+    /**
+     * Cookie information message type
+     * @var string
+     */
+    public const COOKIE_MESSAGE_INFO = 'info';
+
+    /**
+     * Cookie fail message type
+     * @var string
+     */
+    public const COOKIE_MESSAGE_FAIL = 'fail';
+
+    /**
+     * Sets cookie message 
+     * 
+     * @param string message
+     * @param string messageType
+     */
+    public static function setMessageCookie($message, $messageType = Extra::COOKIE_MESSAGE_SUCCESS){
+        setCookie('message', $message, 0, "/");
+        setCookie('messageType', $messageType, 0, "/");
+    }
+
+    /**
+     * Retursn cookie message
+     * 
+     * @return array if get cookie, false otherwise
+     */
+    public static function getMessageCookie(){
+        if (isset($_COOKIE['message'])) {
+            $message = $_COOKIE['message'];
+            $messageType = $_COOKIE['messageType'];
+
+            return [
+                'message' => $message,
+                'type' => $messageType
+            ];
+        }
+        return false;
+    }
+
+    /**
+     * Removes cookie message 
+     * 
+     * @return boolean true if deleted, false otherwise
+     */
+    public static function deleteMessageCookie(){
+        if (isset($_COOKIE['message'])) {
+            unset($_COOKIE['message']); 
+            unset($_COOKIE['messageType']); 
+            setcookie('message', null, -1, '/'); 
+            setcookie('messageType', null, -1, '/'); 
+            return true;
+        } 
+        return false;
+    }
+
+    /**
      * Get the router params
      * 
      * @param $path path_id e.g- user_name

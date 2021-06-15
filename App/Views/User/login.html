@@ -8,6 +8,14 @@
 {% endblock %}
 
 {% block main %}
+    <div id="cookie-mssg-box" class="cookie-mssg-wrapper">
+        <div class="cookie-indicator {{messageType}}"></div>
+        <div class="cookie-mssg">
+        {{ message }}
+        </div>
+        <div id="cookie-box-close" class="cookie-close"></div>
+    </div>
+
     <div class="max-width-wrapper">
         <div class="login-outer-wrapper">
             <div class="login-wrapper">

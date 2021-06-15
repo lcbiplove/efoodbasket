@@ -7,12 +7,14 @@ window.addEventListener("load", function(){
     var mbl_search_container = document.getElementById("mbl-search-container");
     var header = document.querySelector("header");
 
+    var cookie_mssg_box = document.getElementById("cookie-mssg-box");
+    var cookie_close = document.getElementById("cookie-box-close");
+
     function resetToDefault(){
         closeMenu();
         hideOverlay();
         closeSearch();
     }
-    
     function showOverlay(){
         overlay.classList.add("overlay");
         document.body.style.overflow = "hidden";
@@ -33,6 +35,15 @@ window.addEventListener("load", function(){
         mbl_search_container.style.height = "0px";
         mbl_search_container.innerHTML = "";
     }
+    function showMessageBox(){
+        cookie_mssg_box.classList.add("active");
+        setTimeout(function(){
+            hideMessageBox();
+        }, 15000);
+    }
+    function hideMessageBox(){
+        cookie_mssg_box.classList.remove("active");
+    }
     menu_icon.onclick = function(){
         if(this.classList.contains("open")){
             closeMenu();
@@ -41,7 +52,6 @@ window.addEventListener("load", function(){
             showOverlay();
             openMenu();
         }
-        
     }
     overlay.onclick = function(){
         resetToDefault();
@@ -52,4 +62,9 @@ window.addEventListener("load", function(){
         document.querySelectorAll(".search-inpt")[1].focus();
         showOverlay();
     }
+    cookie_close.onclick = function(){
+        hideMessageBox();
+    }
+
+    showMessageBox();
 });

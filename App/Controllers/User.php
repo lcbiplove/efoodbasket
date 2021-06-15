@@ -60,7 +60,14 @@ class User extends \Core\Controller
      */
     public function loginAction()
     {
-        View::renderTemplate('User/login.html');
+        $messagesArray = Extra::getMessageCookie();
+        $message = $messagesArray['message'];
+        $messageType = $messagesArray['type'];
+
+        View::renderTemplate('User/login.html', [
+            'message'=> $message,
+            'messageType' => $messageType
+        ]);
     }
 
     /**
@@ -102,6 +109,9 @@ class User extends \Core\Controller
 
                 if($verified){
                     unset($_SESSION['verify_email']);
+
+                    Extra::setMessageCookie("Your email is verified successfully. You can now login!!!");
+                    
                     $this->redirect("/login/");
                 }
                 $errors['message'] = "Your code is invalid or may have expired.";
