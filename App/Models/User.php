@@ -21,7 +21,8 @@ class User extends \Core\Model
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
-            $this->$key = $value;
+            $lowerKey = strtolower($key);
+            $this->$lowerKey = $value;
         };
     }
 
@@ -33,7 +34,7 @@ class User extends \Core\Model
     public function save($role){
         $connection = static::getDB();
 
-        $fullname = filter_var($this->fullName, FILTER_SANITIZE_STRING);
+        $fullname = filter_var($this->fullname, FILTER_SANITIZE_STRING);
         $email = filter_var($this->email, FILTER_SANITIZE_EMAIL);
         $address = filter_var($this->address, FILTER_SANITIZE_STRING);
         $contact = filter_var($this->contact, FILTER_SANITIZE_STRING);
@@ -41,8 +42,7 @@ class User extends \Core\Model
         $password = password_hash($this->password, PASSWORD_BCRYPT);
         $user_role = $role;
 
-        date_default_timezone_set('Europe/London');
-        $joined_date = date('y-m-d h:i:s');
+        $joined_date = $this->getCurrentDateTime();
 
         $sql_query = "INSERT INTO USERS (email, fullname, address, password, contact, user_role, joined_date) VALUES (:email, :fullname, :address, :password, :contact, :user_role, TO_DATE(:joined_date, 'YYYY-MM-DD HH24:MI:SS'))";
 
@@ -59,36 +59,136 @@ class User extends \Core\Model
         return $connection->prepare($sql_query)->execute($data);
     }
 
-    // public function login($username, $password) {
-    //     $passwordHash = md5($password);
-    //     $query = "select * FROM registered_users WHERE user_name = ? AND password = ?";
-    //     $paramType = "ss";
-    //     $paramArray = array($username, $passwordHash);
-    //     $memberResult = $this->ds->select($query, $paramType, $paramArray);
-    //     if(!empty($memberResult)) {
-    //         $_SESSION["userId"] = $memberResult[0]["id"];
-    //         return true;
-    //     }
-    // }
+    /**
+     * Get user object from email
+     * 
+     * @return object 
+     */
+    public static function getUserObjectFromEmail($email)
+    {
+        $user_data = static::getUserArrayFromEmail($email);
+
+        return new User($user_data);
+    }
+
+    /**
+     * Get user array from email
+     * 
+     * @return object user except password
+     */
+    public static function getUserArrayFromEmail($email)
+    {
+        $pdo = static::getDB();
+
+        $sql = "select user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, is_verified from users where email = :email";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$email]);
+
+        return $result->fetch(); 
+    }
+
+
+    /**
+     * Returns if email is verified or not
+     * 
+     * @return boolean
+     */
+    public function isEmailVerified()
+    {
+        return $this->is_verified === "Y";
+    }
+
+
+    /**
+     * Returns current datetime of London
+     * 
+     * @return string datetime
+     */
+    public function getCurrentDateTime()
+    {
+        date_default_timezone_set('Europe/London');
+        $current = date('Y-m-d H:i:s',time());
+        return $current;
+    }
+
+
+    /**
+     * Update the new otp code to the table
+     * 
+     * @param int otp code
+     * @return boolean true if success, false otherwise
+     */
+    public function updateOtpCode($otp)
+    {
+        $pdo = static::getDB();
+
+        $sql = "UPDATE users SET otp = :otp, otp_last_date = TO_DATE(:otp_last_date, 'YYYY-MM-DD HH24:MI:SS') WHERE email = :email";
+
+        $result = $pdo->prepare($sql);
+
+        return $result->execute([
+            ':email' => $this->email,
+            ':otp' => $otp,
+            ':otp_last_date' => $this->getCurrentDateTime()
+        ]);
+    }
+
+    /**
+     * Checks if otp time is expired 
+     * 
+     * @return mixed code integer if otp not expire, false otherwise
+     */
+    public function isOtpValid()
+    {
+        $pdo = static::getDB();
+
+        $sql = "select otp, to_char(otp_last_date, 'YYYY-MM-DD HH24:MI:SS') as otp_last_date from users where email = :email";
+        $result = $pdo->prepare($sql);
+        $result->execute([$this->email]);
+
+        $result = $result->fetchObject();
+
+        $currentTime = strtotime($this->getCurrentDateTime());
+        $time = strtotime($result->OTP_LAST_DATE);
+
+        $diff_in_seconds = ($currentTime - $time);
+
+        if($diff_in_seconds > 300){
+            return false;
+        }
+        return $result->OTP;
+    }
+
+    /**
+     * Returns otp code from database or random
+     * 
+     * @return int otp code
+     */
+    public function getValidOtp()
+    {
+        $otp = $this->isOtpValid();
+        if(!$otp){
+            $otp = random_int(100000, 900000);
+            $this->updateOtpCode($otp);
+        }
+        return $otp;
+    }
 }
 
 class UserValidation extends User
 {
     private $errors = [];
 
-    /**
-     * Class constructor
-     *
-     * @param array $data  Initial property values (optional)
-     *
-     * @return void
-     */
-    public function __construct($data = [])
+    function __construct($data)
     {
         foreach ($data as $key => $value) {
-            $this->$key = $value;
+            $lowerKey = strtolower($key);
+            $this->$lowerKey = $value;
         };
     }
+
 
     /**
      * Returns error of the validated data
@@ -114,7 +214,7 @@ class UserValidation extends User
     private function validateFullname(){
         $fullNamePattern = '/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/';
 
-        if(preg_match($fullNamePattern, $this->fullName)){
+        if(preg_match($fullNamePattern, $this->fullname)){
             return true;
         }
         return $this->errors['fullName'] = "Please enter the valid full name";
@@ -179,11 +279,11 @@ class UserValidation extends User
     private function validatePassword(){
         $passwordPattern = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/';
 
-        if(!preg_match($passwordPattern, $this->password) || $this->password !== $this->confPass ){
+        if(!preg_match($passwordPattern, $this->password) || $this->password !== $this->confpass ){
             if(!preg_match($passwordPattern, $this->password)){
                 $this->errors['password'] = "Please enter the password with at least 8 characters with letters and numbers.";
             }
-            if($this->password !== $this->confPass){
+            if($this->password !== $this->confpass){
                 $this->errors['confPass'] = "Please retype, your password does not match.";
             }
             return;

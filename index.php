@@ -35,6 +35,7 @@ $router->add('', ['controller' => 'Home', 'action' => 'index']);
 // Login related routes
 $router->add('signup/', ['controller' => 'User', 'action' => 'signup']);
 $router->add('login/', ['controller' => 'User', 'action' => 'login']);
+$router->add('user/verify-email/', ['controller' => 'User', 'action' => 'verifyNotice']);
 $router->add('signup-trader/', ['controller' => 'User', 'action' => 'signupTrader']);
 
 $router->add('{controller}/{action}/');

@@ -2,8 +2,10 @@
 
 namespace App;
 
-use \App\Models\User;
-use \App\Models\Title;
+use \PHPMailer\PHPMailer\PHPMailer;
+use \PHPMailer\PHPMailer\SMTP;
+
+use App\Config;
 /**
  * Extra class
  * For the extra functions
@@ -30,41 +32,40 @@ class Extra
     }
 
     /**
-     * Get user object by path
+     * Sends the email to the clients 
      * 
-     * @return object
+     * @param string toEmail - email of recipient
+     * @param string subject - subject of email
+     * @param string body - html string of main body
+     * @param string altBody - body without html
+     * 
+     * @return boolean true if sent, false otherwise
      */
-    public static function getPathUser($path = 'user_name')
+    public static function sendMail($toEmail, $subject, $body, $altBody)
     {
-        $username = static::routerPath($path);
+        $mail = new PHPMailer(true);
 
-        return User::findByUsername($username);
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      
+        $mail->isSMTP();                                            
+        $mail->Host       = Config::SMTP_HOST;                     
+        $mail->SMTPAuth   = true;                                   
+        $mail->Username   = Config::MAIL_USERNAME;                     
+        $mail->Password   = Config::MAIL_PASSWORD;                               
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         
+        $mail->Port       = 587;      
+
+
+        $mail->setFrom('efoodbasket@gmail.com', 'efoodBasket');
+        $mail->addAddress($toEmail);     
+        $mail->addReplyTo('efoodbasket@noreply.com', 'No Reply');
+
+
+        $mail->isHTML(true);                                  
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->AltBody = $altBody;
+
+        return $mail->send();
     }
 
-    /**
-     * Get user id by path
-     * 
-     * @return object
-     */
-    public static function getPathTitle($path = 'title_id')
-    {
-        $title_id = static::routerPath($path);
-
-        return Title::findByTitleId($title_id);
-    }
-
-    /**
-     * Show private
-     * 
-     * @return boolean
-     */
-    public static function canShowPrivate()
-    {
-        if (Auth::getUser()) {
-            if (static::getPathUser()->username == Auth::getUser()->username) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

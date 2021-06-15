@@ -21,6 +21,10 @@ class ComposerStaticInitc219c8b643cf921aae8b1ff84262571e
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'C' => 
         array (
             'Core\\' => 5,
@@ -44,6 +48,10 @@ class ComposerStaticInitc219c8b643cf921aae8b1ff84262571e
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Core',
@@ -54,11 +62,16 @@ class ComposerStaticInitc219c8b643cf921aae8b1ff84262571e
         ),
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitc219c8b643cf921aae8b1ff84262571e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitc219c8b643cf921aae8b1ff84262571e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc219c8b643cf921aae8b1ff84262571e::$classMap;
 
         }, null, ClassLoader::class);
     }

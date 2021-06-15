@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Signup | efoodbasket{% endblock %}
+
+{% block titleLinks %}
+    <link rel="stylesheet" type="text/css" href="/public/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/otp-notice.css">
+{% endblock %}
+
+{% block main %}
+    <div class="max-width-wrapper">
+        <div class="otp-wrapper">
+            <div class="otp-container">
+                <div class="otp-img-wrapper">
+                    <img class="logo-img" src="/public/images/efoodbasket-name.png" alt="Logo">
+                </div>
+                <div class="otp-body">
+                    <div class="otp-mssg">
+                        <div>
+                            We have sent you a 6-digits verification code to your email. Please check your inbox and enter the code below: 
+                        </div>
+                        <form class="otp-form" action="/user/verify-email/" method="post">
+                            <input type="number" name="code" placeholder="Your code...">
+                            <button>Submit</button>
+                        </form>
+                        <div>
+                            *Note:- Code will expire after 5 minutes. 
+                            <form class="otp-inline-form" method="POST" action="/user/verify-email/">
+                                <input type="hidden" name="resend" value="" />
+                                <button class="submit">RESEND</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

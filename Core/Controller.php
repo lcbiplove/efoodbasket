@@ -85,6 +85,18 @@ abstract class Controller
         exit;
     }
 
+
+    /**
+     * Show page not found 404
+     * 
+     * @return void
+     */
+    public function show404()
+    {
+        header('Location: /errors/404/'); 
+        exit;
+    }
+
     /**
      * Get the router params
      * 

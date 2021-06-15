@@ -70,11 +70,9 @@
                             <div class="inpt-wrapper">
                                 <input id="termsId" type="checkbox" name="terms" value="agreed" placeholder="Agree..." {% if valid_data.terms %}checked{% endif %}
                                  > I agree to terms and conditions
-                                 <div>
-                                <small class="red-text">{{ errors.terms }}</small>
-                                 
-                                 </div>
-
+                                <div>
+                                    <small class="red-text">{{ errors.terms }}</small>
+                                </div>
                             </div>
 
                             <div class="login-btn-wrapper">
