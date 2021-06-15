@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Auth;
 use App\Config;
 use \Core\View;
 use App\Models;
@@ -63,6 +64,25 @@ class User extends \Core\Controller
         $messagesArray = Extra::getMessageCookie();
         $message = $messagesArray['message'];
         $messageType = $messagesArray['type'];
+
+        if(!empty($_POST)){
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $logged = Auth::authenticate($email, $password);
+
+            if($logged){
+                Extra::setMessageCookie("Logged in successfully.");
+
+                $this->redirect('/');
+            }
+
+            Extra::setMessageCookie("Incorrect email or password.", Extra::COOKIE_MESSAGE_FAIL);
+
+            $this->redirect("/login/");
+        }
+
+        Extra::deleteMessageCookie();
 
         View::renderTemplate('User/login.html', [
             'message'=> $message,

@@ -10,6 +10,22 @@ use \App\Models\User;
  */
 class Auth
 {
+
+    public static function authenticate($email, $password)
+    {
+        $user = User::getUserObjectFromEmail($email);
+
+        if($user){
+            $user_password = $user->password;
+
+            if(password_verify($password, $user_password)){
+                Auth::login($user);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Login controller
      * Set session after login
@@ -21,38 +37,25 @@ class Auth
     {
         session_regenerate_id();
                 
-        $_SESSION['id'] = $user->id;
+        $_SESSION['logged_user_id'] = $user->user_id;
     }
 
     /**
-     * Get user by session
+     * Get user from session
      * 
      * @return object $user
      */
     public static function getUser()
     {
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['logged_user_id'])) {
 
-            $user_id = $_SESSION['id'];
+            $logged_user_id = $_SESSION['logged_user_id'];
 
-            return User::findByUserId($user_id);
+            return User::getUserObjectFromId($logged_user_id);
         }
         return false;
     }
 
-    /**
-     * Twig to check session
-     * 
-     * @return string
-     */
-    public static function twigSession()
-    {
-        if (isset($_SESSION['id'])) {
-
-            return "logged";
-        }
-        return "not-logged";
-    }
 
     /**
      * Logout the user
@@ -62,7 +65,7 @@ class Auth
     public static function logout()
     {
         // Unset all of the session variables
-        $_SESSION = [];
+        unset($_SESSION);
 
         // Delete the session cookie
         if (ini_get('session.use_cookies')) {

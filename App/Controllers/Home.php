@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Models\User;
+use \App\Extra;
 
 /**
  * Home controller
@@ -20,7 +20,16 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html');
+        $messagesArray = Extra::getMessageCookie();
+        $message = $messagesArray['message'];
+        $messageType = $messagesArray['type'];
+
+        Extra::deleteMessageCookie();
+        
+        View::renderTemplate('Home/index.html', [
+            'message'=> $message,
+            'messageType' => $messageType
+        ]);
     }
 
     /**

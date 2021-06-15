@@ -8,14 +8,6 @@
 {% endblock %}
 
 {% block main %}
-    <div id="cookie-mssg-box" class="cookie-mssg-wrapper">
-        <div class="cookie-indicator {{messageType}}"></div>
-        <div class="cookie-mssg">
-        {{ message }}
-        </div>
-        <div id="cookie-box-close" class="cookie-close"></div>
-    </div>
-
     <div class="max-width-wrapper">
         <div class="login-outer-wrapper">
             <div class="login-wrapper">
@@ -26,7 +18,7 @@
                         <img src="/public/images/efoodbasket-name.png" class="login-logo" alt="">
                     </div>
                     <div class="form-wrapper">
-                        <form class="login-form" action="#" method="POST" >
+                        <form class="login-form" action="/login/" method="POST" >
                             <div class="inpt-wrapper">
                                 <label for="emailId">Email</label>
                                 <input id="emailId" type="email" name="email" placeholder="Your Email...">

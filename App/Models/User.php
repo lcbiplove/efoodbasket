@@ -60,6 +60,25 @@ class User extends \Core\Model
     }
 
     /**
+     * Get user object from user id
+     * 
+     * @return object 
+     */
+    public static function getUserObjectFromId($id){
+        $pdo = static::getDB();
+
+        $sql = "select user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, is_verified from users where user_id = :id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$id]);
+
+        $user_array = $result->fetch(); 
+
+        return new User($user_array);
+    }
+
+    /**
      * Get user object from email
      * 
      * @return object 
@@ -68,7 +87,10 @@ class User extends \Core\Model
     {
         $user_data = static::getUserArrayFromEmail($email);
 
-        return new User($user_data);
+        if($user_data){
+            return new User($user_data);
+        }
+        return false;
     }
 
     /**
@@ -80,7 +102,7 @@ class User extends \Core\Model
     {
         $pdo = static::getDB();
 
-        $sql = "select user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, is_verified from users where email = :email";
+        $sql = "select * from users where email = :email";
 
         $result = $pdo->prepare($sql);
         
@@ -135,6 +157,12 @@ class User extends \Core\Model
         ]);
     }
 
+    /**
+     * Verify the email to 'Y'
+     * 
+     * @param int code
+     * @return boolean
+     */
     public function verifyEmail($code)
     {
         if($code === $this->isOtpValid()){
