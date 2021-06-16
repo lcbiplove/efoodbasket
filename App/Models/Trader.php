@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use PDO;
+use App\Models\User;
 
 /**
  * Example user model
  *
  * PHP version 7.0
  */
-class Trader extends \Core\Model
+class Trader extends User
 {
     /**
      * Class constructor

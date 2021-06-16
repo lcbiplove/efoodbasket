@@ -100,6 +100,11 @@ class User extends \Core\Controller
      */
     public function signupTraderAction()
     {
+        if(!empty($_POST)){
+            var_dump($_POST);
+            var_dump($_FILES);
+            exit();
+        }
         View::renderTemplate('User/signup-trader.html');
     }
 

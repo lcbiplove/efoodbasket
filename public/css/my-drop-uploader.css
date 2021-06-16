@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 #drop-area.highlight {
-  border-color: purple;
+  border-color: var(--light-green);
 }
 .cloud-img-wrapper {
   display: flex;
@@ -56,46 +56,6 @@
   display: inline-block !important;
   text-decoration: underline;
   padding: 10px 5px;
-}
-.progress-wrapper {
-  display: flex;
-  justify-content: center;
-}
-#progress-bar {
-  background-color: #eee;
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  width: 200px;
-  height: 10px;
-  border-radius: 5px;
-}
-#progress-bar::-moz-progress-bar {
-  background-color: var(--my-blue);
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  width: 200px;
-  height: 10px;
-  border-radius: 5px;
-}
-::-webkit-progress-bar {
-  background-color: #eee;
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  width: 200px;
-  height: 10px;
-  border-radius: 5px;
-}
-#progress-bar::-webkit-progress-value {
-  background-color: var(--my-blue);
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  width: 200px;
-  height: 10px;
-  border-radius: 5px;
 }
 .upload-preview-img {
   width: 100%;
