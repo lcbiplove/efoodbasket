@@ -7,8 +7,8 @@ window.addEventListener("load", function(){
     var mbl_search_container = document.getElementById("mbl-search-container");
     var header = document.querySelector("header");
 
-    var cookie_mssg_box = document.getElementById("cookie-mssg-box");
-    var cookie_close = document.getElementById("cookie-box-close");
+    var cookie_mssg_box = document.getElementById("cookie-mssg-box") || 0;
+    var cookie_close = document.getElementById("cookie-box-close") || 0;
 
     function resetToDefault(){
         closeMenu();
@@ -62,9 +62,12 @@ window.addEventListener("load", function(){
         document.querySelectorAll(".search-inpt")[1].focus();
         showOverlay();
     }
+
     cookie_close.onclick = function(){
         hideMessageBox();
     }
 
-    showMessageBox();
+    if(cookie_close){
+        showMessageBox();
+    }
 });

@@ -2,10 +2,6 @@
 
 namespace App;
 
-use \PHPMailer\PHPMailer\PHPMailer;
-use \PHPMailer\PHPMailer\SMTP;
-
-use App\Config;
 /**
  * Extra class
  * For the extra functions
@@ -39,8 +35,8 @@ class Extra
      * @param string messageType
      */
     public static function setMessageCookie($message, $messageType = Extra::COOKIE_MESSAGE_SUCCESS){
-        setCookie('message', $message, 0, "/");
-        setCookie('messageType', $messageType, 0, "/");
+        setCookie('message', $message, 0, "/", NULL, NULL, true);
+        setCookie('messageType', $messageType, 0, "/", NULL, NULL, true);
     }
 
     /**
@@ -95,40 +91,14 @@ class Extra
     }
 
     /**
-     * Sends the email to the clients 
+     * Returns current datetime of London
      * 
-     * @param string toEmail - email of recipient
-     * @param string subject - subject of email
-     * @param string body - html string of main body
-     * @param string altBody - body without html
-     * 
-     * @return boolean true if sent, false otherwise
+     * @return string datetime
      */
-    public static function sendMail($toEmail, $subject, $body, $altBody)
+    public static function getCurrentDateTime()
     {
-        $mail = new PHPMailer(true);
-
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      
-        $mail->isSMTP();                                            
-        $mail->Host       = Config::SMTP_HOST;                     
-        $mail->SMTPAuth   = true;                                   
-        $mail->Username   = Config::MAIL_USERNAME;                     
-        $mail->Password   = Config::MAIL_PASSWORD;                               
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         
-        $mail->Port       = 587;      
-
-
-        $mail->setFrom('efoodbasket@gmail.com', 'efoodBasket');
-        $mail->addAddress($toEmail);     
-        $mail->addReplyTo('efoodbasket@noreply.com', 'No Reply');
-
-
-        $mail->isHTML(true);                                  
-        $mail->Subject = $subject;
-        $mail->Body    = $body;
-        $mail->AltBody = $altBody;
-
-        return $mail->send();
+        date_default_timezone_set('Europe/London');
+        $current = date('Y-m-d H:i:s',time());
+        return $current;
     }
-
 }

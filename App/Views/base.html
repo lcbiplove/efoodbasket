@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title> {% block title %}{% endblock %} </title>
     <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
     {% block titleLinks %}{% endblock %}
@@ -129,11 +129,16 @@
     </header>
 
     <main>
+
+        {% if is_authenticated %}
+        <h1> Logged in </h1>
+        {% endif %}
+        
         {% if message %}
             <div id="cookie-mssg-box" class="cookie-mssg-wrapper">
                 <div class="cookie-indicator {{messageType}}"></div>
                 <div class="cookie-mssg">
-                {{ message }}
+                {{ message|raw }}
                 </div>
                 <div id="cookie-box-close" class="cookie-close"></div>
             </div>

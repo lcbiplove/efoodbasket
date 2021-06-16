@@ -585,7 +585,17 @@ footer {
 .cookie-close:hover {
     background-color: #eee;
 }
-   
+.otp-inline-form {
+    display: inline-block;
+}
+.otp-inline-form button {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--light-green);
+    font-weight: 600;
+    text-decoration: underline;
+}
 
 
 

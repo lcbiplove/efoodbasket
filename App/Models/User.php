@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use App\Extra;
 
 /**
  * Example user model
@@ -11,6 +12,24 @@ use PDO;
  */
 class User extends \Core\Model
 {
+    /**
+     * Admin role type
+     * @var string
+     */
+    public const ROLE_ADMIN = 'ADMIN';
+
+    /**
+     * Trader role type
+     * @var string
+     */
+    public const ROLE_TRADER = 'TRADER';
+
+    /**
+     * Customer role type
+     * @var string
+     */
+    public const ROLE_CUSTOMER = 'CUSTOMER';
+
     /**
      * Class constructor
      *
@@ -42,7 +61,7 @@ class User extends \Core\Model
         $password = password_hash($this->password, PASSWORD_BCRYPT);
         $user_role = $role;
 
-        $joined_date = $this->getCurrentDateTime();
+        $joined_date = Extra::getCurrentDateTime();
 
         $sql_query = "INSERT INTO USERS (email, fullname, address, password, contact, user_role, joined_date) VALUES (:email, :fullname, :address, :password, :contact, :user_role, TO_DATE(:joined_date, 'YYYY-MM-DD HH24:MI:SS'))";
 
@@ -122,19 +141,39 @@ class User extends \Core\Model
         return $this->is_verified === "Y";
     }
 
-
     /**
-     * Returns current datetime of London
+     * Returns if user is trader
      * 
-     * @return string datetime
+     * @return boolean
      */
-    public function getCurrentDateTime()
+    public function isTrader()
     {
-        date_default_timezone_set('Europe/London');
-        $current = date('Y-m-d H:i:s',time());
-        return $current;
+        return $this->user_role === User::ROLE_TRADER;
     }
 
+    public function canLogin()
+    {
+        $mssg = "";
+        $type = Extra::COOKIE_MESSAGE_INFO;
+
+        if(!$this->isEmailVerified()){
+            $mssg = "Your email is not verified. You need to verify your email to login.<form class='otp-inline-form' method='POST' action='/user/verify-email/'><input type='hidden' name='resend' value='' /><button class='submit'>VERIFY</button></form>";
+            Extra::setMessageCookie($mssg, $type);
+            return false;
+        }
+        // if($this->isTrader() && $this->trader->isRequested()){
+        //     $mssg = "Your request of becoming trader is not yet reviewed. We will notify you after we have reviewed.";
+        //     Extra::setMessageCookie($mssg, $type);
+        //     return false;
+        // }
+        // if($this->isTrader() && $this->trader->isRejected()){
+        //     $mssg = "Your request of becoming trader is not accepted. Try signing up again with new detail.";
+        //     Extra::setMessageCookie($mssg, Extra::COOKIE_MESSAGE_FAIL);
+        //     return false;
+        // }
+
+        return true;
+    }
 
     /**
      * Update the new otp code to the table
@@ -153,7 +192,7 @@ class User extends \Core\Model
         return $result->execute([
             ':email' => $this->email,
             ':otp' => $otp,
-            ':otp_last_date' => $this->getCurrentDateTime()
+            ':otp_last_date' => Extra::getCurrentDateTime()
         ]);
     }
 
@@ -195,7 +234,7 @@ class User extends \Core\Model
 
         $result = $result->fetchObject();
 
-        $currentTime = strtotime($this->getCurrentDateTime());
+        $currentTime = strtotime(Extra::getCurrentDateTime());
         $time = strtotime($result->OTP_LAST_DATE);
 
         $diff_in_seconds = ($currentTime - $time);
@@ -222,129 +261,3 @@ class User extends \Core\Model
     }
 }
 
-class UserValidation extends User
-{
-    private $errors = [];
-
-    function __construct($data)
-    {
-        foreach ($data as $key => $value) {
-            $lowerKey = strtolower($key);
-            $this->$lowerKey = $value;
-        };
-    }
-
-
-    /**
-     * Returns error of the validated data
-     * 
-     * @return array errors 
-     */
-    public function getErrors(){
-        $this->validateFullname();
-        $this->validateEmail();
-        $this->validateAddress();
-        $this->validateContact();
-        $this->validatePassword();
-        $this->validateTerms();
-
-        return $this->errors;
-    }
-    
-    /**
-     * Check if username is valid or not
-     * 
-     * @return string Error message if invalid, true otherwise
-     */
-    private function validateFullname(){
-        $fullNamePattern = '/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/';
-
-        if(preg_match($fullNamePattern, $this->fullname)){
-            return true;
-        }
-        return $this->errors['fullname'] = "Please enter the valid full name";
-    }
-
-    /**
-     * Check if email is valid or not
-     * 
-     * @return string Error message if invalid, true otherwise
-     */
-    private function validateEmail(){
-        if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $pdo = static::getDB();
-            $sql = "select count(*) from users where email = :email";
-            $result = $pdo->prepare($sql);
-            $result->execute([$this->email]);
-
-            $rowsCount = $result->fetchColumn(); 
-
-            if($rowsCount >= 1){
-                return $this->errors['email'] = "Please enter another email, this email already exist.";
-            }
-            return true;
-        }
-        return $this->errors['email'] = "Please enter the valid email";
-    }
-
-    /**
-     * Check if address is valid or not
-     * 
-     * @return string Error message if invalid, true otherwise
-     */
-    private function validateAddress(){
-        if(strlen($this->address) > 4){
-            return true;
-        }
-        return $this->errors['address'] = "Please enter the valid address";
-    }
-
-    /**
-     * Check if contact is valid or not
-     * 
-     * @return string Error message if invalid, true otherwise
-     */
-    private function validateContact(){
-        $numbers = preg_replace('/[^0-9]/', '', $this->contact);
-
-        if (strlen($numbers) == 11) $numbers = preg_replace('/^1/', '',$numbers);
-
-        //if we have 10 digits left, it's probably valid.
-        if (strlen($numbers) == 10){
-            return true;
-        } 
-        return $this->errors['contact'] = "Please enter the valid phone number";
-    }
-
-    /**
-     * Check if password is valid or not
-     * 
-     * @return string Error message if invalid, true otherwise
-     */
-    private function validatePassword(){
-        $passwordPattern = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/';
-
-        if(!preg_match($passwordPattern, $this->password) || $this->password !== $this->confpass ){
-            if(!preg_match($passwordPattern, $this->password)){
-                $this->errors['password'] = "Please enter the password with at least 8 characters with letters and numbers.";
-            }
-            if($this->password !== $this->confpass){
-                $this->errors['confpass'] = "Please retype, your password does not match.";
-            }
-            return;
-        }
-        return true;
-    }
-
-    /**
-     * Check if terms is accepted
-     * 
-     * @return string Error message if invalid, true otherwise
-     */
-    private function validateTerms(){
-        if(isset($this->terms)){
-            return true;
-        }
-        return $this->errors['terms'] = "Please agree with our terms and conditions.";
-    }
-}

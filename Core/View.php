@@ -46,7 +46,7 @@ class View
         if ($twig === null) {
             $loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/App/Views');
             $twig = new \Twig\Environment($loader);
-            // $twig->addGlobal('logged', \App\Auth::getUser());
+            $twig->addGlobal('is_authenticated', \App\Auth::isAuthenticated());
         }
 
         echo $twig->render($template, $args);

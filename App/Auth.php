@@ -11,6 +11,13 @@ use \App\Models\User;
 class Auth
 {
 
+    /**
+     * Checks if the user email password is correct or not
+     * 
+     * @param string email - email of requested user
+     * @param string password - password of reqeusted user
+     * @return mixed user object if authenticated, false otherwise
+     */
     public static function authenticate($email, $password)
     {
         $user = User::getUserObjectFromEmail($email);
@@ -19,8 +26,7 @@ class Auth
             $user_password = $user->password;
 
             if(password_verify($password, $user_password)){
-                Auth::login($user);
-                return true;
+                return $user;
             }
         }
         return false;
@@ -84,5 +90,15 @@ class Auth
 
         // Finally destroy the session
         session_destroy();
+    }
+
+    /**
+     * Check if user is logged in
+     * 
+     * @return boolean true if authenticated, false otherwise
+     */
+    public static function isAuthenticated()
+    {
+        return isset($_SESSION['logged_user_id']);
     }
 }
