@@ -6,8 +6,11 @@ use App\Auth;
 use \Core\View;
 use App\Models;
 use App\Models\Validation\UserValidation;
+use App\Models\Validation\TraderValidation;
 use App\Extra;
 use App\Email;
+use App\Models\Image;
+use App\Models\Trader;
 
 /**
  * Home controller
@@ -27,6 +30,7 @@ class User extends \Core\Controller
         $errors = [];
         if(!empty($_POST)){
             $user = new Models\User($_POST);
+
             $validation = new UserValidation($_POST);
             $errors = $validation->getErrors($_POST);
 
@@ -100,12 +104,30 @@ class User extends \Core\Controller
      */
     public function signupTraderAction()
     {
+        $user = [];
+        $errors = [];
+
         if(!empty($_POST)){
-            var_dump($_POST);
-            var_dump($_FILES);
-            exit();
+            $user = new Trader($_POST);
+            $validation = new TraderValidation($_POST);
+            $errors = $validation->getErrors($_FILES);
+
+            if(empty($errors)){
+                $user->save($_FILES);
+
+                $_SESSION['verify_email'] = $user->email;
+
+                $user = Models\User::getUserObjectFromEmail($user->email);
+
+                Email::sendVerifyCode($user);
+
+                $this->redirect('/user/verify-email/');
+            }
         }
-        View::renderTemplate('User/signup-trader.html');
+        View::renderTemplate('User/signup-trader.html', [
+            'valid_data' => $user,
+            'errors' => $errors
+        ]);
     }
 
     /**

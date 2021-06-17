@@ -31,4 +31,25 @@ abstract class Model
 
         return $db;
     }
+
+    /**
+     * Get the next id from the sequence to add to database
+     * 
+     * @param string name of sequence
+     * @return int to be inserted id
+     */
+    protected static function getNextId($sequence_name)
+    {
+        $db = static::getDB();
+        $statement = $db->prepare("SELECT $sequence_name.NEXTVAL AS nextId FROM DUAL");
+        $statement->execute();
+        $nextId = $statement->fetchColumn(0);
+
+        return [
+            "db" => $db,
+            "next_id" => $nextId
+        ];
+    }
 }
+
+

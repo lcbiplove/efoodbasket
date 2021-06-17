@@ -48,24 +48,29 @@ class User extends \Core\Model
     /**
      * Save / Insert data into user table
      * 
-     * @return boolean true if success, false otherwise
+     * @return mixed row id if success, false otherwise
      */
     public function save($role){
-        $connection = static::getDB();
+        $db_next_array = static::getNextId("user_id_seq");
+        $connection = $db_next_array['db'];
+
+        $user_id = $db_next_array['next_id'];
 
         $fullname = filter_var($this->fullname, FILTER_SANITIZE_STRING);
         $email = filter_var($this->email, FILTER_SANITIZE_EMAIL);
         $address = filter_var($this->address, FILTER_SANITIZE_STRING);
         $contact = filter_var($this->contact, FILTER_SANITIZE_STRING);
 
-        $password = password_hash($this->password, PASSWORD_BCRYPT);
+        $password = isset($this->password) ? password_hash($this->password, PASSWORD_BCRYPT) : "";
         $user_role = $role;
 
         $joined_date = Extra::getCurrentDateTime();
 
-        $sql_query = "INSERT INTO USERS (email, fullname, address, password, contact, user_role, joined_date) VALUES (:email, :fullname, :address, :password, :contact, :user_role, TO_DATE(:joined_date, 'YYYY-MM-DD HH24:MI:SS'))";
+        $sql_query = "INSERT INTO USERS (user_id, email, fullname, address, password, contact, user_role, joined_date) VALUES (:user_id, :email, :fullname, :address, :password, :contact, :user_role, TO_DATE(:joined_date, 'YYYY-MM-DD HH24:MI:SS'))";
 
+        $prepared = $connection->prepare($sql_query);
         $data = [
+            ':user_id' => $user_id,
             ':email' => $email,
             ':fullname' => $fullname,
             ':address' => $address,
@@ -75,7 +80,10 @@ class User extends \Core\Model
             ':joined_date' => $joined_date
         ];
 
-        return $connection->prepare($sql_query)->execute($data);
+        if($prepared->execute($data)){
+            return $user_id;
+        }
+        return false;
     }
 
     /**

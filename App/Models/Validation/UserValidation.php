@@ -16,6 +16,22 @@ class UserValidation extends User
         };
     }
 
+    /**
+     * Returns most basic error data
+     * 
+     * @return array errors
+     */
+    public function getBasicErrors()
+    {
+        $this->validateFullname();
+        $this->validateEmail();
+        $this->validateAddress();
+        $this->validateContact();
+        $this->validateTerms();
+
+        return $this->errors;
+    }
+
 
     /**
      * Returns error of the validated data
@@ -23,12 +39,9 @@ class UserValidation extends User
      * @return array errors 
      */
     public function getErrors(){
-        $this->validateFullname();
-        $this->validateEmail();
-        $this->validateAddress();
-        $this->validateContact();
+                
+        $this->getBasicErrors();
         $this->validatePassword();
-        $this->validateTerms();
 
         return $this->errors;
     }
