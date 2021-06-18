@@ -9,13 +9,12 @@ use App\Models\Validation\UserValidation;
 use App\Models\Validation\TraderValidation;
 use App\Extra;
 use App\Email;
-use App\Models\Image;
 use App\Models\Trader;
 
 /**
  * Home controller
  *
- * PHP version 7.0
+ * PHP version 7.3
  */
 class User extends \Core\Controller
 {
@@ -151,16 +150,23 @@ class User extends \Core\Controller
             $resend = isset($_POST['resend']) ? "OK" : "";
 
             if($code){
-                if($user->isEmailVerified()){
-                    $this->redirect("/");
-                }
+                // if($user->isEmailVerified()){
+                //     $this->redirect("/");
+                // }
 
                 $verified = $user->verifyEmail($code);
 
                 if($verified){
-                    unset($_SESSION['verify_email']);
+                    // unset($_SESSION['verify_email']);
 
                     Extra::setMessageCookie("Your email is verified successfully. You can now login!!!");
+
+                    if($user->isTrader()){
+                        // TODO: add to notification
+                        Email::sendTraderRequestToAdmin($user);
+                        
+                        Extra::setMessageCookie("Your email is verified successfully. You will be notified once your documemnts are reviewed.", Extra::COOKIE_MESSAGE_INFO);
+                    }
                     
                     $this->redirect("/login/");
                 }

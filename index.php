@@ -36,6 +36,7 @@ $router->add('signup/', ['controller' => 'User', 'action' => 'signup']);
 $router->add('login/', ['controller' => 'User', 'action' => 'login']);
 $router->add('user/verify-email/', ['controller' => 'User', 'action' => 'verifyNotice']);
 $router->add('signup-trader/', ['controller' => 'User', 'action' => 'signupTrader']);
+$router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'action' => 'traderRequest']);
 
 $router->add('{controller}/{action}/');
 

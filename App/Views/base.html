@@ -135,7 +135,7 @@
         {% endif %}
         
         {% if message %}
-            <div id="cookie-mssg-box" class="cookie-mssg-wrapper">
+            <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{messageType}}">
                 <div class="cookie-indicator {{messageType}}"></div>
                 <div class="cookie-mssg">
                 {{ message|raw }}

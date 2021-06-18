@@ -44,6 +44,10 @@ class Auth
         session_regenerate_id();
                 
         $_SESSION['logged_user_id'] = $user->user_id;
+
+        if($user->isAdmin()){
+            $_SESSION['is_admin'] = "IS_ADMIN";
+        }
     }
 
     /**
@@ -101,4 +105,15 @@ class Auth
     {
         return isset($_SESSION['logged_user_id']);
     }
+
+    /**
+     * Check if user is logged in is admin
+     * 
+     * @return boolean true if authenticated, false otherwise
+     */
+    public static function isAdminAuthenticated()
+    {
+        return isset($_SESSION['is_admin']);
+    }
+    
 }

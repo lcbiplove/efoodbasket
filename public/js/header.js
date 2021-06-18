@@ -36,10 +36,16 @@ window.addEventListener("load", function(){
         mbl_search_container.innerHTML = "";
     }
     function showMessageBox(){
+        delay = 12000;
+        
         cookie_mssg_box.classList.add("active");
+        if(cookie_mssg_box.classList.contains("show-for-info")){
+            delay = 25000;
+        }
+
         setTimeout(function(){
             hideMessageBox();
-        }, 15000);
+        }, delay);
     }
     function hideMessageBox(){
         cookie_mssg_box.classList.remove("active");

@@ -8,7 +8,7 @@ use App\Extra;
 /**
  * Example user model
  *
- * PHP version 7.0
+ * PHP version 7.3
  */
 class User extends \Core\Model
 {
@@ -138,6 +138,26 @@ class User extends \Core\Model
         return $result->fetch(); 
     }
 
+    /**
+     * Returns emails of all admin
+     * 
+     * @return array emails of admin
+     */
+    public static function getAllAdminEmails()
+    {
+        $pdo = static::getDB();
+
+        $user_role = User::ROLE_ADMIN;
+
+        $sql = "select email from users where user_role = :email";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$user_role]);
+
+        return $result->fetchAll(PDO::FETCH_COLUMN, 0); 
+    }
+
 
     /**
      * Returns if email is verified or not
@@ -157,6 +177,16 @@ class User extends \Core\Model
     public function isTrader()
     {
         return $this->user_role === User::ROLE_TRADER;
+    }
+
+    /**
+     * Returns if user is admin
+     * 
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->user_role === User::ROLE_ADMIN;
     }
 
     public function canLogin()

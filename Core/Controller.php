@@ -98,16 +98,15 @@ abstract class Controller
     }
 
     /**
-     * Get the router params
+     * Allow page access to admin only
      * 
-     * @param $path path_id e.g- title_id
-     * @return string
+     * @return void 
      */
-    public function routerPath($path = 'user_name') {
-
-        global $router;
-
-        return $router->getParams()[$path];
+    public function requireAdmin()
+    {
+        if (!Auth::isAdminAuthenticated()) {
+            $this->redirect('/');
+        }
     }
 
     /**

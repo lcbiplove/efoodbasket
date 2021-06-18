@@ -3,7 +3,7 @@
 namespace App\Models;
 
 /**
- * Example user model
+ * Example image model
  *
  * PHP version 7.3
  */
