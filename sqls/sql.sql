@@ -24,6 +24,7 @@ CREATE TABLE USERS(
 	contact NUMBER(10) NOT NULL,
 	joined_date DATE NOT NULL,
 	otp NUMBER(6),
+	token VARCHAR2(48),
 	otp_last_date DATE,
 	is_verified VARCHAR2(1) DEFAULT 'N',
 	CONSTRAINT pk_USERs PRIMARY KEY (user_id)

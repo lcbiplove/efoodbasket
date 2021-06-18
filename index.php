@@ -33,9 +33,12 @@ $router->add('', ['controller' => 'Home', 'action' => 'index']);
 
 // Login related routes
 $router->add('signup/', ['controller' => 'User', 'action' => 'signup']);
-$router->add('login/', ['controller' => 'User', 'action' => 'login']);
-$router->add('user/verify-email/', ['controller' => 'User', 'action' => 'verifyNotice']);
 $router->add('signup-trader/', ['controller' => 'User', 'action' => 'signupTrader']);
+$router->add('login/', ['controller' => 'User', 'action' => 'login']);
+
+$router->add('user/verify-email/', ['controller' => 'User', 'action' => 'verifyNotice']);
+$router->add('user/reset-password/{token:[a-z0-9A-Z]+}/', ['controller' => 'User', 'action' => 'resetPassword']);
+
 $router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'action' => 'traderRequest']);
 
 $router->add('{controller}/{action}/');

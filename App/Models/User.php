@@ -87,6 +87,22 @@ class User extends \Core\Model
     }
 
     /**
+     * Delete object from database
+     * 
+     * @return boolean
+     */
+    public function delete()
+    {
+        $pdo = static::getDB();
+
+        $sql = "DELETE FROM users WHERE user_id = :user_id";
+
+        $result = $pdo->prepare($sql);
+
+        return $result->execute([$this->user_id]);
+    }
+
+    /**
      * Get user object from user id
      * 
      * @return object 
@@ -94,7 +110,7 @@ class User extends \Core\Model
     public static function getUserObjectFromId($id){
         $pdo = static::getDB();
 
-        $sql = "select user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, is_verified from users where user_id = :id";
+        $sql = "select user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, is_verified, token from users where user_id = :id";
 
         $result = $pdo->prepare($sql);
         
@@ -104,6 +120,64 @@ class User extends \Core\Model
 
         return new User($user_array);
     }
+
+    /**
+     * Get user object from user id
+     * 
+     * @return mixed object if user exist, false otherwise 
+     */
+    public static function getTraderObjectFromId($id){
+        $pdo = static::getDB();
+
+        $sql = "select u.user_id as user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, token, is_verified, pan, product_type, product_details, documents_path, is_approved, approved_date 
+        from users u, traders t
+        where u.user_id = t.user_id AND u.user_id = :id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$id]);
+
+        $user_array = $result->fetch(); 
+
+        try {
+            return new User($user_array);
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    /**
+     * Update traders request status
+     * 
+     * @param string 'Y', 'N' or 'R'
+     * @return boolean
+     */
+    public function updateTraderApproval($is_approved)
+    {
+        $pdo = static::getDB();
+
+        $sql = "UPDATE traders SET is_approved = :is_approved, approved_date = TO_DATE(:approved_date, 'YYYY-MM-DD HH24:MI:SS') WHERE user_id = :user_id";
+
+        $result = $pdo->prepare($sql);
+
+        return $result->execute([
+            ':user_id' => $this->user_id,
+            ':is_approved' => $is_approved,
+            ':approved_date' => Extra::getCurrentDateTime()
+        ]);
+    }
+
+    /**
+     * Returns readable formatted contact
+     * 
+     * @return string formated contact
+     */
+    public function getReadableContact()
+    {
+        return Extra::getBeautifulPhone($this->contact);
+    }
+
+
 
     /**
      * Get user object from email
@@ -180,6 +254,16 @@ class User extends \Core\Model
     }
 
     /**
+     * Returns if trader is accepted
+     * 
+     * @return boolean
+     */
+    public function isTraderApproved()
+    {
+        return $this->is_approved === Trader::REQUEST_STATUS_YES;
+    }
+
+    /**
      * Returns if user is admin
      * 
      * @return boolean
@@ -211,6 +295,31 @@ class User extends \Core\Model
         // }
 
         return true;
+    }
+
+
+    /**
+     * Update token to the users table
+     * 
+     * @return string token
+     */
+    public function createUpdateToken()
+    {
+        $pdo = static::getDB();
+
+        $token = bin2hex(random_bytes(24));
+
+        $sql = "UPDATE users SET token = :token, otp_last_date = TO_DATE(:otp_last_date, 'YYYY-MM-DD HH24:MI:SS') WHERE email = :email";
+
+        $result = $pdo->prepare($sql);
+
+        $result->execute([
+            ':email' => $this->email,
+            ':token' => $token,
+            ':otp_last_date' => Extra::getCurrentDateTime()
+        ]);
+
+        return $token;
     }
 
     /**

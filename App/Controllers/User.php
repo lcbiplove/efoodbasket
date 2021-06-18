@@ -130,6 +130,16 @@ class User extends \Core\Controller
     }
 
     /**
+     * Password resent page
+     * 
+     * @return void
+     */
+    public function resetPassword()
+    {
+        View::renderTemplate('User/password-reset.html');
+    }
+
+    /**
      * Show notice page to ask for email verification
      * 
      * @return void
@@ -150,14 +160,14 @@ class User extends \Core\Controller
             $resend = isset($_POST['resend']) ? "OK" : "";
 
             if($code){
-                // if($user->isEmailVerified()){
-                //     $this->redirect("/");
-                // }
+                if($user->isEmailVerified()){
+                    $this->redirect("/");
+                }
 
                 $verified = $user->verifyEmail($code);
 
                 if($verified){
-                    // unset($_SESSION['verify_email']);
+                    unset($_SESSION['verify_email']);
 
                     Extra::setMessageCookie("Your email is verified successfully. You can now login!!!");
 
@@ -165,7 +175,7 @@ class User extends \Core\Controller
                         // TODO: add to notification
                         Email::sendTraderRequestToAdmin($user);
                         
-                        Extra::setMessageCookie("Your email is verified successfully. You will be notified once your documemnts are reviewed.", Extra::COOKIE_MESSAGE_INFO);
+                        Extra::setMessageCookie("Your email is verified successfully. You will be notified once your documents are reviewed.", Extra::COOKIE_MESSAGE_INFO);
                     }
                     
                     $this->redirect("/login/");

@@ -62,7 +62,8 @@ class Extra
      * 
      * @return boolean true if deleted, false otherwise
      */
-    public static function deleteMessageCookie(){
+    public static function deleteMessageCookie()
+    {
         if (isset($_COOKIE['message'])) {
             unset($_COOKIE['message']); 
             unset($_COOKIE['messageType']); 
@@ -74,20 +75,14 @@ class Extra
     }
 
     /**
-     * Get the router params
+     * Get phone number easily readable 
      * 
-     * @param $path path_id e.g- user_name
-     * @return mixed string if true, false otherwise
+     * @return string beautified number
      */
-    public static function routerPath($path = 'user_name') {
-
-        global $router;
-
-        if (array_key_exists($path, $router->getParams())) {
-
-            return $router->getParams()[$path];
-        }
-        return false;        
+    public static function getBeautifulPhone($phone_number)
+    {
+        $num = '('.substr($phone_number, 0, 3).') '.substr($phone_number, 3, 3).'-'.substr($phone_number,6);
+        return $num;
     }
 
     /**
