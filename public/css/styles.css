@@ -539,6 +539,7 @@ footer {
     border-radius: 4px 0 0 4px;
     position: relative;
     display: flex;
+    flex-shrink: 0;
 }
 .cookie-indicator::before {
     color: #fff;
@@ -583,6 +584,7 @@ footer {
     width: 4rem;
     border-left: 1px solid #ddd;
     border-radius: 0 4px 4px 0;
+    flex-shrink: 0;
 }
 .cookie-close::before {
     content: '\00D7';

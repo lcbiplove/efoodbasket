@@ -129,6 +129,18 @@ abstract class Controller
     }
 
     /**
+     * Restrict for authenticated data
+     * 
+     * @return void
+     */
+    public function restrictForAuthenticated()
+    {
+        if(Auth::getUser()){
+            $this->redirect('/');
+        }
+    }
+
+    /**
      * Restrict path to users that has account
      * But the path does not belongs to them
      * 

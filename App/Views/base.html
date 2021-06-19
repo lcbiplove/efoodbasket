@@ -49,6 +49,7 @@
                     <span class="cart-icon-title">Account</span>
                     <span class="iconify down-arrow" data-icon="ant-design:caret-down-outlined" data-inline="false"></span>
                     <div class="account-nav-links">
+                        {% if not is_authenticated %}
                         <a href="/login/">
                             <span class="iconify" data-icon="clarity:login-line" data-inline="false"></span>
                             <span>Login</span>
@@ -57,6 +58,9 @@
                             <span class="iconify" data-icon="line-md:account-add" data-inline="false"></span>
                             <span>Sign up</span>
                         </a>
+                        {% endif %}
+
+                        {% if is_authenticated %}
                         <a href="profile.html">
                             <span class="iconify" data-icon="line-md:account" data-inline="false"></span>
                             <span>Manage Account</span>
@@ -80,6 +84,7 @@
                                 <span>Logout</span>
                             </button>
                         </form>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="cart-acc-separ"></div>
@@ -139,10 +144,6 @@
     </header>
 
     <main>
-
-        {% if is_authenticated %}
-        <h1> Logged in </h1>
-        {% endif %}
         
         {% if cookieMessage.message %}
             <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{cookieMessage.type}}">

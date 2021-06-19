@@ -26,6 +26,7 @@ class User extends \Core\Controller
      */
     public function signupAction()
     {
+        $this->restrictForAuthenticated();
         $user = [];
         $errors = [];
         if(!empty($_POST)){
@@ -62,6 +63,7 @@ class User extends \Core\Controller
      */
     public function logoutAction()
     {
+        $this->requireLogin();
         if(!empty($_POST)){
             $logout = isset($_POST['logout']) ? true : false;
 
@@ -80,6 +82,7 @@ class User extends \Core\Controller
      */
     public function loginAction()
     {
+        $this->restrictForAuthenticated();
         $nextRoute = isset($_GET['next']) ? "?next=" . $_GET['next'] : "";
 
         if(!empty($_POST)){
@@ -118,6 +121,7 @@ class User extends \Core\Controller
      */
     public function signupTraderAction()
     {
+        $this->restrictForAuthenticated();
         $user = [];
         $errors = [];
 
@@ -151,6 +155,7 @@ class User extends \Core\Controller
      */
     public function resetPassword()
     {
+        $this->restrictForAuthenticated();
         $id = $this->route_params['id'];
         $token = $this->route_params['token'];
 
@@ -194,6 +199,7 @@ class User extends \Core\Controller
      */
     public function verifyNoticeAction()
     {
+        $this->restrictForAuthenticated();
         $email = isset($_SESSION['verify_email']) ? $_SESSION['verify_email'] : "";
         $errors = [];
 
