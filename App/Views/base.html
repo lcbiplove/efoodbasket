@@ -146,10 +146,10 @@
     <main>
         
         {% if cookieMessage.message %}
-            <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{cookieMessage.type}}">
-                <div class="cookie-indicator {{cookieMessage.type}}"></div>
+            <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{ cookieMessage.type }}">
+                <div class="cookie-indicator {{ cookieMessage.type }}"></div>
                 <div class="cookie-mssg">
-                {{ cookieMessage.message }}
+                {{ cookieMessage.message|raw }}
                 </div>
                 <div id="cookie-box-close" class="cookie-close"></div>
             </div>

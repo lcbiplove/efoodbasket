@@ -577,6 +577,7 @@ footer {
 }
 .cookie-mssg {
     padding: 15px;
+    flex-shrink: 1;
 }
 .cookie-close {
     cursor: pointer;
