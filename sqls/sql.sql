@@ -33,7 +33,7 @@ CREATE TABLE TRADERS (
 	trader_id INTEGER NOT NULL,
 	pan VARCHAR2(12) NOT NULL UNIQUE,
 	product_type VARCHAR2(30) NOT NULL UNIQUE,
-	product_details VARCHAR2(255) NOT NULL,
+	product_details VARCHAR2(4000) NOT NULL,
 	documents_path VARCHAR2(255) NOT NULL,
 	is_approved VARCHAR2(1) DEFAULT 'R',
 	approved_date DATE,
