@@ -102,6 +102,29 @@ class User extends \Core\Model
         return $result->execute([$this->user_id]);
     }
 
+
+    /**
+     * Change password in the table
+     * 
+     * @param string password
+     * @return boolean true if success, false otherwise
+     */
+    public function changePassword($password)
+    {
+        $pdo = static::getDB();
+
+        $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
+        $sql = "UPDATE users SET password = :password WHERE user_id = :user_id";
+
+        $result = $pdo->prepare($sql);
+
+        return $result->execute([
+            ':user_id' => $this->user_id,
+            ':password' => $password_hash
+        ]);
+    }
+
     /**
      * Get user object from user id
      * 
@@ -118,7 +141,11 @@ class User extends \Core\Model
 
         $user_array = $result->fetch(); 
 
-        return new User($user_array);
+        try {
+            return new User($user_array);
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     /**
@@ -261,6 +288,11 @@ class User extends \Core\Model
     public function isTraderApproved()
     {
         return $this->is_approved === Trader::REQUEST_STATUS_YES;
+    }
+
+    public function hasTraderGotNotice()
+    {
+        return $this->password === "";
     }
 
     /**

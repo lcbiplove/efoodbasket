@@ -3,6 +3,7 @@
 namespace Core;
 
 use \App\Auth;
+use \App\Extra;
 /**
  * Base controller
  *
@@ -104,8 +105,12 @@ abstract class Controller
      */
     public function requireAdmin()
     {
-        if (!Auth::isAdminAuthenticated()) {
-            $this->redirect('/');
+        $currentRoute = $_SERVER['REQUEST_URI'];
+        if(!Auth::isAuthenticated()){
+            $this->redirect("/login/?next=".$currentRoute);
+        }
+        if(!Auth::isAdminAuthenticated()){
+            $this->redirect("/");
         }
     }
 

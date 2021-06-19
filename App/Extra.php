@@ -51,7 +51,8 @@ class Extra
 
             return [
                 'message' => $message,
-                'type' => $messageType
+                'type' => $messageType,
+                'delete' => static::deleteMessageCookie()
             ];
         }
         return false;

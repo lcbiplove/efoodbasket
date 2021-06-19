@@ -8,12 +8,30 @@ class UserValidation extends User
 {
     private $errors = [];
 
-    function __construct($data)
+    function __construct($data, $validateByName = false)
     {
         foreach ($data as $key => $value) {
             $lowerKey = strtolower($key);
             $this->$lowerKey = $value;
         };
+        $this->validateByName = $validateByName;
+    }
+
+    /**
+     * Returns errors of only specified attributes
+     * 
+     * @return mixed array if errors, false if namedErrors is not set true
+     */
+    public function getNamedErrors()
+    {
+        if($this->validateByName){
+            foreach ($this->validateByName as $value) {
+                $func = "validate". ucfirst($value);
+                $this->$func();
+            }
+            return $this->errors;
+        }
+        return false;
     }
 
     /**
@@ -51,7 +69,7 @@ class UserValidation extends User
      * 
      * @return string Error message if invalid, true otherwise
      */
-    private function validateFullname(){
+    public function validateFullname(){
         $fullNamePattern = '/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/';
 
         if(preg_match($fullNamePattern, $this->fullname)){
@@ -65,7 +83,7 @@ class UserValidation extends User
      * 
      * @return string Error message if invalid, true otherwise
      */
-    private function validateEmail(){
+    public function validateEmail(){
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $pdo = static::getDB();
             $sql = "select count(*) from users where email = :email";
@@ -87,7 +105,7 @@ class UserValidation extends User
      * 
      * @return string Error message if invalid, true otherwise
      */
-    private function validateAddress(){
+    public function validateAddress(){
         if(strlen($this->address) > 4){
             return true;
         }
@@ -99,7 +117,7 @@ class UserValidation extends User
      * 
      * @return string Error message if invalid, true otherwise
      */
-    private function validateContact(){
+    public function validateContact(){
         $numbers = preg_replace('/[^0-9]/', '', $this->contact);
 
         if (strlen($numbers) == 11) $numbers = preg_replace('/^1/', '',$numbers);
@@ -116,8 +134,8 @@ class UserValidation extends User
      * 
      * @return string Error message if invalid, true otherwise
      */
-    private function validatePassword(){
-        $passwordPattern = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/';
+    public function validatePassword(){
+        $passwordPattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/';
 
         if(!preg_match($passwordPattern, $this->password) || $this->password !== $this->confpass ){
             if(!preg_match($passwordPattern, $this->password)){
@@ -136,7 +154,7 @@ class UserValidation extends User
      * 
      * @return string Error message if invalid, true otherwise
      */
-    private function validateTerms(){
+    public function validateTerms(){
         if(isset($this->terms)){
             return true;
         }

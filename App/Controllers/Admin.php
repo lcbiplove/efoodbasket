@@ -27,7 +27,6 @@ class Admin extends \Core\Controller
 
     public function traderRequestsAction()
     {
-        
         View::renderTemplate('Admin/trader-requests.html');
     }
 
@@ -41,7 +40,7 @@ class Admin extends \Core\Controller
         $id = $this->route_params['id'];
         $trader = User::getTraderObjectFromId($id);
 
-        if(!$trader || $trader->isTraderApproved()){
+        if(!$trader || $trader->hasTraderGotNotice()){
             $this->show404();
         }
 

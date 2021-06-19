@@ -10,6 +10,7 @@ use App\Models\Validation\TraderValidation;
 use App\Extra;
 use App\Email;
 use App\Models\Trader;
+use Core\Model;
 
 /**
  * Home controller
@@ -31,7 +32,7 @@ class User extends \Core\Controller
             $user = new Models\User($_POST);
 
             $validation = new UserValidation($_POST);
-            $errors = $validation->getErrors($_POST);
+            $errors = $validation->getErrors();
 
             if(empty($errors)){
                 $user_role = Models\User::ROLE_CUSTOMER;
@@ -54,6 +55,23 @@ class User extends \Core\Controller
         ]);
     }
 
+    /**
+     * Logs user out 
+     * 
+     * @return void
+     */
+    public function logoutAction()
+    {
+        if(!empty($_POST)){
+            $logout = isset($_POST['logout']) ? true : false;
+
+            if($logout){
+                Auth::logout();
+                Extra::setMessageCookie("Logged out successfully!!!");
+                $this->redirect('/login/');
+            }
+        }
+    }
 
     /**
      * Show the login page
@@ -62,9 +80,7 @@ class User extends \Core\Controller
      */
     public function loginAction()
     {
-        $messagesArray = Extra::getMessageCookie();
-        $message = $messagesArray['message'];
-        $messageType = $messagesArray['type'];
+        $nextRoute = isset($_GET['next']) ? "?next=" . $_GET['next'] : "";
 
         if(!empty($_POST)){
             $email = $_POST['email'];
@@ -78,21 +94,20 @@ class User extends \Core\Controller
 
                     Auth::login($logged_user);
 
-                    $this->redirect('/');
+                    $next = $nextRoute ? $_GET['next'] : "";
+
+                    $this->redirect($next);
                 }
-                $this->redirect('/login/');
+                $this->redirect('/login/'.$nextRoute);
             }
 
             Extra::setMessageCookie("Incorrect email or password.", Extra::COOKIE_MESSAGE_FAIL);
 
-            $this->redirect("/login/");
+            $this->redirect("/login/".$nextRoute);
         }
 
-        Extra::deleteMessageCookie();
-
         View::renderTemplate('User/login.html', [
-            'message'=> $message,
-            'messageType' => $messageType
+            'nextRoute' => $nextRoute,
         ]);
     }
 
@@ -130,12 +145,37 @@ class User extends \Core\Controller
     }
 
     /**
-     * Password resent page
+     * Password reset page
      * 
      * @return void
      */
     public function resetPassword()
     {
+        $id = $this->route_params['id'];
+        $token = $this->route_params['token'];
+
+        if(!empty($_POST)){
+            $user = Models\User::getUserObjectFromId($id);
+
+            if($user){
+                $validation = new UserValidation($_POST, ['password']);
+                $errors = $validation->getNamedErrors();
+
+                if(empty($errors)){
+                    $password = $_POST['password'];
+
+                    $user->changePassword($password);
+
+                    Extra::setMessageCookie("Password updated successfully!!!");
+
+                    $this->redirect("/login/");
+                }
+                View::renderTemplate('User/password-reset.html', [
+                    'errors'=>$errors
+                ]);
+            }
+            $this->show404();
+        }
         View::renderTemplate('User/password-reset.html');
     }
 
@@ -146,6 +186,7 @@ class User extends \Core\Controller
      */
     public function verifyNoticeAction()
     {
+        $_SESSION['verify_email'] = "hostingbips@gmail.com";
         $email = isset($_SESSION['verify_email']) ? $_SESSION['verify_email'] : "";
         $errors = [];
 

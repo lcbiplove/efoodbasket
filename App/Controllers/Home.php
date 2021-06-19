@@ -13,6 +13,11 @@ use \App\Extra;
 class Home extends \Core\Controller
 {
 
+    public function after()
+    {
+        Extra::deleteMessageCookie();
+    }
+
     /**
      * Show the index page
      *
@@ -20,16 +25,7 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        $messagesArray = Extra::getMessageCookie();
-        $message = $messagesArray['message'];
-        $messageType = $messagesArray['type'];
-
-        Extra::deleteMessageCookie();
-        
-        View::renderTemplate('Home/index.html', [
-            'message'=> $message,
-            'messageType' => $messageType
-        ]);
+        View::renderTemplate('Home/index.html');
     }
 
     /**

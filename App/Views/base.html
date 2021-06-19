@@ -73,10 +73,13 @@
                             <span class="iconify" data-icon="ic:baseline-notifications-none" data-inline="false"></span>
                             <span>Notifications</span>
                         </a>
-                        <a href="#">
-                            <span class="iconify" data-icon="carbon:logout" data-inline="false"></span>
-                            <span>Logout</span>
-                        </a>
+                        <form action="/logout/" method="POST" class="d-flex">
+                            <input name="val" type="hidden" value="val">
+                            <button type="submit" name="logout" value="logout">
+                                <span class="iconify" data-icon="carbon:logout" data-inline="false"></span>
+                                <span>Logout</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <div class="cart-acc-separ"></div>
@@ -123,6 +126,13 @@
                     <span>Sign up</span>
                     <span class="iconify menu-link-icon" data-icon="line-md:account-add" data-inline="false"></span>
                 </a>
+                <form action="/logout/" method="POST" class="d-flex">
+                    <input name="val" type="hidden" value="val">
+                    <button class="menu-link" type="submit" name="logout" value="logout">
+                        <span>Logout</span>
+                        <span class="iconify menu-link-icon" data-icon="carbon:logout" data-inline="false"></span>
+                    </button>
+                </form>
             </div>
         </div>
         <div id="mbl-search-container" class="mbl-search-container"></div>
@@ -134,11 +144,11 @@
         <h1> Logged in </h1>
         {% endif %}
         
-        {% if message %}
-            <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{messageType}}">
-                <div class="cookie-indicator {{messageType}}"></div>
+        {% if cookieMessage.message %}
+            <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{cookieMessage.type}}">
+                <div class="cookie-indicator {{cookieMessage.type}}"></div>
                 <div class="cookie-mssg">
-                {{ message|raw }}
+                {{ cookieMessage.message|raw }}
                 </div>
                 <div id="cookie-box-close" class="cookie-close"></div>
             </div>
@@ -195,6 +205,7 @@
                 Copyright &copy; {{ "now"|date("Y") }} e-food basket
             </div>
         </div>
+
     </footer>
 
     <script src="/public/js/header.js"></script>

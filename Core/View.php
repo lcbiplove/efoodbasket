@@ -47,6 +47,7 @@ class View
             $loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/App/Views');
             $twig = new \Twig\Environment($loader);
             $twig->addGlobal('is_authenticated', \App\Auth::isAuthenticated());
+            $twig->addGlobal('cookieMessage', \App\Extra::getMessageCookie());
         }
 
         echo $twig->render($template, $args);

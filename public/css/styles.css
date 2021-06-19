@@ -291,18 +291,22 @@ nav {
     background-color: transparent;
     z-index: -1;
 }
-.account-nav-links a {
+.account-nav-links a, .account-nav-links button {
     display: flex;
+    flex-grow: 1;
     align-items: center;
     font-size: 1rem;
     padding: 15px;
     width: 200px;
+    border: 0;
+    cursor: pointer;
+    background-color: #fff;
 }
-.account-nav-links a:hover {
+.account-nav-links a:hover, .account-nav-links button:hover {
     color: #000;
     background-color: #f5f5f5;
 }
-.account-nav-links a .iconify {
+.account-nav-links a .iconify, .account-nav-links button .iconify {
     font-size: 1.2rem;
     margin-right: 15px
 }
@@ -365,6 +369,14 @@ nav {
     box-sizing: border-box;
     justify-content: space-between;
     padding: 15px 20px;
+    background-color: transparent;
+    border: 0;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.menu-link:hover {
+    background-color: #fafafa;
+    color: var(--my-blue);
 }
 .menu-link>span {
     flex-shrink: 0;

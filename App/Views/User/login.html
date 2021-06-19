@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Signup | efoodbasket{% endblock %}
+{% block title %}Login | efoodbasket{% endblock %}
 
 {% block titleLinks %}
     <link rel="stylesheet" type="text/css" href="/public/css/form.css">
@@ -18,14 +18,14 @@
                         <img src="/public/images/efoodbasket-name.png" class="login-logo" alt="">
                     </div>
                     <div class="form-wrapper">
-                        <form class="login-form" action="/login/" method="POST" >
+                        <form class="login-form" action="/login/{{ nextRoute }}" method="POST" >
                             <div class="inpt-wrapper">
                                 <label for="emailId">Email</label>
                                 <input id="emailId" type="email" name="email" placeholder="Your Email...">
                             </div>
                             <div class="inpt-wrapper">
                                 <label for="passwordId">Password</label>
-                                <input id="passwordId" type="password" name="password" placeholder="Your password...">
+                                <input id="passwordId" type="password" name="password" placeholder="Your password..." autocomplete="off" >
                             </div>
                             <div class="note-links-wrapper">
                                 <a href="#" class="note-link">

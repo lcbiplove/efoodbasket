@@ -182,7 +182,7 @@ class Email
     {
         $websiteUrl = Config::WEBSITE_NAME;
         
-        $link = "$websiteUrl/user/reset-password/$token/";
+        $link = "$websiteUrl/user/reset-password/{$user->user_id}/$token/";
 
         $emails = [$user->email];
 
