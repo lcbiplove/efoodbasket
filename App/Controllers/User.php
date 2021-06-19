@@ -161,6 +161,14 @@ class User extends \Core\Controller
                 $validation = new UserValidation($_POST, ['password']);
                 $errors = $validation->getNamedErrors();
 
+                $route = $_SERVER['REQUEST_URI'];
+
+
+                if(!$user->isTokenValid($token)){
+                    Extra::setMessageCookie("The link you entered is not valid or is expired!!!", EXTRA::COOKIE_MESSAGE_FAIL);
+                    $this->redirect($route);
+                }
+
                 if(empty($errors)){
                     $password = $_POST['password'];
 

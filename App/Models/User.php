@@ -290,10 +290,6 @@ class User extends \Core\Model
         return $this->is_approved === Trader::REQUEST_STATUS_YES;
     }
 
-    public function hasTraderGotNotice()
-    {
-        return $this->password === "";
-    }
 
     /**
      * Returns if user is admin
@@ -422,6 +418,36 @@ class User extends \Core\Model
             return false;
         }
         return $result->OTP;
+    }
+
+    /**
+     * Check if token is valid
+     * 
+     * @return boolean
+     */
+    public function isTokenValid($token)
+    {
+        $pdo = static::getDB();
+
+        $sql = "select token, to_char(otp_last_date, 'YYYY-MM-DD HH24:MI:SS') as otp_last_date from users where email = :email";
+        $result = $pdo->prepare($sql);
+        $result->execute([$this->email]);
+
+        $result = $result->fetchObject();
+
+        if($result->TOKEN !== $token){
+            return false;
+        }
+        $currentTime = strtotime(Extra::getCurrentDateTime());
+        $time = strtotime($result->OTP_LAST_DATE);
+
+        $diff_in_seconds = ($currentTime - $time);
+
+        // 7 days
+        if($diff_in_seconds > 604800){
+            return false;
+        }
+        return true;
     }
 
     /**
