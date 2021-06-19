@@ -194,7 +194,6 @@ class User extends \Core\Controller
      */
     public function verifyNoticeAction()
     {
-        $_SESSION['verify_email'] = "hostingbips@gmail.com";
         $email = isset($_SESSION['verify_email']) ? $_SESSION['verify_email'] : "";
         $errors = [];
 
