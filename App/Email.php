@@ -126,6 +126,25 @@ class Email
         Email::sendMail([$email], $subject, $body, $altBody);
     }
 
+    public static function sendPasswordReset($user, $token)
+    {
+        $websiteUrl = Config::WEBSITE_NAME;
+        
+        $link = "$websiteUrl/user/reset-password/{$user->user_id}/$token/";
+
+        $emails = [$user->email];
+
+        $linkOrCodeHTML = "<a href='$link' target='_blank' style='font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7FCB0A; display: inline-block;'>Reset Password</a>";
+
+        $body_text = "We have recently received a request to reset forgotten password for your efoodbasket account. To change your efoodbasket account password, please click the link below:";
+
+        $subject = "Password Reset";
+        $body = static::getEmailBody($linkOrCodeHTML, $body_text);
+        $altBody = static::getAltBody($link, $body_text);
+
+        Email::sendMail($emails, $subject, $body, $altBody);
+    }
+
     /**
      * Send trader requests to all admins
      * 

@@ -149,6 +149,39 @@ class User extends \Core\Controller
     }
 
     /**
+     * Show the forgot password page
+     *
+     * @return void
+     */
+    public function forgotPassword()
+    {
+        $this->restrictForAuthenticated();
+        $errors = [];
+        $email = "";
+
+        if(!empty($_POST)){
+            $email = $_POST['email'];
+
+            $user = Models\User::getUserObjectFromEmail($email);
+            
+            if($user){
+                $token = $user->createUpdateToken();
+                Email::sendPasswordReset($user, $token);
+                Extra::setMessageCookie("Password reset link is sent to your email.", Extra::COOKIE_MESSAGE_INFO);
+                $this->redirect("/login/");
+            }
+            else {
+                $errors['email'] = "We could not find any email of that name. Please check your email again.";
+            }
+        }
+
+        View::renderTemplate('User/forgot-password.html', [
+            'errors' => $errors,
+            'email' => $email
+        ]);
+    }
+
+    /**
      * Password reset page
      * 
      * @return void

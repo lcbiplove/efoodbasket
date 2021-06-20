@@ -133,11 +133,60 @@ class User extends \Core\Model
     public static function getUserObjectFromId($id){
         $pdo = static::getDB();
 
-        $sql = "select user_id, email, fullname, address, user_role, contact, password, joined_date, otp, otp_last_date, is_verified, token from users where user_id = :id";
+        $sql = "select * from users where user_id = :id";
 
         $result = $pdo->prepare($sql);
         
         $result->execute([$id]);
+
+        $user_array = $result->fetch(); 
+
+        if($user_array){
+            if($user_array['USER_ROLE'] == Trader::ROLE_TRADER){
+                return static::getTraderObjectFromEmail($user_array['EMAIL']);
+            }
+            return new User($user_array);
+        }
+        return false;
+    }
+
+    /**
+     * Get user object from email
+     * 
+     * @return mixed user object if found, false otherwise 
+     */
+    public static function getUserObjectFromEmail($email)
+    {
+        $pdo = static::getDB();
+
+        $sql = "select * from users where email = :email";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$email]);
+
+        $user_data = $result->fetch(); 
+
+        if($user_data){
+            if($user_data['USER_ROLE'] == Trader::ROLE_TRADER){
+                return static::getTraderObjectFromEmail($user_data['EMAIL']);
+            }
+            return new User($user_data);
+        }
+        return false;
+    }
+
+    public static function getTraderObjectFromEmail($email)
+    {
+        $pdo = static::getDB();
+
+        $sql = "select u.user_id as user_id, email, fullname, address, password, user_role, contact, joined_date, otp, otp_last_date, token, is_verified, pan, product_type, product_details, documents_path, is_approved, approved_date 
+        from users u, traders t
+        where u.user_id = t.user_id AND u.email = :email";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$email]);
 
         $user_array = $result->fetch(); 
 
@@ -153,7 +202,8 @@ class User extends \Core\Model
      * 
      * @return mixed object if user exist, false otherwise 
      */
-    public static function getTraderObjectFromId($id){
+    public static function getTraderObjectFromId($id)
+    {
         $pdo = static::getDB();
 
         $sql = "select u.user_id as user_id, email, fullname, address, password, user_role, contact, joined_date, otp, otp_last_date, token, is_verified, pan, product_type, product_details, documents_path, is_approved, approved_date 
@@ -171,6 +221,51 @@ class User extends \Core\Model
         } catch (\Throwable $th) {
             return false;
         }
+    }
+
+    /**
+     * Returns emails of all admin
+     * 
+     * @return array emails of admin
+     */
+    public static function getAllAdminEmails()
+    {
+        $pdo = static::getDB();
+
+        $user_role = User::ROLE_ADMIN;
+
+        $sql = "select email from users where user_role = :email";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$user_role]);
+
+        return $result->fetchAll(PDO::FETCH_COLUMN, 0); 
+    }
+
+    /**
+     * Check if user can login and make errors based on
+     * that
+     * 
+     * @return boolean
+     */
+    public function canLogin()
+    {
+        $mssg = "";
+        $type = Extra::COOKIE_MESSAGE_INFO;
+
+        if(!$this->isEmailVerified()){
+            $mssg = "Your email is not verified. You need to verify your email to login.<form class='otp-inline-form' method='POST' action='/user/verify-email/'><input type='hidden' name='email' value='{$this->email}' /><input type='hidden' name='resend' value='' /><button class='submit'>VERIFY</button></form>";
+            Extra::setMessageCookie($mssg, $type);
+            return false;
+        }
+        if($this->isTraderRequested()){
+            $mssg = "Your request of becoming trader is not yet reviewed. We will notify you after we have reviewed.";
+            Extra::setMessageCookie($mssg, $type);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -195,51 +290,6 @@ class User extends \Core\Model
     }
 
     /**
-     * Returns readable formatted contact
-     * 
-     * @return string formated contact
-     */
-    public function getReadableContact()
-    {
-        return Extra::getBeautifulPhone($this->contact);
-    }
-
-
-
-    /**
-     * Get user object from email
-     * 
-     * @return object 
-     */
-    public static function getUserObjectFromEmail($email)
-    {
-        $user_data = static::getUserArrayFromEmail($email);
-
-        if($user_data){
-            return new User($user_data);
-        }
-        return false;
-    }
-
-    /**
-     * Get user array from email
-     * 
-     * @return object user except password
-     */
-    public static function getUserArrayFromEmail($email)
-    {
-        $pdo = static::getDB();
-
-        $sql = "select * from users where email = :email";
-
-        $result = $pdo->prepare($sql);
-        
-        $result->execute([$email]);
-
-        return $result->fetch(); 
-    }
-
-    /**
      * Has trader get notification 
      * 
      * @return boolean
@@ -248,27 +298,6 @@ class User extends \Core\Model
     {
         return $this->password;
     }
-
-    /**
-     * Returns emails of all admin
-     * 
-     * @return array emails of admin
-     */
-    public static function getAllAdminEmails()
-    {
-        $pdo = static::getDB();
-
-        $user_role = User::ROLE_ADMIN;
-
-        $sql = "select email from users where user_role = :email";
-
-        $result = $pdo->prepare($sql);
-        
-        $result->execute([$user_role]);
-
-        return $result->fetchAll(PDO::FETCH_COLUMN, 0); 
-    }
-
 
     /**
      * Returns if email is verified or not
@@ -300,7 +329,6 @@ class User extends \Core\Model
         return $this->is_approved === Trader::REQUEST_STATUS_YES;
     }
 
-
     /**
      * Returns if user is admin
      * 
@@ -311,30 +339,41 @@ class User extends \Core\Model
         return $this->user_role === User::ROLE_ADMIN;
     }
 
-    public function canLogin()
+    /**
+     * Returns if trader is requested
+     * 
+     * @return boolean
+     */
+    public function isTraderRequested()
     {
-        $mssg = "";
-        $type = Extra::COOKIE_MESSAGE_INFO;
-
-        if(!$this->isEmailVerified()){
-            $mssg = "Your email is not verified. You need to verify your email to login.<form class='otp-inline-form' method='POST' action='/user/verify-email/'><input type='hidden' name='email' value='{$this->email}' /><input type='hidden' name='resend' value='' /><button class='submit'>VERIFY</button></form>";
-            Extra::setMessageCookie($mssg, $type);
-            return false;
+        if($this->isTrader()){
+            return $this->is_approved === Trader::REQUEST_STATUS_REQUESTED;
         }
-        // if($this->isTrader() && $this->trader->isRequested()){
-        //     $mssg = "Your request of becoming trader is not yet reviewed. We will notify you after we have reviewed.";
-        //     Extra::setMessageCookie($mssg, $type);
-        //     return false;
-        // }
-        // if($this->isTrader() && $this->trader->isRejected()){
-        //     $mssg = "Your request of becoming trader is not accepted. Try signing up again with new detail.";
-        //     Extra::setMessageCookie($mssg, Extra::COOKIE_MESSAGE_FAIL);
-        //     return false;
-        // }
-
-        return true;
+        return false;
     }
 
+    /**
+     * Verify the email to 'Y'
+     * 
+     * @param int code
+     * @return boolean
+     */
+    public function verifyEmail($code)
+    {
+        if($code === $this->isOtpValid()){
+            $pdo = static::getDB();
+
+            $sql = "UPDATE users SET is_verified = :is_verified WHERE email = :email";
+
+            $result = $pdo->prepare($sql);
+
+            return $result->execute([
+                ':email' => $this->email,
+                ':is_verified' => 'Y',
+            ]);
+        }
+        return false;
+    }
 
     /**
      * Update token to the users table
@@ -379,29 +418,6 @@ class User extends \Core\Model
             ':otp' => $otp,
             ':otp_last_date' => Extra::getCurrentDateTime()
         ]);
-    }
-
-    /**
-     * Verify the email to 'Y'
-     * 
-     * @param int code
-     * @return boolean
-     */
-    public function verifyEmail($code)
-    {
-        if($code === $this->isOtpValid()){
-            $pdo = static::getDB();
-
-            $sql = "UPDATE users SET is_verified = :is_verified WHERE email = :email";
-
-            $result = $pdo->prepare($sql);
-
-            return $result->execute([
-                ':email' => $this->email,
-                ':is_verified' => 'Y',
-            ]);
-        }
-        return false;
     }
 
     /**
@@ -473,6 +489,16 @@ class User extends \Core\Model
             $this->updateOtpCode($otp);
         }
         return $otp;
+    }
+
+    /**
+     * Returns readable formatted contact
+     * 
+     * @return string formated contact
+     */
+    public function getReadableContact()
+    {
+        return Extra::getBeautifulPhone($this->contact);
     }
 }
 
