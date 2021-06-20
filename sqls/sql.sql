@@ -8,11 +8,14 @@ DROP SEQUENCE trader_id_seq;
 CREATE SEQUENCE trader_id_seq START WITH 1 INCREMENT BY 1;
 DROP SEQUENCE notification_id_seq;
 CREATE SEQUENCE notification_id_seq START WITH 1 INCREMENT BY 1;
+DROP SEQUENCE shop_id_seq;
+CREATE SEQUENCE shop_id_seq START WITH 1 INCREMENT BY 1;
 
 -- Drop tables --
 DROP TABLE USERS CASCADE CONSTRAINTS;
 DROP TABLE TRADERS CASCADE CONSTRAINTS;
 DROP TABLE NOTIFICATIONS CASCADE CONSTRAINTS;
+DROP TABLE SHOPS CASCADE CONSTRAINTS;
 -- Table Creation --
 CREATE TABLE USERS(
 	user_id INTEGER NOT NULL,
@@ -54,6 +57,16 @@ CREATE TABLE NOTIFICATIONS (
 	FOREIGN KEY (sender_id) REFERENCES Users(user_id),
     CONSTRAINT   pk_NOTIFICATIONS PRIMARY KEY (notification_id)
 );
+CREATE TABLE SHOPS (
+	shop_id                 INTEGER NOT NULL,
+	shop_name               VARCHAR2(40) NOT NULL,
+	address	           		VARCHAR2(40) NOT NULL,
+    contact	                NUMBER(10) NOT NULL,
+	trader_id	            INTEGER NOT NULL,
+	
+	FOREIGN KEY (trader_id) REFERENCES Users(user_id),
+    CONSTRAINT   pk_SHOPS PRIMARY KEY (shop_id)
+);
 
 
 
@@ -84,6 +97,17 @@ BEGIN
 	IF :NEW.notification_id IS NULL THEN
 		SELECT notification_id_seq.nextval
 		INTO :new.notification_id
+		FROM dual;
+	END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER shop_auto_increment
+BEFORE INSERT ON shops
+FOR EACH ROW
+BEGIN
+	IF :NEW.shop_id IS NULL THEN
+		SELECT shop_id_seq.nextval
+		INTO :new.shop_id
 		FROM dual;
 	END IF;
 END;
