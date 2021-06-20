@@ -149,7 +149,9 @@
             <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{ cookieMessage.type }}">
                 <div class="cookie-indicator {{ cookieMessage.type }}"></div>
                 <div class="cookie-mssg">
-                {{ cookieMessage.message|raw }}
+                    {% autoescape %}
+                        {{ cookieMessage.message|raw }}
+                    {% endautoescape %}
                 </div>
                 <div id="cookie-box-close" class="cookie-close"></div>
             </div>

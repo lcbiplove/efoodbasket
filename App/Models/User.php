@@ -133,7 +133,7 @@ class User extends \Core\Model
     public static function getUserObjectFromId($id){
         $pdo = static::getDB();
 
-        $sql = "select user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, is_verified, token from users where user_id = :id";
+        $sql = "select user_id, email, fullname, address, user_role, contact, password, joined_date, otp, otp_last_date, is_verified, token from users where user_id = :id";
 
         $result = $pdo->prepare($sql);
         
@@ -156,7 +156,7 @@ class User extends \Core\Model
     public static function getTraderObjectFromId($id){
         $pdo = static::getDB();
 
-        $sql = "select u.user_id as user_id, email, fullname, address, user_role, contact, joined_date, otp, otp_last_date, token, is_verified, pan, product_type, product_details, documents_path, is_approved, approved_date 
+        $sql = "select u.user_id as user_id, email, fullname, address, password, user_role, contact, joined_date, otp, otp_last_date, token, is_verified, pan, product_type, product_details, documents_path, is_approved, approved_date 
         from users u, traders t
         where u.user_id = t.user_id AND u.user_id = :id";
 
@@ -240,6 +240,16 @@ class User extends \Core\Model
     }
 
     /**
+     * Has trader get notification 
+     * 
+     * @return boolean
+     */
+    public function hasTraderGotNotice()
+    {
+        return $this->password;
+    }
+
+    /**
      * Returns emails of all admin
      * 
      * @return array emails of admin
@@ -307,7 +317,7 @@ class User extends \Core\Model
         $type = Extra::COOKIE_MESSAGE_INFO;
 
         if(!$this->isEmailVerified()){
-            $mssg = "Your email is not verified. You need to verify your email to login.<form class='otp-inline-form' method='POST' action='/user/verify-email/'><input type='hidden' name='resend' value='' /><button class='submit'>VERIFY</button></form>";
+            $mssg = "Your email is not verified. You need to verify your email to login.<form class='otp-inline-form' method='POST' action='/user/verify-email/'><input type='hidden' name='email' value='{$this->email}' /><input type='hidden' name='resend' value='' /><button class='submit'>VERIFY</button></form>";
             Extra::setMessageCookie($mssg, $type);
             return false;
         }

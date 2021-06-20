@@ -200,7 +200,16 @@ class User extends \Core\Controller
     public function verifyNoticeAction()
     {
         $this->restrictForAuthenticated();
+        
+
+        $resendEmail = false;
+        if(isset($_POST['email'])){
+            $resendEmail = true;
+            $_SESSION['verify_email'] = $_POST['email'];
+        }
         $email = isset($_SESSION['verify_email']) ? $_SESSION['verify_email'] : "";
+        
+
         $errors = [];
 
         if(!$email){
@@ -209,9 +218,13 @@ class User extends \Core\Controller
 
         $user = Models\User::getUserObjectFromEmail($email);
 
+        if($resendEmail){
+            Email::sendVerifyCode($user);
+            $this->redirect('/user/verify-email/');
+        }
+
         if(!empty($_POST)){
             $code = isset($_POST['code']) ? $_POST['code'] : "";
-            $resend = isset($_POST['resend']) ? "OK" : "";
 
             if($code){
                 if($user->isEmailVerified()){
@@ -235,10 +248,6 @@ class User extends \Core\Controller
                     $this->redirect("/login/");
                 }
                 $errors['message'] = "Your code is invalid or may have expired.";
-            }
-            else if($resend){
-                Email::sendVerifyCode($user);
-                $this->redirect('/user/verify-email/');
             }
         }
         

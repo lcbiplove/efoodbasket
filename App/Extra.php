@@ -46,7 +46,7 @@ class Extra
      */
     public static function getMessageCookie(){
         if (isset($_COOKIE['message'])) {
-            $message = $_COOKIE['message'];
+            $message = urldecode($_COOKIE['message']);
             $messageType = $_COOKIE['messageType'];
 
             return [
