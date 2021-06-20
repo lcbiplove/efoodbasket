@@ -20,8 +20,10 @@ window.addEventListener("load", function(){
         document.body.style.overflow = "hidden";
     }
     function hideOverlay(){
-        overlay.classList.remove("overlay");
-        document.body.style = "";
+        setTimeout(function(){
+            overlay.classList.remove("overlay");
+            document.body.style = "";
+        }, 50);
     }
     function openMenu(){
         menu_container.classList.add("open");

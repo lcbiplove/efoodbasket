@@ -88,63 +88,99 @@
                     </div>
                 </div>
                 <div class="cart-acc-separ"></div>
-                <a href="cart.html" class="cart-account-item">
-                    <span class="cart-icon-wrapper">
-                        <span class="iconify" data-icon="bx:bx-basket" data-inline="false"></span>
-                        <span class="cart-count">5</span>
-                    </span>
-                    <span class="cart-icon-title">Cart</span>
-                </a>
+                {% if is_admin %}
+                    <didiv class="cart-account-item not-link">
+                        <span class="cart-icon-wrapper">
+                        </span>
+                        <span class="cart-icon-title">Admin</span>
+                    </div>
+                {% elseif is_trader %}
+                    <div class="cart-account-item not-link">
+                        <span class="cart-icon-wrapper">
+                        </span>
+                        <span class="cart-icon-title">Trader</span>
+                    </div>
+                {% else %}
+                    <div class="cart-account-item">
+                        <span class="cart-icon-wrapper">
+                            <span class="iconify" data-icon="bx:bx-basket" data-inline="false"></span>
+                            <span class="cart-count">5</span>
+                        </span>
+                        <span class="cart-icon-title">Cart</span>
+                    </div>
+                {% endif %}
+                
+                
             </div>
             <div class="cart-search-wrapper">
                 <div id="mbl-search" class="cart-account-item">
                     <span class="iconify account" data-icon="bi:search" data-inline="false"></span>
                 </div>
-                <a href="cart.html" class="cart-account-item  ml-5">
-                    <span class="cart-icon-wrapper">
-                        <span class="iconify" data-icon="bx:bx-basket" data-inline="false"></span>
-                        <span class="cart-count">5</span>
-                    </span>
-                </a>
+                {% if is_admin %}
+                    <div class="cart-account-item not-link">
+                        <span class="cart-icon-wrapper">
+                        </span>
+                        <span class="cart-icon-title">Admin</span>
+                    </div>
+                {% elseif is_trader %}
+                    <div class="cart-account-item not-link">
+                        <span class="cart-icon-wrapper">
+                        </span>
+                        <span class="cart-icon-title">Trader</span>
+                    </div>
+                {% else %}
+                    <a href="cart.html" class="cart-account-item  ml-5">
+                        <span class="cart-icon-wrapper">
+                            <span class="iconify" data-icon="bx:bx-basket" data-inline="false"></span>
+                            <span class="cart-count">5</span>
+                        </span>
+                    </a>
+                {% endif %}
+                
             </div>
         </nav>
         <div id="overlay"></div>
         <div id="menu-container" class="menu-container">
             <div class="menu-content">
-                <a class="menu-link" href="">
-                    <span>Home</span>
-                    <span class="iconify menu-link-icon" data-icon="ant-design:home-outlined" data-inline="false"></span>
-                </a>
-                <a class="menu-link" href="profile.html">
-                    <span>Account</span>
-                    <span class="iconify menu-link-icon" data-icon="line-md:account" data-inline="false"></span>
-                </a>
-                <a class="menu-link" href="">
-                    <span>Notifications</span>
-                    <span class="iconify menu-link-icon" data-icon="ic:baseline-notifications-none" data-inline="false"></span>
-                </a>
-                <a class="menu-link" href="/login/">
-                    <span>Login</span>
-                    <span class="iconify menu-link-icon" data-icon="clarity:login-line" data-inline="false"></span>
-                </a>
-                <a class="menu-link" href="/signup/">
-                    <span>Sign up</span>
-                    <span class="iconify menu-link-icon" data-icon="line-md:account-add" data-inline="false"></span>
-                </a>
-                <form action="/logout/" method="POST" class="d-flex">
-                    <input name="val" type="hidden" value="val">
-                    <button class="menu-link" type="submit" name="logout" value="logout">
-                        <span>Logout</span>
-                        <span class="iconify menu-link-icon" data-icon="carbon:logout" data-inline="false"></span>
-                    </button>
-                </form>
+                {% if not is_authenticated %}
+                    <a class="menu-link" href="/login/">
+                        <span>Login</span>
+                        <span class="iconify menu-link-icon" data-icon="clarity:login-line" data-inline="false"></span>
+                    </a>
+                    <a class="menu-link" href="/signup/">
+                        <span>Sign up</span>
+                        <span class="iconify menu-link-icon" data-icon="line-md:account-add" data-inline="false"></span>
+                    </a>
+                {% endif %}
+                
+                {% if is_authenticated %}
+                    <a class="menu-link" href="">
+                        <span>Home</span>
+                        <span class="iconify menu-link-icon" data-icon="ant-design:home-outlined" data-inline="false"></span>
+                    </a>
+                    <a class="menu-link" href="profile.html">
+                        <span>Account</span>
+                        <span class="iconify menu-link-icon" data-icon="line-md:account" data-inline="false"></span>
+                    </a>
+                    <a class="menu-link" href="">
+                        <span>Notifications</span>
+                        <span class="iconify menu-link-icon" data-icon="ic:baseline-notifications-none" data-inline="false"></span>
+                    </a>
+                    <form action="/logout/" method="POST" class="d-flex">
+                        <input name="val" type="hidden" value="val">
+                        <button class="menu-link" type="submit" name="logout" value="logout">
+                            <span>Logout</span>
+                            <span class="iconify menu-link-icon" data-icon="carbon:logout" data-inline="false"></span>
+                        </button>
+                    </form>
+                {% endif %}
+                
             </div>
         </div>
         <div id="mbl-search-container" class="mbl-search-container"></div>
     </header>
 
     <main>
-        
         {% if cookieMessage.message %}
             <div id="cookie-mssg-box" class="cookie-mssg-wrapper show-for-{{ cookieMessage.type }}">
                 <div class="cookie-indicator {{ cookieMessage.type }}"></div>

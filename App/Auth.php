@@ -45,9 +45,7 @@ class Auth
                 
         $_SESSION['logged_user_id'] = $user->user_id;
 
-        if($user->isAdmin()){
-            $_SESSION['is_admin'] = "IS_ADMIN";
-        }
+        $_SESSION['user_role'] = $user->user_role;
     }
 
     /**
@@ -113,7 +111,25 @@ class Auth
      */
     public static function isAdminAuthenticated()
     {
-        return isset($_SESSION['is_admin']);
+        if(isset($_SESSION['user_role'])){
+            $user_role  = $_SESSION['user_role'];
+            return $user_role == User::ROLE_ADMIN;
+        }
+        return false;
+    }
+
+    /**
+     * Check if user is logged in is trader
+     * 
+     * @return boolean true if authenticated, false otherwise
+     */
+    public static function isTraderAuthenticated()
+    {
+        if(isset($_SESSION['user_role'])){
+            $user_role  = $_SESSION['user_role'];
+            return $user_role == User::ROLE_TRADER;
+        }
+        return false;
     }
     
 }

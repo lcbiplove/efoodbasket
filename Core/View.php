@@ -47,6 +47,9 @@ class View
             $loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/App/Views');
             $twig = new \Twig\Environment($loader);
             $twig->addGlobal('is_authenticated', \App\Auth::isAuthenticated());
+            $twig->addGlobal('user', \App\Auth::getUser());
+            $twig->addGlobal('is_trader', \App\Auth::isTraderAuthenticated());
+            $twig->addGlobal('is_admin', \App\Auth::isAdminAuthenticated());
             $twig->addGlobal('cookieMessage', \App\Extra::getMessageCookie());
         }
 

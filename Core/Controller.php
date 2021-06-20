@@ -115,6 +115,22 @@ abstract class Controller
     }
 
     /**
+     * Allow page access to trader only
+     * 
+     * @return void 
+     */
+    public function requireTrader()
+    {
+        $currentRoute = $_SERVER['REQUEST_URI'];
+        if(!Auth::isAuthenticated()){
+            $this->redirect("/login/?next=".$currentRoute);
+        }
+        if(!Auth::isTraderAuthenticated()){
+            $this->redirect("/");
+        }
+    }
+
+    /**
      * Require the user to be logged in before giving access to the requested page.
      * Remember the requested page for later, then redirect to the login page.
      *
