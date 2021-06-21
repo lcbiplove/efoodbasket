@@ -55,14 +55,28 @@ class Auth
      */
     public static function getUser()
     {
+        if (static::getUserId()) {
+            return User::getUserObjectFromId(static::getUserId());
+        }
+        return false;
+    }
+
+    /**
+     * Get user_id from session
+     * 
+     * @return string user_id
+     */
+    public static function getUserId()
+    {
         if (isset($_SESSION['logged_user_id'])) {
 
             $logged_user_id = $_SESSION['logged_user_id'];
 
-            return User::getUserObjectFromId($logged_user_id);
+            return $logged_user_id;
         }
         return false;
     }
+
 
 
     /**

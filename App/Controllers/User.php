@@ -10,7 +10,6 @@ use App\Models\Validation\TraderValidation;
 use App\Extra;
 use App\Email;
 use App\Models\Trader;
-use Core\Model;
 
 /**
  * Home controller

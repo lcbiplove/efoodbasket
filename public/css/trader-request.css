@@ -14,7 +14,7 @@
     text-align: center;
 }
 .trader-req-user-wrapper {
-    margin: 60px 10px;
+    margin: 60px 0;
     border: 1px solid #ccc;
     position: relative;
     padding-top: 30px;
@@ -95,4 +95,72 @@
     margin: 30px 10px 10px 10px;
     font-size: 1.1rem;
     color: #777;
+}
+
+
+
+
+
+
+
+
+/* Add shop */
+.add-shop-inpt-div-wrapper {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-shop-form-wrapper {
+    margin-bottom: 20px;
+}
+.add-shop-inpt-wrapper {
+    width: 100%;
+    max-width: 320px;
+}
+.add-shop-label {
+    width: 120px;
+    padding-right: 10px;
+}
+.add-shop-inpt {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    outline: none;
+}
+.add-shop-btm-space {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.add-shop-form-btn-wrapper {
+    margin: 20px 0;
+    padding: 0 10px;
+    display: flex;
+    justify-content: end;
+}
+.add-shop-add-btn, .add-shop-delete-btn {
+    border: 0;
+    background: var(--light-green);
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+}
+.add-shop-delete-btn {
+    background-color: var(--my-red);
+    margin-left: 20px;
+}
+.add-shop-add-btn:hover, .add-shop-delete-btn:hover {
+    opacity: 0.8;
+}
+.add-shop-add-btn.disabled, .add-shop-delete-btn.disabled {
+    opacity: 0.7;
+    pointer-events: none;
+    cursor: default;
 }

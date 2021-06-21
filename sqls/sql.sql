@@ -59,7 +59,7 @@ CREATE TABLE NOTIFICATIONS (
 );
 CREATE TABLE SHOPS (
 	shop_id                 INTEGER NOT NULL,
-	shop_name               VARCHAR2(40) NOT NULL,
+	shop_name               VARCHAR2(40) NOT NULL UNIQUE,
 	address	           		VARCHAR2(40) NOT NULL,
     contact	                NUMBER(10) NOT NULL,
 	trader_id	            INTEGER NOT NULL,

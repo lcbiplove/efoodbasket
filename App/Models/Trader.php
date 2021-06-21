@@ -45,6 +45,12 @@ class Trader extends User
         };
     }
 
+    /**
+     * Saves the trader object to database
+     * 
+     * @param array $_FILES superglobal
+     * @return boolean 
+     */
     public function save($FILES){
         $connection = static::getDB();
         
@@ -69,5 +75,3 @@ class Trader extends User
         return $connection->prepare($sql_query)->execute($data);
     }
 }
-
-

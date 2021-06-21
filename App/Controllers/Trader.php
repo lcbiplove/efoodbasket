@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Controllers; 
+namespace App\Controllers;
 
 use App\Auth;
-use App\Email;
+use App\Extra;
+use App\Models\Shop;
+use App\Models\Validation\ShopValidation;
 use Core\View;
-use App\Models\Trader;
-use App\Models\User;
 
 /**
  * Home controller
  *
  * PHP version 7.3
  */
-class Admin extends \Core\Controller
+class Trader extends \Core\Controller
 {
     /**
      * Before filter - called before an action method.
@@ -22,49 +22,65 @@ class Admin extends \Core\Controller
      */
     protected function before()
     {
-        $this->requireAdmin();
-    }
-
-    public function traderRequestsAction()
-    {
-        View::renderTemplate('Admin/trader-requests.html');
+        $this->requireTrader();
     }
 
     /**
-     * Each trader request action
-     *
+     * Page to add shop
+     * 
      * @return void
      */
-    public function traderRequestAction()
+    public function addShopAction()
     {
-        $id = $this->route_params['id'];
-        $trader = User::getTraderObjectFromId($id);
+        $trader_id = Auth::getUserId();
+        $count = Shop::getShopCountByTraderId($trader_id);
 
-        if(!$trader || $trader->hasTraderGotNotice()){
-            $this->show404();
+        if($count >= 2){
+            Extra::setMessageCookie("You have reached the maximum shops limit.", Extra::COOKIE_MESSAGE_INFO);
         }
 
-        if(!empty($_POST)){
-            $accept = isset($_POST['accept']) ? true : false;
-            $reject = isset($_POST['reject']) ? true : false;
-
-            if($accept) {
-                $trader->updateTraderApproval(Trader::REQUEST_STATUS_YES);
-                $token = $trader->createUpdateToken();
-                Email::sendTraderAccepted($trader, $token);
-            }
-
-            if($reject) {
-                $trader->updateTraderApproval(Trader::REQUEST_STATUS_REJECTED);
-                Email::sendTraderRejected($trader);
-                $trader->delete();
-            }
-            
-            $this->redirect('/admin/trader-requests/');
-        }
-
-        View::renderTemplate('Admin/trader-request.html', [
-            "trader" => $trader
-        ]);
+        View::renderTemplate('Trader/add-shop.html');
     }
+
+    /**
+     * Ajax handler for add shop post request
+     * 
+     * @return void
+     */
+    public function ajaxAddShopAction()
+    {
+        if(empty($_POST)){
+            $this->show404();
+            return;
+        }
+        $trader_id = Auth::getUserId();
+
+        $data = $_POST;
+        $data['trader_id'] = $trader_id;
+        $shop = new Shop($data);
+        
+        $validation = new ShopValidation($data);
+        $errors = $validation->getErrors();
+
+        $rowsCount = $shop->getTraderShopCount();
+
+        if($rowsCount >= 2){
+            $errors['count'] = $rowsCount;
+        }
+
+        if(empty($errors)){
+            $shop->save($trader_id);
+            $data['success'] = 1;
+            if($rowsCount == 1){
+                $rowsCount = 2;
+            }
+            $data['count'] = $rowsCount;
+            echo json_encode($data);
+            exit();
+        }
+
+        $errors['error'] = 1;
+        echo json_encode($errors);
+    }
+
 }
