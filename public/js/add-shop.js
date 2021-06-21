@@ -21,7 +21,6 @@ window.addEventListener("load", function(){
             hideBigLoader();
 
             data = JSON.parse(this.responseText);
-            console.log(data);
 
             if(data.count >= 2){
                 location.href = "/trader/shops/";

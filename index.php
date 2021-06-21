@@ -47,6 +47,7 @@ $router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'actio
 $router->add('trader/add-shop/', ['controller' => 'Trader', 'action' => 'addShop']);
 $router->add('trader/ajax/add-shop/', ['controller' => 'Trader', 'action' => 'ajaxAddShop']);
 
+$router->add("manage-account/", ['controller' => 'LoggedUser', 'action' => 'manageAccount']);
 
 $router->add('{controller}/{action}/');
 

@@ -59,7 +59,7 @@ class User extends \Core\Model
         $fullname = filter_var($this->fullname, FILTER_SANITIZE_STRING);
         $email = filter_var($this->email, FILTER_SANITIZE_EMAIL);
         $address = filter_var($this->address, FILTER_SANITIZE_STRING);
-        $contact = filter_var($this->contact, FILTER_SANITIZE_STRING);
+        $contact = preg_replace('/[^0-9]/', '', $this->contact);
 
         $password = isset($this->password) ? password_hash($this->password, PASSWORD_BCRYPT) : "";
         $user_role = $role;
@@ -84,6 +84,36 @@ class User extends \Core\Model
             return $user_id;
         }
         return false;
+    }
+
+
+    /**
+     * Update attributes on table
+     * 
+     * @param array data key value pare of to be updated data
+     * @return boolean
+     */
+    public function update($data)
+    {
+        $pdo = static::getDB();
+
+        $user_id = $this->user_id;
+
+        $query = 'UPDATE users SET';
+        $values = array();
+        foreach ($data as $name => $value) {
+            $query .= ' '.$name.' = :'.$name.','; 
+            if($name == 'contact'){
+                $values[':'.$name] = preg_replace('/[^0-9]/', '', $value);
+            } else {
+                $values[':'.$name] = filter_var($value, FILTER_SANITIZE_STRING); 
+            }
+        }
+        $query = substr($query, 0, -1).''; 
+        $query .= " WHERE user_id = '$user_id'";
+
+        $sth = $pdo->prepare($query);
+        return $sth->execute($values);
     }
 
     /**

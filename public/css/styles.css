@@ -59,6 +59,9 @@ input[type="number"] {
 .grey-text {
   color: #777;
 }
+.w-100 {
+  width: 100%;
+}
 .max-width-wrapper {
   max-width: 1300px;
   margin: auto auto;
