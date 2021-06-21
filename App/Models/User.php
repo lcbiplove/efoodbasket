@@ -86,7 +86,6 @@ class User extends \Core\Model
         return false;
     }
 
-
     /**
      * Update attributes on table
      * 

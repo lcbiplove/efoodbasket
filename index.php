@@ -48,6 +48,7 @@ $router->add('trader/add-shop/', ['controller' => 'Trader', 'action' => 'addShop
 $router->add('trader/ajax/add-shop/', ['controller' => 'Trader', 'action' => 'ajaxAddShop']);
 
 $router->add("manage-account/", ['controller' => 'LoggedUser', 'action' => 'manageAccount']);
+$router->add("change-password/", ['controller' => 'LoggedUser', 'action' => 'changePassword']);
 
 $router->add('{controller}/{action}/');
 
