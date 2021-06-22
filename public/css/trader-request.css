@@ -138,7 +138,6 @@
 }
 .add-shop-form-btn-wrapper {
     margin: 20px 0;
-    padding: 0 10px;
     display: flex;
     justify-content: end;
 }
@@ -147,20 +146,45 @@
     background: var(--light-green);
     width: 100px;
     height: 35px;
+    line-height: 35px;
     border-radius: 5px;
     font-size: 1rem;
     color: #fff;
     cursor: pointer;
+    display: inline-block;
+    text-align: center;
 }
 .add-shop-delete-btn {
     background-color: var(--my-red);
     margin-left: 20px;
 }
 .add-shop-add-btn:hover, .add-shop-delete-btn:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    color: #fff;
 }
 .add-shop-add-btn.disabled, .add-shop-delete-btn.disabled {
     opacity: 0.7;
     pointer-events: none;
     cursor: default;
+}
+
+/**Shops */
+.shops-row-wrap {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 1.1rem;
+}
+.shop-r-key {
+    color: #555;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.show-row-btn-wrap {
+    display: flex;
+    margin: 10px 0;
+    padding: 10px;
+    justify-content: flex-end;
 }

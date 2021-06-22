@@ -13,38 +13,47 @@
             <div class="trader-req-title">
                 Shops
             </div>
-            <form id="add-shop-form-one" method="POST">
+            
+            {% for shop in shops %}
                 <div class="trader-req-user-wrapper add-shop-form-wrapper">
-                    <div class="trader-req-icon-wrapper">
-                        <span class="iconify" data-icon="bi:shop" data-inline="false"></span>
-                    </div>
-                    <div class="add-shop-inpt-div-wrapper">
-                        <label class="add-shop-label" for="nameId">Shop Name</label>
-                        <div class="add-shop-inpt-wrapper">
-                            <input class="add-shop-inpt" type="text" name="shop_name" id="nameId" placeholder="Your shop name...">
-                            <small id="err-name" class="red-text"></small>
-                        </div>
-                    </div>
-                    <div class="add-shop-inpt-div-wrapper">
-                        <label class="add-shop-label" for="addressId">Shop Address</label>
-                        <div class="add-shop-inpt-wrapper">
-                            <input class="add-shop-inpt" type="text" name="address" id="addressId" placeholder="Your shop address...">
-                            <small id="err-address" class="red-text"></small>
-                        </div>
-                    </div>
-                    <div class="add-shop-inpt-div-wrapper">
-                        <label class="add-shop-label" for="contactId">Shop Contact</label>
-                        <div class="add-shop-inpt-wrapper">
-                            <input class="add-shop-inpt" type="text" name="contact" id="contactId" placeholder="Your shop contact...">
-                            <small id="err-contact" class="red-text"></small>
-                        </div>
-                    </div>
-                    <div class="add-shop-btm-space"></div>
+                <div class="trader-req-icon-wrapper">
+                    <span class="iconify" data-icon="bi:shop" data-inline="false"></span>
                 </div>
-                <div class="add-shop-form-btn-wrapper">
-                    <button id="add-shop-btn-one" type="submit" name="add" class="add-shop-add-btn add" value="add">Add</button>
+                <div class="shops-row-wrap">
+                    <div class="shop-r-key">
+                        <span class="iconify" data-icon="ic:round-title" data-inline="false"></span>
+                    </div>
+                    <div>
+                        {{ shop.SHOP_NAME }}
+                    </div>
                 </div>
-            </form>
+                <div class="shops-row-wrap">
+                    <div class="shop-r-key">
+                        <span class="iconify" data-icon="akar-icons:location" data-inline="false"></span>
+                    </div>
+                    <div>
+                        {{ shop.ADDRESS }}
+                    </div>
+                </div>
+                <div class="shops-row-wrap">
+                    <div class="shop-r-key">
+                        <span class="iconify" data-icon="akar-icons:phone" data-inline="false"></span>
+                    </div>
+                    <div>
+                       {{ shop.CONTACT|getBeautifulContact }}
+                    </div>
+                </div>
+                <div class="show-row-btn-wrap">
+                    <a href="/trader/shop/{{ shop.SHOP_ID }}/edit/" class="add-shop-add-btn add">
+                        Edit
+                    </a>
+                    <form action="/trader/shop/{{ shop.SHOP_ID }}/delete/" method="POST">
+                        <input type="hidden" name="shop_id" value="{{ shop.SHOP_ID }}" />
+                        <button id="add-shop-delete-btn" type="submit" name="delete" class="add-shop-delete-btn" value="delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

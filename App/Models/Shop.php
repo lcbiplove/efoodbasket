@@ -47,6 +47,56 @@ class Shop extends Model
     }
 
     /**
+     * Update attributes on table
+     * 
+     * @param array data key value pare of to be updated data
+     * @return boolean
+     */
+    public function update($data)
+    {
+        $pdo = static::getDB();
+
+        $shop_id = $this->shop_id;
+
+        $query = 'UPDATE shops SET';
+        $values = array();
+        foreach ($data as $name => $value) {
+            $query .= ' '.$name.' = :'.$name.','; 
+            if($name == 'contact'){
+                $values[':'.$name] = preg_replace('/[^0-9]/', '', $value);
+            } else {
+                $values[':'.$name] = filter_var($value, FILTER_SANITIZE_STRING); 
+            }
+        }
+        $query = substr($query, 0, -1).''; 
+        $query .= " WHERE shop_id = '$shop_id'";
+
+        $sth = $pdo->prepare($query);
+        return $sth->execute($values);
+    }
+
+    /**
+     * Returns shop from shop id
+     * 
+     * @param int id
+     * @return mixed shop object if exist, false otherwise
+     */
+    public static function getShopObject($id)
+    {
+        $pdo = static::getDB();
+        $sql = "select * from shops where shop_id = :shop_id";
+        $result = $pdo->prepare($sql);
+        $result->execute([$id]);
+
+        $rows = $result->fetch(); 
+
+        if($rows){
+            return new Shop($rows);
+        }
+        return false;
+    }
+
+    /**
      * Count the number of shops owned by trader
      * 
      * @return int shop count
@@ -61,6 +111,23 @@ class Shop extends Model
         $rowsCount = $result->fetchColumn(); 
 
         return $rowsCount;
+    }
+
+    /**
+     * Get all the shops owned by trader
+     * 
+     * @return array 
+     */
+    public static function getTraderShops($trader_id)
+    {
+        $pdo = static::getDB();
+        $sql = "select * from shops where trader_id = :trader_id";
+        $result = $pdo->prepare($sql);
+        $result->execute([$trader_id]);
+
+        $rows = $result->fetchAll(); 
+
+        return $rows;
     }
 
 

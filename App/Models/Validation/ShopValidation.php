@@ -26,7 +26,10 @@ class ShopValidation extends Shop
     {
         if($this->validateByName){
             foreach ($this->validateByName as $value) {
-                $func = "validate". ucfirst($value);
+
+                $str = str_replace('_', '', ucwords($value, '-'));
+
+                $func = "validate". $str;
                 $this->$func();
             }
             return $this->errors;
@@ -40,7 +43,7 @@ class ShopValidation extends Shop
      * @return array errors 
      */
     public function getErrors(){
-        $this->validateName();
+        $this->validateShopName();
         $this->validateAddress();
         $this->validateContact();
 
@@ -52,10 +55,14 @@ class ShopValidation extends Shop
      * 
      * @return string Error message if invalid, true otherwise
      */
-    public function validateName(){
+    public function validateShopName(){
         $namePattern = '/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/';
 
         if(preg_match($namePattern, $this->shop_name)){
+            if($this->validateByName){
+                return true;
+            }
+
             $pdo = static::getDB();
             $sql = "select count(*) from shops where lower(shop_name) = :shop_name AND trader_id = :trader_id";
             $result = $pdo->prepare($sql);

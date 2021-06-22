@@ -51,6 +51,10 @@ class View
             $twig->addGlobal('is_trader', \App\Auth::isTraderAuthenticated());
             $twig->addGlobal('is_admin', \App\Auth::isAdminAuthenticated());
             $twig->addGlobal('cookieMessage', \App\Extra::getMessageCookie());
+            $contactFilter = new \Twig\TwigFilter('getBeautifulContact', function ($phone) {
+                return \App\Extra::getBeautifulPhone($phone);
+            });
+            $twig->addFilter($contactFilter);
         }
 
         echo $twig->render($template, $args);

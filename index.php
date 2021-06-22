@@ -46,6 +46,8 @@ $router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'actio
 
 $router->add('trader/shops/', ['controller' => 'Trader', 'action' => 'shops']);
 $router->add('trader/add-shop/', ['controller' => 'Trader', 'action' => 'addShop']);
+$router->add('trader/shop/{id:\d+}/edit/', ['controller' => 'Trader', 'action' => 'editShop']);
+$router->add('trader/shop/{id:\d+}/delete/', ['controller' => 'Trader', 'action' => 'deleteShop']);
 $router->add('trader/ajax/add-shop/', ['controller' => 'Trader', 'action' => 'ajaxAddShop']);
 
 $router->add("manage-account/", ['controller' => 'LoggedUser', 'action' => 'manageAccount']);

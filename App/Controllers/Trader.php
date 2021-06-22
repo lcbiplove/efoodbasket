@@ -32,7 +32,10 @@ class Trader extends \Core\Controller
      */
     public function shopsAction()
     {
-        View::renderTemplate("Trader/shops.html");
+        $shops = Shop::getTraderShops(Auth::getUserId());
+        View::renderTemplate("Trader/shops.html", [
+            "shops" => $shops
+        ]);
     }
 
     /**
@@ -51,6 +54,58 @@ class Trader extends \Core\Controller
 
         View::renderTemplate('Trader/add-shop.html');
     }
+
+    /**
+     * Edit shop
+     * 
+     * @return void
+     */
+    public function editShopAction()
+    {
+        $trader_id = Auth::getUserId();
+        $shop_id = $this->route_params['id'];
+        $errors = [];
+
+        $shop = Shop::getShopObject($shop_id);
+
+        if(!empty($_POST)){
+            $data = $_POST;
+            $data['trader_id'] = $trader_id;
+            
+            $shopValidation = new ShopValidation($data, ['shop_name', 'address', 'contact']);
+
+            $errors = $shopValidation->getNamedErrors();
+
+
+            if(empty($errors)){
+                $shops_owned_by_trader = Shop::getTraderShops($trader_id);
+
+                $shop_id_owned_by_trader = [];
+    
+                foreach ($shops_owned_by_trader as $value) {
+                    array_push($shop_id_owned_by_trader, $value['SHOP_ID']);
+                }
+    
+                if(!in_array($shop_id, $shop_id_owned_by_trader)){
+                    $this->redirect("/");
+                }
+    
+                Extra::setMessageCookie("Shop details updated succesfully.");
+                
+                $shop->update($_POST);
+
+                $this->redirect($_SERVER['REQUEST_URI']);
+            }
+
+            $shop = new Shop($_POST);
+        }
+
+        View::renderTemplate("Trader/edit-shop.html", [
+            'shop' => $shop,
+            'errors' => $errors
+        ]);
+    }
+
 
     /**
      * Ajax handler for add shop post request
@@ -92,5 +147,4 @@ class Trader extends \Core\Controller
         $errors['error'] = 1;
         echo json_encode($errors);
     }
-
 }
