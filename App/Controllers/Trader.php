@@ -26,6 +26,16 @@ class Trader extends \Core\Controller
     }
 
     /**
+     * Page to show all shops
+     * 
+     * @return void
+     */
+    public function shopsAction()
+    {
+        View::renderTemplate("Trader/shops.html");
+    }
+
+    /**
      * Page to add shop
      * 
      * @return void

@@ -20,7 +20,7 @@ class Config
      * DB name
      * @var string
      */
-    const DB = 'oci:dbname=//localhost:1521/XEPDB1';
+    const DB = 'oci:dbname=//localhost/xe';
     
     /**
      * Database user

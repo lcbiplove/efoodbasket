@@ -44,6 +44,7 @@ $router->add('user/forgot-password/', ['controller' => 'User', 'action' => 'forg
 
 $router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'action' => 'traderRequest']);
 
+$router->add('trader/shops/', ['controller' => 'Trader', 'action' => 'shops']);
 $router->add('trader/add-shop/', ['controller' => 'Trader', 'action' => 'addShop']);
 $router->add('trader/ajax/add-shop/', ['controller' => 'Trader', 'action' => 'ajaxAddShop']);
 
