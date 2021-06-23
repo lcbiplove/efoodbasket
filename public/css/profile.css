@@ -64,6 +64,40 @@
 .edit-prfl-btn {
     background-color: var(--light-green) !important;
 }
+.add-shop-title-btn {
+    border: 0;
+    background: var(--light-green);
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    margin-left: 20px;
+}
+.add-shop-title-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+.add-shop-title-btn {
+    background-color: var(--dark-green);
+    width: 120px;
+    height: 45px;
+    line-height: 45px;
+}
+.add-shop-title-btn .iconify {
+    font-size: 1.4rem;
+    vertical-align: sub;
+    font-weight: 600;
+}
+.add-shop-title-btn:hover {
+    opacity: 0.9;
+    color: #fff;
+}
 
 
 @media screen and (max-width: 480px) {

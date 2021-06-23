@@ -139,7 +139,7 @@ class UserValidation extends User
 
         if(!preg_match($passwordPattern, $this->password) || $this->password !== $this->confpass ){
             if(!preg_match($passwordPattern, $this->password)){
-                $this->errors['password'] = "Please enter the password with at least 8 characters with letters and numbers.";
+                $this->errors['password'] = "Please enter the password having at least one uppercase, one lowercase letter and a number with at least 8 characters";
             }
             if($this->password !== $this->confpass){
                 $this->errors['confpass'] = "Please retype, your password does not match.";

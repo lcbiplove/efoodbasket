@@ -76,6 +76,22 @@ class Shop extends Model
     }
 
     /**
+     * Delete shop data from database
+     * 
+     * @return boolean
+     */
+    public function delete()
+    {
+        $pdo = static::getDB();
+
+        $sql = "DELETE FROM SHOPs WHERE shop_id = :shop_id";
+
+        $result = $pdo->prepare($sql);
+
+        return $result->execute([$this->shop_id]);
+    }
+
+    /**
      * Returns shop from shop id
      * 
      * @param int id

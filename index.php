@@ -44,11 +44,14 @@ $router->add('user/forgot-password/', ['controller' => 'User', 'action' => 'forg
 
 $router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'action' => 'traderRequest']);
 
+$router->add('trader/add-shop/', ['controller' => 'Shop', 'action' => 'addShop']);
+$router->add('trader/shops/{id:\d+}/edit/', ['controller' => 'Shop', 'action' => 'editShop']);
+$router->add('trader/shops/{id:\d+}/delete/', ['controller' => 'Shop', 'action' => 'deleteShop']);
+$router->add('trader/ajax/add-shop/', ['controller' => 'Shop', 'action' => 'ajaxAddShop']);
+
 $router->add('trader/shops/', ['controller' => 'Trader', 'action' => 'shops']);
-$router->add('trader/add-shop/', ['controller' => 'Trader', 'action' => 'addShop']);
-$router->add('trader/shop/{id:\d+}/edit/', ['controller' => 'Trader', 'action' => 'editShop']);
-$router->add('trader/shop/{id:\d+}/delete/', ['controller' => 'Trader', 'action' => 'deleteShop']);
-$router->add('trader/ajax/add-shop/', ['controller' => 'Trader', 'action' => 'ajaxAddShop']);
+$router->add('trader/{id:\d+}/shops/{shop_id:\d+}/', ['controller' => 'Trader', 'action' => 'eachShop']);
+$router->add('trader/{id:\d+}/shops/', ['controller' => 'Trader', 'action' => 'shopsByTrader']);
 
 $router->add("manage-account/", ['controller' => 'LoggedUser', 'action' => 'manageAccount']);
 $router->add("change-password/", ['controller' => 'LoggedUser', 'action' => 'changePassword']);

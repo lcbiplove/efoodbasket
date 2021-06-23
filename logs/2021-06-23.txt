@@ -1,0 +1,14 @@
+[23-Jun-2021 04:33:10 Europe/Berlin] Uncaught exception: 'Exception' with message 'Method shopAction not found in controller App\Controllers\Trader'
+Stack trace: #0 D:\xampp\htdocs\efoodbasket\Core\Router.php(121): Core\Controller->__call('shop', Array)
+#1 D:\xampp\htdocs\efoodbasket\index.php(68): Core\Router->dispatch('trader/shop/')
+#2 {main}
+Thrown in 'D:\xampp\htdocs\efoodbasket\Core\Controller.php' on line 54
+[23-Jun-2021 04:33:12 Europe/Berlin] Uncaught exception: 'Exception' with message 'Method shopAction not found in controller App\Controllers\Trader'
+Stack trace: #0 D:\xampp\htdocs\efoodbasket\Core\Router.php(121): Core\Controller->__call('shop', Array)
+#1 D:\xampp\htdocs\efoodbasket\index.php(68): Core\Router->dispatch('trader/shop/')
+#2 {main}
+Thrown in 'D:\xampp\htdocs\efoodbasket\Core\Controller.php' on line 54
+[23-Jun-2021 04:33:14 Europe/Berlin] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 D:\xampp\htdocs\efoodbasket\index.php(68): Core\Router->dispatch('trader/shop/1/')
+#1 {main}
+Thrown in 'D:\xampp\htdocs\efoodbasket\Core\Router.php' on line 130
