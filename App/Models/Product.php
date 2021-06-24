@@ -50,8 +50,6 @@ class Product extends Model
         $price = filter_var($this->price, FILTER_SANITIZE_NUMBER_FLOAT);
         $quantity = filter_var($this->quantity, FILTER_SANITIZE_NUMBER_INT);
         $availability = isset($this->availability) ? Product::PRODUCT_AVAILABLE : Product::PRODUCT_NOT_AVAILABLE;
-        // var_dump($availability);
-        // exit();
         $description = filter_var($this->description, FILTER_SANITIZE_STRING);
         $allergy_information = filter_var($this->allergy_information, FILTER_SANITIZE_STRING);
         $discount = filter_var($discount_default, FILTER_SANITIZE_STRING);
@@ -86,6 +84,122 @@ class Product extends Model
             'image_names' => $images_path
         ]);
         return $productImage->save();
+    }
+
+     /**
+     * Get all products from the table
+     * 
+     * @param int from index
+     * @param int upto
+     * @return array
+     */
+    public static function getAllProducts()
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT * FROM products order by added_date DESC";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute();
+
+        return $result->fetchAll(); 
+    }
+
+    /**
+     * Return single product object from product id
+     * 
+     * @param int product_id
+     * @return mixed object, false
+     */
+    public static function getProductObjectById($product_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT * FROM products WHERE product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$product_id]);
+
+        $row = $result->fetch();
+
+        if($row){
+            return new Product($row);
+        }
+        return false;
+    }
+
+    /**
+     * Get product image url from product id
+     * 
+     * @param int product id
+     * @return mixed image url if found, false otherwise
+     */
+    public static function getFirstProductImage($product_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT image_name FROM product_images WHERE product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$product_id]);
+
+        $image_row = $result->fetch();
+
+        if($image_row){
+            return  $image_row['IMAGE_NAME']; 
+        }
+        return false;
+    }
+
+    /**
+     * All product images of the product
+     * 
+     * @return mixed array, false
+     */
+    public function getProductImages()
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT image_name FROM product_images WHERE product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$this->product_id]);
+
+        return $result->fetchAll(\PDO::FETCH_COLUMN, 0); 
+    }
+
+    /**
+     * Get maximum 4 rows of similar products
+     * 
+     * @return mixed boolean, array
+     */
+    public function getSimilarProducts()
+    {
+
+        $category_id = $this->category_id;
+        $product_id = $this->product_id;
+
+        $pdo = static::getDB();
+
+        $sql = "
+            SELECT * FROM (
+            SELECT p.* 
+            FROM products p, PRODUCT_CATEGORIES pc 
+            WHERE p.category_id = pc.category_id AND pc.category_id = :category_id AND p.product_id <> :product_id
+        ) WHERE ROWNUM <= 4";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([
+            ':category_id' => $category_id,
+            ':product_id' => $product_id
+        ]);
+
+        return $result->fetchAll(); 
     }
 }
 

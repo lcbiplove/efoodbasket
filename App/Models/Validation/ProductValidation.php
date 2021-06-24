@@ -66,7 +66,7 @@ class ProductValidation extends Product
      * @return string Error message if invalid, true otherwise
      */
     public function validateProductName(){
-        if(strlen($this->product_name) > 5){
+        if(strlen($this->product_name) > 2){
             return true;
         }
         return $this->errors['product_name'] = "Please enter a valid product name.";
@@ -106,7 +106,7 @@ class ProductValidation extends Product
      */
     public function validateDiscount(){
         $filter_options = array( 
-            'options' => array( 'min_range' => 0) 
+            'options' => array('min_range' => 0, 'max_range' => 100) 
         );
         if(filter_var($this->discount, FILTER_VALIDATE_INT, $filter_options ) !== FALSE) {
            return true;

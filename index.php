@@ -58,6 +58,9 @@ $router->add('trader/{id:\d+}/shops/', ['controller' => 'Trader', 'action' => 's
 $router->add("manage-account/", ['controller' => 'LoggedUser', 'action' => 'manageAccount']);
 $router->add("change-password/", ['controller' => 'LoggedUser', 'action' => 'changePassword']);
 
+$router->add("products/{product_id:\d+}/", ['controller' => 'Product', 'action' => 'product']);
+
+
 $router->add('{controller}/{action}/');
 
 $url = $_SERVER['QUERY_STRING'];

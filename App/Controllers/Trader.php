@@ -25,9 +25,11 @@ class Trader extends \Core\Controller
         $this->requireTrader();
 
         $shops = Shop::getTraderShops(Auth::getUserId());
+        $shops_count = Shop::getShopCountByTraderId(Auth::getUserId());
         View::renderTemplate("Trader/shops.html", [
             "shops" => $shops,
-            "showAddShop" => true
+            "showAddShop" => true,
+            "shops_count" => $shops_count
         ]);
     }
 

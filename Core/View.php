@@ -51,10 +51,19 @@ class View
             $twig->addGlobal('is_trader', \App\Auth::isTraderAuthenticated());
             $twig->addGlobal('is_admin', \App\Auth::isAdminAuthenticated());
             $twig->addGlobal('cookieMessage', \App\Extra::getMessageCookie());
+
             $contactFilter = new \Twig\TwigFilter('getBeautifulContact', function ($phone) {
                 return \App\Extra::getBeautifulPhone($phone);
             });
+            $productImageUrl = $imageFromId = new \Twig\TwigFilter('productImageUrl', function ($image_name) {
+                return \App\Extra::productImageUrl($image_name);
+            });
+            $imageFromId = new \Twig\TwigFilter('getFirstImageUrl', function ($product_id) {
+                return \App\Extra::getFirstImageUrl($product_id);
+            });
             $twig->addFilter($contactFilter);
+            $twig->addFilter($productImageUrl);
+            $twig->addFilter($imageFromId);
         }
 
         echo $twig->render($template, $args);

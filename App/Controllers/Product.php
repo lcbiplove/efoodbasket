@@ -18,22 +18,14 @@ use Core\View;
 class Product extends \Core\Controller
 {
     /**
-     * Before filter - called before an action method.
-     *
-     * @return void
-     */
-    protected function before()
-    {
-        $this->requireTrader();
-    }
-
-    /**
      * Page to add product
      * 
      * @return void
      */
-    public function addProduct()
+    public function addProductAction()
     {
+        $this->requireTrader();
+
         $errors = [];
         $validated_data = [];
 
@@ -63,4 +55,20 @@ class Product extends \Core\Controller
         ]);
     }
 
+    /**
+     * Each product page
+     * 
+     * @return void
+     */
+    public function productAction()
+    {
+        $product_id = $this->route_params['product_id'];
+        $product = Models\Product::getProductObjectById($product_id);
+        if(!$product){
+            $this->show404();
+        }
+        View::renderTemplate('Product/product.html', [
+            'product' => $product
+        ]);
+    }
 }

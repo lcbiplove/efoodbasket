@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Extra;
+use App\Models\Product;
 
 /**
  * Home controller
@@ -25,7 +26,11 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html');
+        $products = Product::getAllProducts();
+
+        View::renderTemplate('Home/index.html', [
+            'products' => $products
+        ]);
     }
 
     /**

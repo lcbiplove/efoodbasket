@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Product;
+
 /**
  * Extra class
  * For the extra functions
@@ -97,4 +99,28 @@ class Extra
         $current = date('Y-m-d H:i:s',time());
         return $current;
     }
+
+    /**
+     * Return the complete image url
+     * 
+     * @param string image_name
+     * @return string url
+     */
+    public static function productImageUrl($image_name)
+    {
+        return "/media/products/". $image_name;
+    }
+
+    /**
+     * Get first image url of product id
+     * 
+     * @param int product_id
+     * @return string
+     */
+    public static function getFirstImageUrl($product_id)
+    {
+        return "/media/products/". Product::getFirstProductImage($product_id);
+    }
+
+
 }

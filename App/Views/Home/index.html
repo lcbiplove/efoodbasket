@@ -2,6 +2,106 @@
 
 {% block title %}Home{% endblock %}
 
-{% block body %}
+{% block titleLinks %}
+    <link rel="stylesheet" type="text/css" href="/public/css/stars.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/slider.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/product-cards.css">
+{% endblock %}
 
+{% block main %}
+
+<div class="max-width-wrapper">
+    <div class="main-wrapper">
+        <div class="home-row-wrapper">
+            <div class="carousel-container">
+                <div id="first-slider" class="carousel-image-wrapper">
+                  <img src="/public/images/slider1.jpg" alt="Image" />
+                  <img src="/public/images/slider1.jpg" alt="Image" />
+                  <img src="/public/images/slider1.jpg" alt="Image" />
+                  <img src="/public/images/slider1.jpg" alt="Image" />
+                </div>
+            </div>  
+        </div>
+
+        <div class="home-row-wrapper">
+            <div class="home-row-title-wrapper">
+                <div class="home-row-title">Shop by Traders</div>
+            </div>
+            <div class="home-row-content">
+                <div class="shop-by-images-wrapper shop-img-side-marg">
+                    <div class="shop-by-images-container">
+                        <a class="shop-by-link" href="#">
+                            <img class="shop-by-img" src="/public/images/butchers.jpg" alt="buthers-img">
+                        </a>
+                        <a class="shop-by-link" href="#">
+                            <img class="shop-by-img" src="/public/images/greengrocers.jpg" alt="greengrocers-img">
+                        </a>
+                        <a class="shop-by-link" href="#">
+                            <img class="shop-by-img" src="/public/images/fishmongers.jpg" alt="fishmongers-img">
+                        </a>
+                        <a class="shop-by-link" href="#">
+                            <img class="shop-by-img" src="/public/images/bakery.jpg" alt="bakery-img">
+                        </a>
+                        <a class="shop-by-link" href="#">
+                            <img class="shop-by-img" src="/public/images/delicateseen.jpg" alt="delicateseen-img">
+                        </a>
+                    </div>
+                    <div class="shop-by-controls d-none">
+                        <span id="shop-by-prev">
+                            <span class="iconify" data-icon="akar-icons:circle-chevron-left-fill" data-inline="false"></span>
+                        </span>
+                        <span id="shop-by-next">
+                            <span class="iconify" data-icon="akar-icons:circle-chevron-right-fill" data-inline="false"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-row-wrapper">
+            <div class="home-row-title-wrapper">
+                <div class="home-row-title">Popular Products</div>
+            </div>
+            <div class="home-row-content">
+                <div class="card-row">
+                {% for product in products %}
+                    <div class="card-col">
+                        <div class="card">
+                            <div class="card-img-wrapper">
+                                <a href="/products/{{  product.PRODUCT_ID }}/">
+                                    <img class="card-img" src="{{ product.PRODUCT_ID|getFirstImageUrl }}" alt="product-image">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <a href="/products/{{  product.PRODUCT_ID }}/">
+                                        {{ product.PRODUCT_NAME }}
+                                    </a>
+                                </div>
+                                <div class="sm-stars" style="--rating: 2.5;"></div>
+
+                                <div class="card-footer">
+                                    <div class="card-price">{{ product.PRICE|number_format(2) }} GBP</div>
+                                    <div class="card-cart">
+                                        <span></span>
+                                        <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/public/js/slider.js"></script>
+    <script src="/public/js/shopBySlider.js"></script>
+    <script src="/public/js/main.js"></script>
 {% endblock %}

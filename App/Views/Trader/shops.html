@@ -13,7 +13,7 @@
             <div class="trader-req-title">
                 Shops
             </div>
-            {% if showAddShop %}
+            {% if showAddShop and shops_count < 2 %}
             <div class="add-shop-title-wrapper">
                 <a href="/trader/add-shop/" class="add-shop-title-btn add">
                     <span class="iconify" data-icon="carbon:add-alt" data-inline="false"></span>

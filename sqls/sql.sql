@@ -91,7 +91,7 @@ CREATE TABLE PRODUCTS (
 	availability 	    VARCHAR2(1) DEFAULT 'Y',
 	description	        VARCHAR2(2000) NOT NULL,
 	allergy_information VARCHAR2(2000) NOT NULL,
-	discount			NUMBER(3,2) DEFAULT 0.00,
+	discount			NUMBER(5,2) DEFAULT 0.00,
     shop_id        		INTEGER NOT NULL,
 	category_id			INTEGER NOT NULL,
 	added_date			DATE NOT NULL,
