@@ -26,23 +26,6 @@ class Shop extends \Core\Controller
     }
 
     /**
-     * Page to add shop
-     * 
-     * @return void
-     */
-    public function addShopAction()
-    {
-        $trader_id = Auth::getUserId();
-        $count = Models\Shop::getShopCountByTraderId($trader_id);
-
-        if($count >= 2){
-            Extra::setMessageCookie("You have reached the maximum shops limit.", Extra::COOKIE_MESSAGE_INFO);
-        }
-
-        View::renderTemplate('Shop/add-shop.html');
-    }
-
-    /**
      * CHeck if the shop id belongs to that trader
      * and redirect if not belongs to
      * 
@@ -62,6 +45,23 @@ class Shop extends \Core\Controller
         if(!in_array($shop_id, $shop_id_owned_by_trader)){
             $this->redirect("/");
         }
+    }
+
+    /**
+     * Page to add shop
+     * 
+     * @return void
+     */
+    public function addShopAction()
+    {
+        $trader_id = Auth::getUserId();
+        $count = Models\Shop::getShopCountByTraderId($trader_id);
+
+        if($count >= 2){
+            Extra::setMessageCookie("You have reached the maximum shops limit.", Extra::COOKIE_MESSAGE_INFO);
+        }
+
+        View::renderTemplate('Shop/add-shop.html');
     }
 
     /**

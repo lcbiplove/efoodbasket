@@ -11,15 +11,21 @@
 <div class="max-width-wrapper">
     <div class="profile-outer-wrapper">
         <div class="profile-wrapper">
-           <div class="profile-heading">
+            <div class="profile-heading">
                User Profile
-           </div>
-           <div class="add-shop-title-wrapper">
+            </div>
+           {% if is_trader %}
+            <div class="add-shop-title-wrapper">
+                <a href="/trader/add-product/" class="add-shop-title-btn add">
+                    <span class="iconify" data-icon="carbon:add-alt" data-inline="false"></span>
+                    Product
+                </a>
                 <a href="/trader/shops/" class="add-shop-title-btn add">
                     Shops
                 </a>
             </div>
-           <div class="profile-container">
+            {% endif %}
+            <div class="profile-container">
                <div class="user-icon-wrapper">
                    <img class="user-icon-img" src="/public/images/user-avatar.svg" alt="User-profile-icon">
                </div>

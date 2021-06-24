@@ -86,7 +86,6 @@ abstract class Controller
         exit;
     }
 
-
     /**
      * Show page not found 404
      * 

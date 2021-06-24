@@ -89,6 +89,11 @@ class TraderValidation extends Trader
         return $this->errors['type'] = "Please enter the valid product type";
     }
 
+    /**
+     * Check if details 
+     * 
+     * @return void
+     */
     public function validateDetails()
     {
         if(strlen($this->details) > 100){
@@ -97,6 +102,11 @@ class TraderValidation extends Trader
         return $this->errors['details'] = "Please explain about your product choice with more than 100 characters at least.";
     }
 
+    /**
+     * Check for the document files
+     * 
+     * @return void
+     */
     public function validateDocuments($FILES)
     {
         $valid_document_or_error = Image::validateImage($FILES, "documents", 3);

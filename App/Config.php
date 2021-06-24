@@ -57,5 +57,4 @@ class Config
      * @var string
      */
     const MAIL_PASSWORD   = '12bisheshpanta'; 
-
 }
