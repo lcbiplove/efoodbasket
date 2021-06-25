@@ -55,15 +55,16 @@ CREATE TABLE TRADERS (
 );
 CREATE TABLE NOTIFICATIONS (
     notification_id         INTEGER NOT NULL,
-    notification            VARCHAR2(128) NOT NULL,
-    notification_type       VARCHAR2(30) NOT NULL,
-	notified_date DATE NOT NULL,
-	is_seen   VARCHAR2(1) DEFAULT 'N',
-    user_id   INTEGER NOT NULL,
-	sender_id INTEGER,
+	image_link				VARCHAR2(255) NOT NULL,
+    title		            VARCHAR2(255) NOT NULL,
+    body				    VARCHAR2(1000) NOT NULL,
+	sender_text				VARCHAR2(255) NOT NULL,
+	main_link				VARCHAR2(255) DEFAULT '#',
+	notified_date  			DATE NOT NULL,
+	is_seen   				VARCHAR2(1) DEFAULT 'N',
+	user_id					INTEGER NOT NULL,
 
-	FOREIGN KEY (user_id) REFERENCES Users(user_id),
-	FOREIGN KEY (sender_id) REFERENCES Users(user_id),
+	FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     CONSTRAINT   pk_NOTIFICATIONS PRIMARY KEY (notification_id)
 );
 CREATE TABLE SHOPS (

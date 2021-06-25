@@ -1,14 +1,26 @@
 <?php
 
-namespace App\Controllers; 
+namespace App\Controllers;
+
+use Core\View;
 
 /**
- * Home controller
+ * Notification controller
  *
  * PHP version 7.3
  */
 class Notification extends \Core\Controller
 {
+    /**
+     * Before filter - called before an action method.
+     *
+     * @return void
+     */
+    protected function before()
+    {
+        $this->requireLogin();
+    }
+    
     /**
      * Home of notification
      *
@@ -16,7 +28,7 @@ class Notification extends \Core\Controller
      */
     public function indexAction()
     {
-        echo "HI";
+        View::renderTemplate("Notification/notifications.html");
     }
 
 }
