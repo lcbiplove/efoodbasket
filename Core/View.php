@@ -61,9 +61,13 @@ class View
             $imageFromId = new \Twig\TwigFilter('getFirstImageUrl', function ($product_id) {
                 return \App\Extra::getFirstImageUrl($product_id);
             });
+            $productOwnerId = new \Twig\TwigFilter('getProductOwnerId', function ($product_id) {
+                return \App\Extra::getProductOwnerId($product_id);
+            });
             $twig->addFilter($contactFilter);
             $twig->addFilter($productImageUrl);
             $twig->addFilter($imageFromId);
+            $twig->addFilter($productOwnerId);
         }
 
         echo $twig->render($template, $args);

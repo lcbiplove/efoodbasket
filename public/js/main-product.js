@@ -18,7 +18,7 @@ window.addEventListener("load", function(){
     var totalRatingCount = document.querySelector(".rating-summary-wrapper").getAttribute("data-rating-count");
 
     var checkDisablePlusMinus = function() {
-        if(quantityValue <= 0){
+        if(quantityValue <= 1){
             subtractQuantityBtn.classList.add("disabled");
 
         } else {

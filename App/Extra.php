@@ -122,5 +122,16 @@ class Extra
         return "/media/products/". Product::getFirstProductImage($product_id);
     }
 
+    /**
+     * Get the owner id of product 
+     * 
+     * @param int product_id
+     * @return mixed string, boolean
+     */
+    public static function getProductOwnerId($product_id)
+    {
+        return Product::getOwnerId($product_id);
+    }
+
 
 }

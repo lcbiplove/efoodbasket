@@ -113,6 +113,7 @@
     display: flex;
     font-size: 1rem;
     align-items: baseline;
+    margin-bottom: 8px;
 }
 .product-rating-in-num {
     margin-left: 10px;
@@ -125,6 +126,18 @@
     color: #777;
 }
 .share-product:hover {
+    color: #000;
+}
+.edit-delete-product {
+
+    border: 0;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #777;
+}
+.edit-delete-product:hover {
     color: #000;
 }
 .stock-text {

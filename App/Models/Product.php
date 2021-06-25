@@ -86,6 +86,54 @@ class Product extends Model
         return $productImage->save();
     }
 
+    /**
+     * Update attributes on table
+     * 
+     * @param array data key value pare of to be updated data
+     * @return boolean
+     */
+    public function update($data)
+    {
+        $pdo = static::getDB();
+
+        $product_id = $this->product_id;
+
+        $query = 'UPDATE products SET';
+        $values = array();
+        $data['availability'] = isset($data['availability']) ? Product::PRODUCT_AVAILABLE : Product::PRODUCT_NOT_AVAILABLE;
+
+        foreach ($data as $name => $value) {
+            $query .= ' '.$name.' = :'.$name.','; 
+            if(in_array($name, ['price', 'quantity', 'discount'])){
+                $values[':'.$name] = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT);
+            } 
+            else {
+                $values[':'.$name] = filter_var($value, FILTER_SANITIZE_STRING); 
+            }
+        }
+        $query = substr($query, 0, -1).''; 
+        $query .= " WHERE product_id = '$product_id'";
+
+        $sth = $pdo->prepare($query);
+        return $sth->execute($values);
+    }
+
+    /**
+     * Delete product row from database
+     * 
+     * @return boolean
+     */
+    public function delete()
+    {
+        $pdo = static::getDB();
+
+        $sql = "DELETE FROM PRODUCTS WHERE product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+
+        return $result->execute([$this->product_id]);
+    }
+
      /**
      * Get all products from the table
      * 
@@ -126,6 +174,31 @@ class Product extends Model
 
         if($row){
             return new Product($row);
+        }
+        return false;
+    }
+
+    /**
+     * Get the Product product owner Id from id
+     * 
+     * @param int product_id
+     * @return mixed string if found, false otherwise
+     */
+    public static function getOwnerId($product_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT u.user_id FROM users u, products p, shops s
+                WHERE p.shop_id = s.shop_id AND s.trader_id = u.user_id AND p.product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$product_id]);
+
+        $row = $result->fetch();
+
+        if($row){
+            return  $row['USER_ID']; 
         }
         return false;
     }

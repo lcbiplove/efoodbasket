@@ -53,12 +53,33 @@
                                     <a class="blue-text" href="">Visit Trader</a>
                                 </div>
                                 <div class="stock-text">
-                                    In Stock
+                                {% if product.availability == 'Y' %}
+                                    In Stock 
+                                {% else %}
+                                    Out of Stock
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <div id="share-product" class="share-product">
-                            <span class="iconify" data-icon="bi:share-fill" data-inline="false"></span>
+                        <div class="d-flex">
+                            {% if product.product_id|getProductOwnerId == user.user_id %}
+                                <a href="/trader/products/{{product.product_id}}/edit/" class="edit-delete-product">
+                                    <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
+                                </a>
+                                <form action="/trader/products/{{product.product_id}}/delete/" method="POST">
+                                    <input type="hidden" name="value" value="value" />
+                                    <button type="submit" id="delete-product" class="edit-delete-product ml-5" onclick="return confirm('Are you sure you want to delete this product?\n\nIt will remove all data related to this product.');">
+                                        <span class="iconify" data-icon="mi:delete" data-inline="false"></span>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <div id="wish-product" class="share-product">
+                                    <span class="iconify" data-icon="el:heart-empty" data-inline="false"></span>
+                                </div>
+                                <div id="share-product" class="share-product ml-5">
+                                    <span class="iconify" data-icon="bi:share-fill" data-inline="false"></span>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="price-wrapper">
@@ -76,10 +97,14 @@
                         <span id="quantity-value" class="quantity">1</span>
                         <button id="add-quantity" class="quantity-btn">+</button>
                     </div>
-                    <div class="product-actions">
-                        <button id="buy-now" class="product-action buy-now">Buy Now</button>
-                        <button id="add-to-cart" class="product-action add-to-cart">Add to Cart</button>
-                    </div>
+                    {% if product.product_id|getProductOwnerId != user.user_id %}
+                        {% if product.availability == 'Y' %}
+                            <div class="product-actions">
+                                <button id="buy-now" class="product-action buy-now">Buy Now</button>
+                                <button id="add-to-cart" class="product-action add-to-cart">Add to Cart</button>
+                            </div>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <div class="prod-section-wrapper">

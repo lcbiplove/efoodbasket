@@ -18,6 +18,38 @@ use Core\View;
 class Product extends \Core\Controller
 {
     /**
+     * Each product page
+     * 
+     * @return void
+     */
+    public function productAction()
+    {
+        $product_id = $this->route_params['product_id'];
+        $product = Models\Product::getProductObjectById($product_id);
+        if(!$product){
+            $this->show404();
+        }
+        View::renderTemplate('Product/product.html', [
+            'product' => $product
+        ]);
+    }
+
+    /**
+     * Restrict authorization to product owner only
+     * 
+     * @param object product
+     * @return void
+     */
+    public function restrictToProductOwner($product)
+    {
+        $product_owner_id = Models\Product::getOwnerId($product->product_id);
+
+        if($product_owner_id != Auth::getUserId()){
+            $this->redirect("/products/{$product->product_id}");
+        }
+    }
+
+    /**
      * Page to add product
      * 
      * @return void
@@ -56,19 +88,71 @@ class Product extends \Core\Controller
     }
 
     /**
-     * Each product page
+     * Page to add product
      * 
      * @return void
      */
-    public function productAction()
+    public function editProductAction()
     {
         $product_id = $this->route_params['product_id'];
         $product = Models\Product::getProductObjectById($product_id);
-        if(!$product){
-            $this->show404();
+
+        $this->restrictToProductOwner($product);
+
+        $errors = [];
+
+        $shops = Shop::getTraderShops(Auth::getUserId());
+        $categories = ProductCategory::getAllCategories();
+
+        if(!empty($_POST)){
+            $namesArray = [];
+            foreach ($_POST as $key => $value) {
+                array_push($namesArray, $key);
+            }
+            
+            $validation = new ProductValidation($_POST, $namesArray);
+            $errors = $validation->getNamedErrors();
+
+            if(empty($errors)){
+                $product->update($_POST);
+
+                Extra::setMessageCookie("Product updated successfully");
+
+                $this->redirect("/products/{$product->product_id}/");
+            }
+
+            $product = new Models\Product($_POST);
         }
-        View::renderTemplate('Product/product.html', [
-            'product' => $product
+        View::renderTemplate('Product/edit-product.html', [
+            'product' => $product,
+            'errors' => $errors,
+            'shops' => $shops,
+            'categories'=> $categories
         ]);
+    }
+
+    /**
+     * Delete product data 
+     * 
+     * @return void
+     */
+    public function deleteProductAction()
+    {
+        $product_id = $this->route_params['product_id'];
+        $product = Models\Product::getProductObjectById($product_id);
+
+        $this->restrictToProductOwner($product);
+        
+        if(empty($_POST)){
+            $this->redirect("/products/{$product_id}/");
+        }
+
+        if($product->delete()){
+            Extra::setMessageCookie("Product deleted successfully");
+            $this->redirect("/");
+        }
+        Extra::setMessageCookie("Could not delete product.", Extra::COOKIE_MESSAGE_FAIL);
+
+        $this->redirect("/products/{{ $product_id }}/");
     }
 }

@@ -30,6 +30,7 @@ class ProductValidation extends Product
     {
         if($this->validateByName){
             foreach ($this->validateByName as $value) {
+                if($value == "availability") continue;
 
                 $str = str_replace('_', '', ucwords($value, '-'));
 
@@ -59,7 +60,7 @@ class ProductValidation extends Product
 
         return $this->errors;
     }
-    
+
     /**
      * Check if product name is valid or not
      * 
