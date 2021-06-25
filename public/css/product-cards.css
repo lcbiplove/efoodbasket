@@ -31,6 +31,26 @@
     top: -10px;
     box-shadow: 0 4px 20px 0 #00000025;
 }
+/* 
+Crop with css
+.card-img-wrapper a {
+    overflow: hidden;
+    position: relative;
+    height: 260px;
+    max-width: 500px;
+    width: 100%;
+    display: inline-block;
+}
+.card-img {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+} */
 .card-img {
     border-radius: 15px;
     width: 100%;
@@ -59,6 +79,9 @@
     display: flex;
     color: #777;
     align-items: center;
+    border: 0;
+    background-color: transparent;
+    padding: 5px;
 }
 .card-cart:hover {
     color: #000;
@@ -109,6 +132,7 @@
 }
 .card-big-title {
     font-size: 1.3rem;
+    text-transform: capitalize;
     font-weight: 600;
 }
 .card-big-star-price {

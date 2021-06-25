@@ -99,39 +99,4 @@ class Extra
         $current = date('Y-m-d H:i:s',time());
         return $current;
     }
-
-    /**
-     * Return the complete image url
-     * 
-     * @param string image_name
-     * @return string url
-     */
-    public static function productImageUrl($image_name)
-    {
-        return "/media/products/". $image_name;
-    }
-
-    /**
-     * Get first image url of product id
-     * 
-     * @param int product_id
-     * @return string
-     */
-    public static function getFirstImageUrl($product_id)
-    {
-        return "/media/products/". Product::getFirstProductImage($product_id);
-    }
-
-    /**
-     * Get the owner id of product 
-     * 
-     * @param int product_id
-     * @return mixed string, boolean
-     */
-    public static function getProductOwnerId($product_id)
-    {
-        return Product::getOwnerId($product_id);
-    }
-
-
 }

@@ -42,7 +42,7 @@ class Product extends \Core\Controller
      */
     public function restrictToProductOwner($product)
     {
-        $product_owner_id = Models\Product::getOwnerId($product->product_id);
+        $product_owner_id = $product->getOwnerId();
 
         if($product_owner_id != Auth::getUserId()){
             $this->redirect("/products/{$product->product_id}");
@@ -63,6 +63,11 @@ class Product extends \Core\Controller
 
         $shops = Shop::getTraderShops(Auth::getUserId());
         $categories = ProductCategory::getAllCategories();
+
+        if(count($shops) == 0){
+            Extra::setMessageCookie("You must create at least one shop to add product.", Extra::COOKIE_MESSAGE_INFO);
+            $this->redirect("/trader/add-shop/?next=/trader/add-product/");
+        }
 
         if(!empty($_POST)){
             $product = new Models\Product($_POST);
@@ -88,6 +93,22 @@ class Product extends \Core\Controller
     }
 
     /**
+     * Manage products page
+     * 
+     * @return void
+     */
+    public function manageProductsAction()
+    {
+        $this->requireTrader();
+
+        $products = Models\Product::getAllProductsByTrader(Auth::getUserId());
+
+        View::renderTemplate('Product/manage-products.html', [
+            'products' => $products
+        ]);
+    }
+
+    /**
      * Page to add product
      * 
      * @return void
@@ -95,7 +116,7 @@ class Product extends \Core\Controller
     public function editProductAction()
     {
         $product_id = $this->route_params['product_id'];
-        $product = Models\Product::getProductObjectById($product_id);
+        $product = Models\Product::getProductObjectForFormById($product_id);
 
         $this->restrictToProductOwner($product);
 
@@ -139,7 +160,7 @@ class Product extends \Core\Controller
     public function deleteProductAction()
     {
         $product_id = $this->route_params['product_id'];
-        $product = Models\Product::getProductObjectById($product_id);
+        $product = Models\Product::getProductObjectForFormById($product_id);
 
         $this->restrictToProductOwner($product);
         

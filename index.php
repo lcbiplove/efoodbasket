@@ -61,6 +61,8 @@ $router->add("products/{product_id:\d+}/", ['controller' => 'Product', 'action' 
 $router->add("trader/products/{product_id:\d+}/edit/", ['controller' => 'Product', 'action' => 'editProduct']);
 $router->add("trader/products/{product_id:\d+}/delete/", ['controller' => 'Product', 'action' => 'deleteProduct']);
 
+$router->add("trader/manage-products/", ['controller' => 'Product', 'action' => 'manageProducts']);
+
 
 $router->add('{controller}/{action}/');
 

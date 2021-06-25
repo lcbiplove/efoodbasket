@@ -7,6 +7,10 @@ window.addEventListener("load", function(){
     var errAddress = this.document.getElementById("err-address");
     var errContact = this.document.getElementById("err-contact");
 
+    var url_string = this.window.location.href;
+    var url = new URL(url_string);
+    var nextUrl = url.searchParams.get("next");
+
     addBtnOne.onclick = function(e){
         e.preventDefault();
         showBigLoader();
@@ -21,6 +25,10 @@ window.addEventListener("load", function(){
             hideBigLoader();
 
             data = JSON.parse(this.responseText);
+
+            if(data.redirectTo) {
+                location.href = data.redirectTo;
+            }
 
             if(data.count >= 2){
                 location.href = "/trader/shops/";
@@ -38,8 +46,8 @@ window.addEventListener("load", function(){
                 message_box.innerHTML = "<div style='margin: 20px 0; border-radius: 5px; padding: 15px; width: 100%; box-sizing: border-box; color: #fff; background-color: var(--light-green);'>Shop added successfully.</div>";
             }
         }
-
-        xhttp.open("POST", "/trader/ajax/add-shop/");
+        var param = nextUrl ? "?next=" + nextUrl : ""
+        xhttp.open("POST", "/trader/ajax/add-shop/"+param);
         xhttp.send(formData);
     }
 });

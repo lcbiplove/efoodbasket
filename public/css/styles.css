@@ -67,7 +67,9 @@ input[type="number"] {
   margin: auto auto;
   box-sizing: border-box;
 }
-
+.text-capital {
+  text-transform: capitalize;
+}
 /* Header */
 header {
   padding: 10px 0;

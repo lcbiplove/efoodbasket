@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Products | efoodbasket{% endblock %}
+
+{% block titleLinks %}
+    <link rel="stylesheet" type="text/css" href="/public/css/stars.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/product-cards.css">
+    <link rel="stylesheet" href="/public/css/omni-slider.min.css">
+    <link rel="stylesheet" href="/public/css/search.css">
+{% endblock %}
+
+{% block main %}
+<div class="max-width-wrapper">
+    <div class="main-search-wrapper">
+        <div class="search-headers">
+            <div class="search-results">
+                Manage Products ({{ products|length }})
+            </div>
+            <a href="/trader/add-product/" class="add-product">Add Product</a>
+        </div>
+        <div class="search-body">
+            <div class="filters-wrapper">
+                <form id="filter-form" class="filter-form" action="#" method="get">
+                    <div class="filter-row">
+                        <div class="filter-heading">Rating: </div>
+                        <div class="filter-body">
+                            <div class="filter-stars-row">
+                                <a href="#">
+                                    <div class="md-stars" style="--rating: 5"></div>
+                                </a>
+                            </div>
+                            <div class="filter-stars-row">
+                                <a href="#" class="d-flex">
+                                    <div class="md-stars" style="--rating: 4"></div>
+                                    <div class="and-up"> & above</div>
+                                </a>
+                            </div>
+                            <div class="filter-stars-row">
+                                <a href="#" class="d-flex">
+                                    <div class="md-stars" style="--rating: 3"></div>
+                                    <div class="and-up"> & above</div>
+                                </a>
+                            </div>
+                            <div class="filter-stars-row">
+                                <a href="#" class="d-flex">
+                                    <div class="md-stars" style="--rating: 2"></div>
+                                    <div class="and-up"> & above</div>
+                                </a>
+                            </div>
+                            <div class="filter-stars-row">
+                                <a href="#" class="d-flex">
+                                    <div class="md-stars" style="--rating: 1"></div>
+                                    <div class="and-up"> & above</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-heading">
+                            Price:
+                        </div>
+                        <div class="filter-body">
+                            <div id="myRangeSlider" class="myRangeSlider"></div>
+                            <!-- <input  type="text" id="myRangeSlider" /> -->
+                            <div class="min-max-wrapper">
+                                <input class="minMaxPrice" type="number" name="minPrice" id="minPrice" placeholder="Min" value="1000" readonly>
+                                <input class="minMaxPrice" type="number" name="maxPrice" id="maxPrice" placeholder="Max" value="4000" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-btn">Apply</div>
+                        <div class="filter-reset-btn">Reset</div>
+                    </div>
+                </form>
+            </div>
+            <div class="results-wrapper">
+                <div class="card-row">
+                {% for product in products %}
+                    <div class="card-col-big">
+                        <div class="card-big">
+                            <div class="card-img-wrapper">
+                                <a href="/products/{{product.PRODUCT_ID}}/">
+                                    <img class="card-big-img" src="{{ product.thumbnailUrl }}" alt="product-img">
+                                </a>
+                            </div>
+                            <div class="card-big-body">
+                                <div class="card-big-title">
+                                    <a href="/products/{{product.PRODUCT_ID}}/">
+                                        {{product.PRODUCT_NAME}}
+                                    </a>
+                                </div>
+                                <div class="card-big-star-price">
+                                    <div class="sm-stars" style="--rating: 2.5;"></div>
+                                    <div class="card-big-price">{{product.PRICE|number_format(2)}} GBP</div>
+                                </div>
+                                <div class="card-key-value-wrapper">
+                                    <div class="card-key-value-row">
+                                        <div class="card-key">Shop</div>
+                                        <div class="card-value">
+                                            <span class="text-capital">{{product.shop.SHOP_NAME}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-key-value-row">
+                                        <div class="card-key">Stock</div>
+                                        <div class="card-value">
+                                            <span class="light-text">{{product.QUANTITY}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-key-value-row">
+                                        <div class="card-key">{{product.ADDED_DATE|date("m M y")}}</div>
+                                    </div>
+                                </div>
+                                <div class="card-big-links">
+                                    <a href="/trader/products/{{product.PRODUCT_ID}}/edit/" class="card-cart">
+                                        <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
+                                    </a>
+                                    <form action="/trader/products/{{product.PRODUCT_ID}}/delete/" method="POST">
+                                        <input type="hidden" name="value" value="value" />
+                                        <button class="card-cart" onclick="return confirm('Are you sure you want to delete this product?\n\nIt will remove all data related to this product.');">
+                                            <span></span>
+                                            <span class="iconify" data-icon="mi:delete" data-inline="false"></span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <h3 style="margin: auto; margin-top: 60px; color: #777;">No products added yet.</h3>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="more-btn-wrapper">
+            <button class="more-btn">
+                <span>More Products</span>
+                <span class="iconify" data-icon="ant-design:caret-down-outlined" data-inline="false"></span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts%}
+    <script src="/public/js/omni-slider.min.js"></script>
+    <script src="/public/js/main-search.js"></script>
+{% endblock %}

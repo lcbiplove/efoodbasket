@@ -159,6 +159,9 @@ class Shop extends \Core\Controller
 
         if(empty($errors)){
             $shop->save($trader_id);
+            if(isset($_GET['next'])){
+                $data['redirectTo'] = $_GET['next'];
+            }
             $data['success'] = 1;
             if($rowsCount == 1){
                 $rowsCount = 2;

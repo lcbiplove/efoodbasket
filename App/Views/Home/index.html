@@ -69,7 +69,7 @@
                         <div class="card">
                             <div class="card-img-wrapper">
                                 <a href="/products/{{  product.PRODUCT_ID }}/">
-                                    <img class="card-img" src="{{ product.PRODUCT_ID|getFirstImageUrl }}" alt="product-image">
+                                    <img class="card-img" src="{{ product.thumbnailUrl }}" alt="product-image">
                                 </a>
                             </div>
                             <div class="card-body">
@@ -82,10 +82,12 @@
 
                                 <div class="card-footer">
                                     <div class="card-price">{{ product.PRICE|number_format(2) }} GBP</div>
+                                    {% if product.isAvailable %}
                                     <div class="card-cart">
                                         <span></span>
                                         <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

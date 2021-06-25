@@ -151,7 +151,7 @@ class Product extends Model
         
         $result->execute();
 
-        return $result->fetchAll(); 
+        return $result->fetchAll(\PDO::FETCH_CLASS, self::class); 
     }
 
     /**
@@ -169,22 +169,56 @@ class Product extends Model
         $result = $pdo->prepare($sql);
         
         $result->execute([$product_id]);
-
+        $result->setFetchMode(\PDO::FETCH_CLASS, self::class);
         $row = $result->fetch();
+        return $row;
+    }
 
-        if($row){
+    public static function getProductObjectForFormById($product_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT * FROM products WHERE product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$product_id]);
+        $row = $result->fetch();
+        if($row) {
             return new Product($row);
         }
         return false;
     }
 
     /**
+     * Get all products from the table
+     * 
+     * @param int traderId
+     * @param int from index
+     * @param int upto
+     * @return array
+     */
+    public static function getAllProductsByTrader($traderId)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT p.* FROM products p, shops s, users u
+                WHERE p.shop_id = s.shop_id AND s.trader_id = u.user_id AND u.user_id = :traderId
+                ORDER BY added_date DESC";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$traderId]);
+
+        return $result->fetchAll(\PDO::FETCH_CLASS, self::class); 
+    }
+
+    /**
      * Get the Product product owner Id from id
      * 
-     * @param int product_id
      * @return mixed string if found, false otherwise
      */
-    public static function getOwnerId($product_id)
+    public function getOwnerId()
     {
         $pdo = static::getDB();
 
@@ -193,36 +227,13 @@ class Product extends Model
 
         $result = $pdo->prepare($sql);
         
+        $product_id = isset($this->PRODUCT_ID) ? $this->PRODUCT_ID : $this->product_id;
         $result->execute([$product_id]);
 
         $row = $result->fetch();
 
         if($row){
-            return  $row['USER_ID']; 
-        }
-        return false;
-    }
-
-    /**
-     * Get product image url from product id
-     * 
-     * @param int product id
-     * @return mixed image url if found, false otherwise
-     */
-    public static function getFirstProductImage($product_id)
-    {
-        $pdo = static::getDB();
-
-        $sql = "SELECT image_name FROM product_images WHERE product_id = :product_id";
-
-        $result = $pdo->prepare($sql);
-        
-        $result->execute([$product_id]);
-
-        $image_row = $result->fetch();
-
-        if($image_row){
-            return  $image_row['IMAGE_NAME']; 
+            return $row['USER_ID']; 
         }
         return false;
     }
@@ -240,7 +251,7 @@ class Product extends Model
 
         $result = $pdo->prepare($sql);
         
-        $result->execute([$this->product_id]);
+        $result->execute([$this->PRODUCT_ID]);
 
         return $result->fetchAll(\PDO::FETCH_COLUMN, 0); 
     }
@@ -252,9 +263,8 @@ class Product extends Model
      */
     public function getSimilarProducts()
     {
-
-        $category_id = $this->category_id;
-        $product_id = $this->product_id;
+        $category_id = $this->CATEGORY_ID;
+        $product_id = $this->PRODUCT_ID;
 
         $pdo = static::getDB();
 
@@ -272,8 +282,65 @@ class Product extends Model
             ':product_id' => $product_id
         ]);
 
-        return $result->fetchAll(); 
+        return $result->fetchAll(\PDO::FETCH_CLASS, self::class); 
     }
+
+    /**
+     * Shop of the product
+     * 
+     * @return mixed object, boolean
+     */
+    public function shop()
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT s.* FROM shops s, products p WHERE s.shop_id = p.shop_id AND p.product_id = :product_id";
+        $result = $pdo->prepare($sql);
+
+        $result->execute([$this->PRODUCT_ID]);
+        return $result->fetchObject();
+    }
+
+    /**
+     * Check if product is available 
+     * 
+     * @return boolean
+     */
+    public function isAvailable()
+    {
+        return $this->AVAILABILITY == static::PRODUCT_AVAILABLE && $this->QUANTITY > 0;
+    }
+
+    /**
+     * Get the first thumnail image of product images
+     * 
+     * @return string
+     */
+    public function thumbnailUrl()
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT image_name FROM product_images WHERE product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$this->PRODUCT_ID]);
+
+        $image_row = $result->fetch();
+
+        if($image_row){
+            return "/media/products/" . $image_row['IMAGE_NAME']; 
+        }
+        return false;
+    }
+
+    /**
+    //  * 
+    //  */
+    // public function imageUrl()
+    // {
+    //     return "/media/products/" . $this->firstImage;
+    // }
 }
 
 class ProductImage extends Model
