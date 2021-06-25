@@ -145,5 +145,18 @@ class Auth
         }
         return false;
     }
-    
+
+    /**
+     * Check if user is logged in is trader
+     * 
+     * @return boolean true if authenticated, false otherwise
+     */
+    public static function isCustomerAuthenticated()
+    {
+        if(isset($_SESSION['user_role'])){
+            $user_role  = $_SESSION['user_role'];
+            return $user_role == User::ROLE_CUSTOMER;
+        }
+        return false;
+    }
 }

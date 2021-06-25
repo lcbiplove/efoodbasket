@@ -109,6 +109,27 @@ class Product extends \Core\Controller
     }
 
     /**
+     * Products by trader
+     * 
+     * @return void
+     */
+    public function traderProductsAction()
+    {
+        $trader_id = $this->route_params['trader_id'];
+        $products = Models\Product::getAllProductsByTrader($trader_id);
+
+        if(!$products){
+            $this->show404();
+        }
+        $isVisitorOwner = Auth::getUserId() == $trader_id;
+
+        View::renderTemplate('Product/manage-products.html', [
+            'products' => $products,
+            'isVisitorOwner' => $isVisitorOwner
+        ]);
+    }
+
+    /**
      * Page to add product
      * 
      * @return void

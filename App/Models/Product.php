@@ -269,11 +269,11 @@ class Product extends Model
         $pdo = static::getDB();
 
         $sql = "
-            SELECT * FROM (
             SELECT p.* 
             FROM products p, PRODUCT_CATEGORIES pc 
             WHERE p.category_id = pc.category_id AND pc.category_id = :category_id AND p.product_id <> :product_id
-        ) WHERE ROWNUM <= 4";
+            AND ROWNUM <= 4
+        ";
 
         $result = $pdo->prepare($sql);
         

@@ -14,9 +14,16 @@
     <div class="main-search-wrapper">
         <div class="search-headers">
             <div class="search-results">
-                Manage Products ({{ products|length }})
+                {% if isVisitorOwner %}
+                    Manage Products
+                {% else %}
+                    Products
+                {% endif %}
+                  ({{ products|length }})
             </div>
-            <a href="/trader/add-product/" class="add-product">Add Product</a>
+            {% if isVisitorOwner %}
+                <a href="/trader/add-product/" class="add-product">Add Product</a>
+            {% endif %}
         </div>
         <div class="search-body">
             <div class="filters-wrapper">
@@ -112,16 +119,32 @@
                                     </div>
                                 </div>
                                 <div class="card-big-links">
-                                    <a href="/trader/products/{{product.PRODUCT_ID}}/edit/" class="card-cart">
-                                        <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
-                                    </a>
-                                    <form action="/trader/products/{{product.PRODUCT_ID}}/delete/" method="POST">
-                                        <input type="hidden" name="value" value="value" />
-                                        <button class="card-cart" onclick="return confirm('Are you sure you want to delete this product?\n\nIt will remove all data related to this product.');">
-                                            <span></span>
-                                            <span class="iconify" data-icon="mi:delete" data-inline="false"></span>
-                                        </button>
-                                    </form>
+
+                                    {% if isVisitorOwner %}
+                                        <a href="/trader/products/{{product.PRODUCT_ID}}/edit/" class="card-cart">
+                                            <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
+                                        </a>
+                                        <form action="/trader/products/{{product.PRODUCT_ID}}/delete/" method="POST">
+                                            <input type="hidden" name="value" value="value" />
+                                            <button class="card-cart" onclick="return confirm('Are you sure you want to delete this product?\n\nIt will remove all data related to this product.');">
+                                                <span></span>
+                                                <span class="iconify" data-icon="mi:delete" data-inline="false"></span>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                
+                                    {% if not is_trader %}
+                                        <a href="/trader/products/{{product.PRODUCT_ID}}/edit/" class="card-cart">
+                                            <span class="iconify" data-icon="el:heart-empty" data-inline="false"></span>
+                                        </a>
+                                        <form action="/trader/products/{{product.PRODUCT_ID}}/delete/" method="POST">
+                                            <input type="hidden" name="value" value="value" />
+                                            <button class="card-cart">
+                                                <span></span>
+                                                <span class="iconify cart--" data-icon="fluent:cart-20-regular" data-inline="false"></span>
+                                            </button>
+                                        </form>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

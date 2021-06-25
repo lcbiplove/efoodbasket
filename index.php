@@ -60,7 +60,7 @@ $router->add('trader/add-product/', ['controller' => 'Product', 'action' => 'add
 $router->add("products/{product_id:\d+}/", ['controller' => 'Product', 'action' => 'product']);
 $router->add("trader/products/{product_id:\d+}/edit/", ['controller' => 'Product', 'action' => 'editProduct']);
 $router->add("trader/products/{product_id:\d+}/delete/", ['controller' => 'Product', 'action' => 'deleteProduct']);
-
+$router->add("trader/{trader_id:\d+}/products/", ['controller' => 'Product', 'action' => 'traderProducts']);
 $router->add("trader/manage-products/", ['controller' => 'Product', 'action' => 'manageProducts']);
 
 
