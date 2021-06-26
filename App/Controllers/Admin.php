@@ -7,6 +7,7 @@ use App\Email;
 use Core\View;
 use App\Models\Trader;
 use App\Models\User;
+use App\Models\Notification;
 
 /**
  * Home controller
@@ -52,6 +53,16 @@ class Admin extends \Core\Controller
                 $trader->updateTraderApproval(Trader::REQUEST_STATUS_YES);
                 $token = $trader->createUpdateToken();
                 Email::sendTraderAccepted($trader, $token);
+                $notification = new Notification([
+                    'title' => "Welcome to efoodbasket",
+                    'body' => "Hi, we are happy to see you here. We hope to collaborate with you forever. We will be looking for your feedback and support.",
+                    'image_link' => "/public/images/efoodbasket-logo.png",
+                    'sender_text' => "From efoodbasket",
+                    'main_link' => "#",
+                    'user_id' => $trader->user_id,
+                    'is_seen' => Notification::IS_NOT_SEEN
+                ]);
+                $notification->save();
             }
 
             if($reject) {

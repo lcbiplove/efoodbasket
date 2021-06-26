@@ -9,6 +9,7 @@ use App\Models\Validation\UserValidation;
 use App\Models\Validation\TraderValidation;
 use App\Extra;
 use App\Email;
+use App\Models\Notification;
 use App\Models\Trader;
 
 /**
@@ -275,6 +276,17 @@ class User extends \Core\Controller
                         Email::sendTraderRequestToAdmin($user);
                         
                         Extra::setMessageCookie("Your email is verified successfully. You will be notified once your documents are reviewed.", Extra::COOKIE_MESSAGE_INFO);
+                    } else {
+                        $notification = new Notification([
+                            'title' => "Welcome to efoodbasket",
+                            'body' => "Hi, we are happy to see you in our platform. We hope you have a great experience with us. We will be looking for your feedback.",
+                            'image_link' => "/public/images/efoodbasket-logo.png",
+                            'sender_text' => "From efoodbasket",
+                            'main_link' => "#",
+                            'user_id' => $user->user_id,
+                            'is_seen' => Models\Notification::IS_NOT_SEEN
+                        ]);
+                        $notification->save();
                     }
                     
                     $this->redirect("/login/");
