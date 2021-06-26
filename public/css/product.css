@@ -379,7 +379,8 @@
     border-radius: 2px;
     z-index: 1;
     box-shadow: 1px 3px 3px #ccc;
-    line-height: 24px
+    line-height: 24px;
+    flex-shrink: 0;
 }
 .query-indicator.answer {
     background-color: var(--dark-green);
@@ -414,6 +415,11 @@
     color: #777;
     display: flex;
     flex-wrap: nowrap;
+}
+.answer-it {
+    cursor: pointer;
+    padding: 5px 0;
+    color: var(--dark-green);
 }
 
 

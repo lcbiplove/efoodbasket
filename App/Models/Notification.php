@@ -135,7 +135,7 @@ class Notification extends \Core\Model
 
         $sql = "SELECT NOTIFICATION_ID, IMAGE_LINK, TITLE, BODY, SENDER_TEXT, MAIN_LINK, IS_SEEN, USER_ID,
                 to_char(NOTIFIED_DATE, 'YYYY-MM-DD HH24:MI:SS') as NOTIFIED_DATE
-                FROM NOTIFICATIONS WHERE user_id = :user_id";
+                FROM NOTIFICATIONS WHERE user_id = :user_id ORDER BY NOTIFIED_DATE DESC";
 
         $result = $pdo->prepare($sql);
         $result->execute([$user_id]);

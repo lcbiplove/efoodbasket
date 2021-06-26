@@ -57,6 +57,40 @@ class Query extends Model
     }
 
     /**
+     * Answer the query
+     * 
+     * @param string answer text
+     * @return mixed object, boolean
+     */
+    public function answer($answer)
+    {
+        $pdo = static::getDB();
+        $sql_query = "UPDATE QUERIES SET answer = :answer, answer_date = TO_DATE(:answer_date, 'YYYY-MM-DD HH24:MI:SS')
+                    WHERE query_id = :query_id";
+
+        $prepared = $pdo->prepare($sql_query);
+        $data = [
+            ':answer' => $answer,
+            ':answer_date' => Extra::getCurrentDateTime(),
+            ':query_id' => $this->QUERY_ID
+        ];
+        if($prepared->execute($data)){
+            return static::getQueryById($this->QUERY_ID);
+        }
+        return false;
+    }
+
+    /**
+     * Return if query is answered or not
+     * 
+     * @return boolean
+     */
+    public function isAnswered()
+    {
+        return $this->ANSWER ? true : false;
+    }
+
+    /**
      * Return questionaire name
      * 
      * @return string 

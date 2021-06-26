@@ -237,17 +237,30 @@
                         Queries
                     </div>
                     <div class="queries-form-wrapper">
-                        <form id="queries-form"  action="/ajax/products/{{product.PRODUCT_ID}}/add-query/" method="post">
-                            <div class="queries-form">
-                                <input id="question" name="question" class="query-inpt" type="text" placeholder="Your queries...">
-                            {% if is_customer or is_admin %}
-                                <button type="submit" class="submit-btn">Submit</button>
-                            {% elseif not is_customer %}
-                                <a href="/login/?next=/products/{{ product.PRODUCT_ID }}/" class="submit-btn">Submit</a>
-                            {% endif %}
-                            </div>
-                            <small id="query_error" class="red-text"></small>
-                        </form>
+                        {% if not is_trader %}
+                            <form id="queries-form"  action="/ajax/products/{{product.PRODUCT_ID}}/add-query/" method="post">
+                                <div class="queries-form">
+                                    {% if not user %}
+                                        <a href="/login/?next=/products/{{ product.PRODUCT_ID }}/" class="submit-btn">Submit</a>
+                                    {% endif %}
+                                    <input id="question" name="question" class="query-inpt" type="text" placeholder="Your queries..." required>
+                                    <button type="submit" class="submit-btn">Submit</button>
+                                </div>
+                                <small id="query_error" class="red-text"></small>
+                            </form>
+                        {% endif %}
+
+                        {% if product.shop.TRADER_ID == user.user_id %}
+                            <form id="answer-form"   action="/ajax/products/{{product.PRODUCT_ID}}/add-answer/57/" method="post">
+                                <small id="answering-to-text" class="grey-text"></small>
+                                <div class="queries-form">
+                                    <input id="answer" name="answer" class="query-inpt" type="text" placeholder="Your answer..." required>
+                                    <button type="submit" class="submit-btn">Submit</button>
+                                </div>
+                                <small id="query_error" class="red-text"></small>
+                            </form>
+                        {% endif %}
+                        
                         <div class="all-queries-wrapper">
                             <div class="queries-trader-heading">
                                 Queries answered by trader
@@ -263,6 +276,12 @@
                                                 <span>by {{ query.questionBy }}</span>
                                                 <span class="stock-text">{{ query.agoQuestion }}</span>
                                             </div>
+                                            {% if not query.isAnswered %}
+                                            <div class="answer-it" data-query-id="{{ query.QUERY_ID }}" data-product-id="{{ query.PRODUCT_ID }}">
+                                                <span class="iconify" data-icon="ri:question-answer-line" data-inline="false"></span>
+                                                <span>Answer</span>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     {% if query.ANSWER %}
