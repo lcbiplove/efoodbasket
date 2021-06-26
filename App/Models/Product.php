@@ -333,14 +333,6 @@ class Product extends Model
         }
         return false;
     }
-
-    /**
-    //  * 
-    //  */
-    // public function imageUrl()
-    // {
-    //     return "/media/products/" . $this->firstImage;
-    // }
 }
 
 class ProductImage extends Model

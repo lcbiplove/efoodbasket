@@ -159,4 +159,18 @@ class Auth
         }
         return false;
     }
+
+    /**
+     * Return unseen notification count
+     * 
+     * @return mixed int, boolean
+     */
+    public static function getNotifCount()
+    {
+        $user_id = static::getUserId();
+        if($user_id) {
+            return Models\Notification::getUnseenCounFromUserId($user_id);
+        }
+        return false;
+    }
 }

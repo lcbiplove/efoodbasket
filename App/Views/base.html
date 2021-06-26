@@ -77,8 +77,11 @@
                             <span class="iconify" data-icon="el:heart-empty" data-inline="false"></span>
                             <span>Wishlist</span>
                         </a>
-                        <a href="#">
-                            <span class="iconify" data-icon="ic:baseline-notifications-none" data-inline="false"></span>
+                        <a href="/notifications/">
+                            <span class="link-icon-count-wrapper">
+                                <span class="link-icon-count"> {% if notif_count > 9 %}9+{% else %}{{notif_count}}{% endif %} </span>
+                                <span class="iconify" data-icon="bi:bell" data-inline="false"></span>
+                            </span>
                             <span>Notifications</span>
                         </a>
                         <form action="/logout/" method="POST" class="d-flex">

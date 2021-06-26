@@ -65,6 +65,14 @@ function showMessageBox(){
 function hideMessageBox(){
     cookie_mssg_box.classList.remove("active");
 }
+function ajax(method, action, data, callback) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        callback(this.responseText);
+    }
+    xhttp.open(method, action);
+    xhttp.send(data);
+}
 menu_icon.onclick = function(){
     if(this.classList.contains("open")){
         closeMenu();

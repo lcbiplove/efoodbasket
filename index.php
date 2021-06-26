@@ -42,13 +42,14 @@ $router->add('user/verify-email/', ['controller' => 'User', 'action' => 'verifyN
 $router->add('user/forgot-password/', ['controller' => 'User', 'action' => 'forgotPassword']);
 
 $router->add('notifications/', ['controller' => 'Notification', 'action' => 'index']);
+$router->add('ajax/notifications/{id:\d+}/make-seen/', ['controller' => 'Notification', 'action' => 'makeSeen']);
 
 $router->add('admin/trader-requests/{id:\d+}/', ['controller' => 'Admin', 'action' => 'traderRequest']);
 
 $router->add('trader/add-shop/', ['controller' => 'Shop', 'action' => 'addShop']);
 $router->add('trader/shops/{id:\d+}/edit/', ['controller' => 'Shop', 'action' => 'editShop']);
 $router->add('trader/shops/{id:\d+}/delete/', ['controller' => 'Shop', 'action' => 'deleteShop']);
-$router->add('trader/ajax/add-shop/', ['controller' => 'Shop', 'action' => 'ajaxAddShop']);
+$router->add('ajax/trader/add-shop/', ['controller' => 'Shop', 'action' => 'ajaxAddShop']);
 
 $router->add('trader/shops/', ['controller' => 'Trader', 'action' => 'shops']);
 $router->add('trader/{id:\d+}/shops/{shop_id:\d+}/', ['controller' => 'Trader', 'action' => 'eachShop']);

@@ -47,7 +47,7 @@ window.addEventListener("load", function(){
             }
         }
         var param = nextUrl ? "?next=" + nextUrl : ""
-        xhttp.open("POST", "/trader/ajax/add-shop/"+param);
+        xhttp.open("POST", "/ajax/trader/add-shop/"+param);
         xhttp.send(formData);
     }
 });
