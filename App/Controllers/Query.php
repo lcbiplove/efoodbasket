@@ -68,7 +68,7 @@ class Query extends \Core\Controller
                     'body' => "You have recieved a query on your product: \"$stripped_ques\"'",
                     'image_link' => "/public/images/efoodbasket-logo.png",
                     'sender_text' => "From {$inserted_query->QUESTION_BY}",
-                    'main_link' => "#",
+                    'main_link' => "/products/{$product_id}/",
                     'user_id' => Product::getProductObjectById($product_id)->shop()->TRADER_ID,
                     'is_seen' => Notification::IS_NOT_SEEN
                 ]);
