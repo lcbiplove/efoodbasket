@@ -138,6 +138,38 @@ class Query extends \Core\Controller
             }
         }
         echo json_encode($data);
-        exit();
+    }
+
+    /**
+     * Delete query action
+     * 
+     * @return void
+     */
+    public function deleteQueryAction()
+    {
+        $product_id = $this->route_params['product_id'];
+        $query_id = $this->route_params['query_id'];
+
+        if(empty($_POST)){
+            $this->redirect("/products/$product_id/");
+        }
+
+        $query = Models\Query::getQueryById($query_id);
+
+        $data = [];
+        if($query->USER_ID != Auth::getUserId()){
+            $data['error'] = "You are not authorized to perform this action";
+        } else {
+            $data = [];
+
+            $query->delete();
+            if($query->delete()) {
+                $data['success'] = "OK";
+            } else {
+                $data['error'] = "Unable to delete query. Try reloading the page.";
+            }
+        }
+        
+        echo json_encode($data);
     }
 }

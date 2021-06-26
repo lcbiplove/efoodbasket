@@ -1,4 +1,5 @@
 window.addEventListener("load", function(){
+    var noQuery = this.document.getElementById("no-query");
     var queryForm = this.document.getElementById("queries-form");
     var question = this.document.getElementById("question");
     var queriesContainer = this.document.getElementById("queries-container");
@@ -9,6 +10,8 @@ window.addEventListener("load", function(){
     var answeringToText =this.document.getElementById("answering-to-text");
     var queryQuesElems = this.document.querySelectorAll(".query-text");
     var answerItElems = this.document.querySelectorAll(".answer-it");
+
+    var deleteQueriesElems = this.document.querySelectorAll(".delete-query");
 
     query_id =  null;
     product_id = null;
@@ -25,9 +28,12 @@ window.addEventListener("load", function(){
         } 
         else if(data.hasOwnProperty("data")) {
             var obj = data.data;
-            var addedRow = "<div class='each-query' data-query-id='"+obj.QUERY_ID+"'><div class='query-wrapper'><div class='query-indicator'></div><div><div class='query-text'>"+obj.QUESTION+"</div><div class='querer-detail'><span>by "+obj.QUESTION_BY+"</span><span class='stock-text'>"+obj.AGO_QUESTION+"</span></div></div></div></div>";
+            noQuery.remove();
+            var addedRow = "<div class='each-query' data-query-id='"+obj.QUERY_ID+"'><div class='query-wrapper'><div class='query-indicator'></div><div><div class='query-text'>"+obj.QUESTION+"</div><div class='querer-detail'><span>by "+obj.QUESTION_BY+"</span><span class='stock-text'>"+obj.AGO_QUESTION+"</span></div><div class='delete-item delete-query' data-query-id='"+obj.QUERY_ID+"' data-product-id="+obj.PRODUCT_ID+"><span>Delete</span></div></div></div></div>";
             queriesContainer.insertAdjacentHTML("afterbegin", addedRow);
             queryForm.reset();
+            deleteQueriesElems = document.querySelectorAll(".delete-query");
+            resetDeleteQuery();
         }
     }
 
@@ -72,8 +78,7 @@ window.addEventListener("load", function(){
         else if(data.hasOwnProperty("data")) {
             var obj = data.data;
             var answerRow = "<div class='query-wrapper'><div class='query-indicator answer'></div><div><div class='query-text'>"+obj.ANSWER+"</div><div class='querer-detail'><span>by trader</span><span class='stock-text'> "+obj.AGO_ANSWER+"</span></div></div></div>";
-            queriesContainer.insertAdjacentHTML("afterbegin", addedRow);
-            var eachRow = document.querySelector(".each-row[data-query-id='"+obj.QUERY_ID+"']");
+            var eachRow = document.querySelector(".each-query[data-query-id='"+query_id+"']");
             eachRow.innerHTML += answerRow;
             answerForm.reset();
             answeringToText.innerHTML = "";
@@ -92,4 +97,28 @@ window.addEventListener("load", function(){
             ajax("POST", action, data, onAnswerSuccess);
         }
     }
+
+    var onDeleteSuccess = function(response) {
+        hideBigLoader();
+        var eachRow = document.querySelector(".each-query[data-query-id='"+query_id+"']");
+        eachRow.style = "opacity: 0.3; transition: opacity 1s; pointer-events: none;";
+    }
+
+    var resetDeleteQuery = function() {
+        deleteQueriesElems.forEach(function(item){
+            item.onclick = function(){
+                query_id = item.getAttribute("data-query-id");
+                product_id = item.getAttribute("data-product-id");
+                
+                showBigLoader();
+
+                var action = "/ajax/products/"+product_id+"/delete-query/"+query_id+"/";
+                var data = new FormData();
+                data.append("value", "value");
+                ajax("POST", action, data, onDeleteSuccess);
+            }
+        });
+    }
+
+    resetDeleteQuery();
 });

@@ -421,7 +421,10 @@
     padding: 5px 0;
     color: var(--dark-green);
 }
-
+.delete-item {
+    cursor:  pointer;
+    color: salmon;
+}
 
 
 

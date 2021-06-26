@@ -86,10 +86,10 @@
                         Price: {{ product.PRICE|number_format(2) }} GBP
                     </div>
                     <div class="product-desc">
-                    {{ product.description }}
+                    {{ product.DESCRIPTION }}
                     </div>
                     <div class="allery-inform">
-                    {{ product.allergy_information }}
+                    {{ product.ALLERGY_INFORMATION }}
                     </div>
                     <div class="quantity-wrapper">
                         <span>Quantity</span>
@@ -240,18 +240,19 @@
                         {% if not is_trader %}
                             <form id="queries-form"  action="/ajax/products/{{product.PRODUCT_ID}}/add-query/" method="post">
                                 <div class="queries-form">
+                                    <input id="question" name="question" class="query-inpt" type="text" placeholder="Your queries..." required>
                                     {% if not user %}
                                         <a href="/login/?next=/products/{{ product.PRODUCT_ID }}/" class="submit-btn">Submit</a>
+                                    {% else %}
+                                        <button type="submit" class="submit-btn">Submit</button>
                                     {% endif %}
-                                    <input id="question" name="question" class="query-inpt" type="text" placeholder="Your queries..." required>
-                                    <button type="submit" class="submit-btn">Submit</button>
                                 </div>
                                 <small id="query_error" class="red-text"></small>
                             </form>
                         {% endif %}
 
                         {% if product.shop.TRADER_ID == user.user_id %}
-                            <form id="answer-form"   action="/ajax/products/{{product.PRODUCT_ID}}/add-answer/57/" method="post">
+                            <form id="answer-form" class="d-none" action="/ajax/products/{{product.PRODUCT_ID}}/add-answer/{{ product.QUERY_ID }}/" method="post">
                                 <small id="answering-to-text" class="grey-text"></small>
                                 <div class="queries-form">
                                     <input id="answer" name="answer" class="query-inpt" type="text" placeholder="Your answer..." required>
@@ -276,10 +277,16 @@
                                                 <span>by {{ query.questionBy }}</span>
                                                 <span class="stock-text">{{ query.agoQuestion }}</span>
                                             </div>
-                                            {% if not query.isAnswered %}
+                                            {% if not query.isAnswered and product.shop.TRADER_ID == user.user_id %}
                                             <div class="answer-it" data-query-id="{{ query.QUERY_ID }}" data-product-id="{{ query.PRODUCT_ID }}">
                                                 <span class="iconify" data-icon="ri:question-answer-line" data-inline="false"></span>
                                                 <span>Answer</span>
+                                            </div>
+                                            {% endif %}
+
+                                            {% if query.USER_ID == user.user_id %}
+                                            <div class="delete-item delete-query" data-query-id="{{ query.QUERY_ID }}" data-product-id="{{ query.PRODUCT_ID }}">
+                                                <span>Delete</span>
                                             </div>
                                             {% endif %}
                                         </div>
@@ -293,6 +300,11 @@
                                                 <span>by trader</span>
                                                 <span class="stock-text">{{ query.agoAnswer}}</span>
                                             </div>
+                                            {% if product.getOwnerId == user.user_id %}
+                                            <div class="delete-item delete-answer" data-query-id="{{ query.QUERY_ID }}" data-product-id="{{ query.PRODUCT_ID }}">
+                                                <span>Delete</span>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     {% endif %}
