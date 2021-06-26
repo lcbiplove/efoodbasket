@@ -16,6 +16,9 @@ DROP SEQUENCE product_id_seq;
 CREATE SEQUENCE product_id_seq START WITH 1 INCREMENT BY 1;
 DROP SEQUENCE product_image_id_seq;
 CREATE SEQUENCE product_image_id_seq START WITH 1 INCREMENT BY 1;
+DROP SEQUENCE query_id_seq;
+CREATE SEQUENCE query_id_seq START WITH 1 INCREMENT BY 1;
+
 
 -- Drop tables --
 DROP TABLE USERS CASCADE CONSTRAINTS;
@@ -25,6 +28,8 @@ DROP TABLE SHOPS CASCADE CONSTRAINTS;
 DROP TABLE PRODUCT_CATEGORIES CASCADE CONSTRAINTS;
 DROP TABLE PRODUCTS CASCADE CONSTRAINTS;
 DROP TABLE PRODUCT_IMAGES CASCADE CONSTRAINTS;
+DROP TABLE QUERIES CASCADE CONSTRAINTS;
+
 -- Table Creation --
 CREATE TABLE USERS(
 	user_id INTEGER NOT NULL,
@@ -109,7 +114,19 @@ CREATE TABLE PRODUCT_IMAGES (
 	FOREIGN KEY (product_id) REFERENCES products(product_id),
     CONSTRAINT	pk_PRODUCT_IMAGES PRIMARY KEY (product_image_id)
 );
-
+CREATE TABLE QUERIES(
+	query_id	        INTEGER NOT NULL,
+	question	        VARCHAR2(2000) NOT NULL,
+	answer    	        VARCHAR2(2000) NULL,
+	question_date      	DATE NOT NULL,
+	answer_date	        DATE NULL,
+	product_id	        INTEGER NOT NULL,
+    user_id             INTEGER NOT NULL,
+	
+	FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
+	FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    CONSTRAINT	pk_QUERY PRIMARY KEY (query_id)
+);
 
 -------------- Triggers -----------------------
 -- Triggers
@@ -180,6 +197,17 @@ BEGIN
 	IF :NEW.product_image_id IS NULL THEN
 		SELECT product_image_id_seq.nextval
 		INTO :new.product_image_id
+		FROM dual;
+	END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER query_auto_increment
+BEFORE INSERT ON queries
+FOR EACH ROW
+BEGIN
+	IF :NEW.query_id IS NULL THEN
+		SELECT query_id_seq.nextval
+		INTO :new.query_id
 		FROM dual;
 	END IF;
 END;

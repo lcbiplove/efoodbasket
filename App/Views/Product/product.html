@@ -237,59 +237,51 @@
                         Queries
                     </div>
                     <div class="queries-form-wrapper">
-                        <form class="queries-form" action="#" method="post">
-                            <input class="query-inpt" type="text" placeholder="Your queries...">
-                            <button type="submit" class="submit-btn">Submit</button>
+                        <form id="queries-form"  action="/ajax/products/{{product.PRODUCT_ID}}/add-query/" method="post">
+                            <div class="queries-form">
+                                <input id="question" name="question" class="query-inpt" type="text" placeholder="Your queries...">
+                            {% if is_customer or is_admin %}
+                                <button type="submit" class="submit-btn">Submit</button>
+                            {% elseif not is_customer %}
+                                <a href="/login/?next=/products/{{ product.PRODUCT_ID }}/" class="submit-btn">Submit</a>
+                            {% endif %}
+                            </div>
+                            <small id="query_error" class="red-text"></small>
                         </form>
                         <div class="all-queries-wrapper">
                             <div class="queries-trader-heading">
                                 Queries answered by trader
                             </div>
-                            <div class="queries-row">
-                                <div class="each-query">
+                            <div id="queries-container" class="queries-row">
+                                {% for query in product.getQueries %}
+                                <div class="each-query" data-query-id="{{ query.QUERY_ID }}">
                                     <div class="query-wrapper">
                                         <div class="query-indicator"></div>
                                         <div>
-                                            <div class="query-text">What is the quality of the product?</div>
+                                            <div class="query-text">{{ query.QUESTION }}</div>
                                             <div class="querer-detail">
-                                                <span>by customer1</span>
-                                                <span class="stock-text">1 day ago</span>
+                                                <span>by {{ query.questionBy }}</span>
+                                                <span class="stock-text">{{ query.agoQuestion }}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="query-wrapper">
+                                    {% if query.ANSWER %}
+                                     <div class="query-wrapper">
                                         <div class="query-indicator answer"></div>
                                         <div>
-                                            <div class="query-text">It is good.</div>
+                                            <div class="query-text">{{query.ANSWER}}.</div>
                                             <div class="querer-detail">
                                                 <span>by trader</span>
-                                                <span class="stock-text">1 day ago</span>
+                                                <span class="stock-text">{{ query.agoAnswer}}</span>
                                             </div>
                                         </div>
                                     </div>
+                                    {% endif %}
                                 </div>
-                                <div class="each-query">
-                                    <div class="query-wrapper">
-                                        <div class="query-indicator"></div>
-                                        <div>
-                                            <div class="query-text">What is the quality of the product?</div>
-                                            <div class="querer-detail">
-                                                <span>by customer1</span>
-                                                <span class="stock-text">1 day ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="query-wrapper">
-                                        <div class="query-indicator answer"></div>
-                                        <div>
-                                            <div class="query-text">It is good.</div>
-                                            <div class="querer-detail">
-                                                <span>by trader</span>
-                                                <span class="stock-text">1 day ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% else %}
+                                    <h4 id="no-query" class="text-center grey-text" style="margin: 40px auto 20px auto;">No queries yet.</h4>
+                                {% endfor %}
+                                
                             </div>
                         </div>
                     </div>
@@ -303,5 +295,6 @@
 {% block scripts %}
     <script src="/public/js/shopBySlider.js"></script>
     <script src="/public/js/imageZoom.js"></script>
+    <script src="/public/js/queries.js"></script>
     <script src="/public/js/main-product.js"></script>
 {% endblock %}

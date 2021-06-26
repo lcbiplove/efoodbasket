@@ -257,6 +257,29 @@ class Product extends Model
     }
 
     /**
+     * All queries of the product
+     * 
+     * @return array
+     */
+    public function getQueries()
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT q.QUERY_ID, QUESTION, ANSWER, Q.PRODUCT_ID, Q.USER_ID, 
+                to_char(QUESTION_DATE, 'YYYY-MM-DD HH24:MI:SS') as QUESTION_DATE,
+                to_char(ANSWER_DATE, 'YYYY-MM-DD HH24:MI:SS') as ANSWER_DATE
+                FROM queries q, products p 
+                WHERE q.product_id = p.product_id AND p.product_id = :product_id 
+                ORDER BY q.answer NULLS LAST, answer_date, question_date DESC";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$this->PRODUCT_ID]);
+
+        return $result->fetchAll(\PDO::FETCH_CLASS, 'App\Models\Query');
+    }
+
+    /**
      * Get maximum 4 rows of similar products
      * 
      * @return mixed boolean, array

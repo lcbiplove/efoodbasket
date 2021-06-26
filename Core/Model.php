@@ -36,7 +36,7 @@ abstract class Model
      * Get the next id from the sequence to add to database
      * 
      * @param string name of sequence
-     * @return int to be inserted id
+     * @return array "db" => gives connection,  "next_id" => gives next to be inserted id
      */
     protected static function getNextId($sequence_name)
     {

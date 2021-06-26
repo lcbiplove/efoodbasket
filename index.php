@@ -65,6 +65,8 @@ $router->add("trader/products/{product_id:\d+}/delete/", ['controller' => 'Produ
 $router->add("trader/{trader_id:\d+}/products/", ['controller' => 'Product', 'action' => 'traderProducts']);
 $router->add("trader/manage-products/", ['controller' => 'Product', 'action' => 'manageProducts']);
 
+$router->add("ajax/products/{product_id:\d+}/add-query/", ['controller' => 'Query', 'action' => 'addQuery']);
+// $router->add("ajax/product/{product_id:\d+}/queries/{query_id:\d+}/", ['controller' => 'Product', 'action' => 'manageProducts']);
 
 $router->add('{controller}/{action}/');
 

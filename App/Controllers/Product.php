@@ -29,6 +29,7 @@ class Product extends \Core\Controller
         if(!$product){
             $this->show404();
         }
+
         View::renderTemplate('Product/product.html', [
             'product' => $product
         ]);

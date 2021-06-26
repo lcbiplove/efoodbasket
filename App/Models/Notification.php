@@ -133,12 +133,24 @@ class Notification extends \Core\Model
     {
         $pdo = static::getDB();
 
-        $sql = "SELECT * FROM NOTIFICATIONS WHERE user_id = :user_id";
+        $sql = "SELECT NOTIFICATION_ID, IMAGE_LINK, TITLE, BODY, SENDER_TEXT, MAIN_LINK, IS_SEEN, USER_ID,
+                to_char(NOTIFIED_DATE, 'YYYY-MM-DD HH24:MI:SS') as NOTIFIED_DATE
+                FROM NOTIFICATIONS WHERE user_id = :user_id";
 
         $result = $pdo->prepare($sql);
         $result->execute([$user_id]);
 
         return $result->fetchAll(\PDO::FETCH_CLASS, self::class);
+    }
+
+    /**
+     * Get time difference btween now and notified date
+     * 
+     * @return string
+     */
+    public function agoDate()
+    {
+        return Extra::timeAgo($this->NOTIFIED_DATE);
     }
 
     /**
