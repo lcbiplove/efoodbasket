@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Auth;
 use App\Extra;
 use Core\Model;
 
@@ -353,6 +354,29 @@ class Product extends Model
 
         if($image_row){
             return "/media/products/" . $image_row['IMAGE_NAME']; 
+        }
+        return false;
+    }
+
+    /**
+     * If product is also in user's wishlist
+     * 
+     * @return boolean
+     */
+    public function isInWishList()
+    {
+        $pdo = static::getDB();
+        $sql = "select count(*) from wishlists w, products p where w.product_id = p.product_id and w.user_id = :user_id and p.product_id = :product_id";
+        $result = $pdo->prepare($sql);
+        $result->execute([
+            'user_id' => Auth::getUserId(),
+            'product_id' => $this->PRODUCT_ID
+        ]);
+
+        $rowsCount = $result->fetchColumn(); 
+
+        if($rowsCount >= 1){
+            return true;
         }
         return false;
     }

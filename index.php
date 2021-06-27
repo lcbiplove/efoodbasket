@@ -70,6 +70,10 @@ $router->add("ajax/products/{product_id:\d+}/add-answer/{query_id:\d+}/", ['cont
 $router->add("ajax/products/{product_id:\d+}/delete-query/{query_id:\d+}/", ['controller' => 'Query', 'action' => 'deleteQuery']);
 $router->add("ajax/products/{product_id:\d+}/delete-answer/{query_id:\d+}/", ['controller' => 'Query', 'action' => 'deleteAnswer']);
 
+$router->add("wishlists/", ['controller' => 'WishList', 'action' => 'index']);
+$router->add("ajax/wishlists/add/", ['controller' => 'WishList', 'action' => 'add']);
+$router->add("ajax/wishlists/delete/", ['controller' => 'WishList', 'action' => 'delete']);
+
 $router->add('{controller}/{action}/');
 
 $url = $_SERVER['QUERY_STRING'];

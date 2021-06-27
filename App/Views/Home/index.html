@@ -82,12 +82,17 @@
 
                                 <div class="card-footer">
                                     <div class="card-price">{{ product.PRICE|number_format(2) }} GBP</div>
-                                    {% if product.isAvailable %}
-                                    <div class="card-cart">
-                                        <span></span>
-                                        <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
+                                    <div class="d-flex">
+                                        <div class="card-cart wishlist-button active" data-product-id="{{product.PRODUCT_ID}}">
+                                            <span class='iconify' data-icon='bi:heart-fill' data-inline='false'></span>
+                                        </div>
+                                        {% if product.isAvailable %}
+                                            <div class="card-cart">
+                                                <span></span>
+                                                <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -96,13 +101,13 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 
 {% endblock %}
 
 {% block scripts %}
+    <script src="/public/js/wishlist.js"></script>
     <script src="/public/js/slider.js"></script>
     <script src="/public/js/shopBySlider.js"></script>
     <script src="/public/js/main.js"></script>

@@ -356,6 +356,9 @@ nav {
   text-align: center;
   line-height: 20px;
 }
+.wishlist-button.active {
+  color: var(--light-green);
+}
 /* Mobile */
 .cart-search-wrapper {
   display: none;

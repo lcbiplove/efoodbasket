@@ -75,7 +75,7 @@ Crop with css
 }
 .card-cart {
     cursor: pointer;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     display: flex;
     color: #777;
     align-items: center;
@@ -83,13 +83,17 @@ Crop with css
     background-color: transparent;
     padding: 5px;
 }
+.card-cart.wishlist-button {
+    font-size: 1.6rem;
+    margin-right: -3px;
+}
 .card-cart:hover {
     color: #000;
 }
 .card-cart span {
     display: inline-block;
     width: 1px;
-    margin: 0 10px;
+    margin: 0 8px;
     height: 25px;
     background-color: #999;
 }
