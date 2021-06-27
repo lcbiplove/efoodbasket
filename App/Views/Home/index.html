@@ -83,9 +83,15 @@
                                 <div class="card-footer">
                                     <div class="card-price">{{ product.PRICE|number_format(2) }} GBP</div>
                                     <div class="d-flex">
-                                        <div class="card-cart wishlist-button active" data-product-id="{{product.PRODUCT_ID}}">
-                                            <span class='iconify' data-icon='bi:heart-fill' data-inline='false'></span>
+                                        {% if is_authenticated and not is_trader %}
+                                        <div class="card-cart wishlist-button {% if product.isInWishList %}active{% endif %}" data-product-id="{{product.PRODUCT_ID}}">
+                                            {% if product.isInWishList %}
+                                                <span class='iconify' data-icon='bi:heart-fill' data-inline='false'></span>
+                                            {% else %}
+                                                <span class='iconify' data-icon='el:heart-empty' data-inline='false'></span>
+                                            {% endif %}
                                         </div>
+                                        {% endif %}
                                         {% if product.isAvailable %}
                                             <div class="card-cart">
                                                 <span></span>
