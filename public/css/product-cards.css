@@ -31,8 +31,8 @@
     top: -10px;
     box-shadow: 0 4px 20px 0 #00000025;
 }
-/* 
-Crop with css
+
+/* Crop with css */
 .card-img-wrapper a {
     overflow: hidden;
     position: relative;
@@ -50,12 +50,12 @@ Crop with css
     -webkit-transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
-} */
-.card-img {
+}
+/* .card-img {
     border-radius: 15px;
     width: 100%;
     background-color: #eee;
-}
+} */
 .card-body {
     padding: 10px 0;
 }
