@@ -70,7 +70,7 @@ class Query extends \Core\Controller
                 $notification = new Notification([
                     'title' => "Query about product",
                     'body' => "You have recieved a query on your product: \"$stripped_ques\"'",
-                    'image_link' => "/public/images/efoodbasket-logo.png",
+                    'image_link' => "/public/images/notif-question.png",
                     'sender_text' => "From {$inserted_query->QUESTION_BY}",
                     'main_link' => "/products/{$product_id}/?is_notif=true&query_id={$inserted_query->QUERY_ID}",
                     'user_id' => Product::getProductObjectById($product_id)->shop()->TRADER_ID,
@@ -126,7 +126,7 @@ class Query extends \Core\Controller
                 $notification = new Notification([
                     'title' => "Answer about product",
                     'body' => "Your query about a product is answerd: \"$stripped_ans\"'",
-                    'image_link' => "/public/images/efoodbasket-logo.png",
+                    'image_link' => "/public/images/notif-answer.png",
                     'sender_text' => "From {$fullname}",
                     'main_link' => "/products/{$product_id}/?is_notif=true&query_id={$query->QUERY_ID}",
                     'user_id' => $query->USER_ID,
