@@ -94,7 +94,7 @@ CREATE TABLE PRODUCT_CATEGORIES (
 );
 CREATE TABLE PRODUCTS (
 	product_id	        INTEGER NOT NULL,
-	product_name	    VARCHAR2(50) NOT NULL,
+	product_name	    VARCHAR2(255) NOT NULL,
 	price       	    NUMBER(10, 2) NOT NULL,
 	quantity	        NUMBER(10) NOT NULL,
 	availability 	    VARCHAR2(1) DEFAULT 'Y',
