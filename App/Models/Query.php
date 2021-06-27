@@ -95,6 +95,20 @@ class Query extends Model
     }
 
     /**
+     * Delete answer object from table
+     * 
+     * @return boolean
+     */
+    public function deleteAnswer()
+    {
+        $pdo = static::getDB();
+
+        $sql_query = "UPDATE QUERIES SET answer = NULL, answer_date = NULL WHERE query_id = :query_id";
+        $prepared = $pdo->prepare($sql_query);
+        return $prepared->execute([$this->QUERY_ID]);
+    }
+
+    /**
      * Return if query is answered or not
      * 
      * @return boolean

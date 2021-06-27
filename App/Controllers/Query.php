@@ -72,7 +72,7 @@ class Query extends \Core\Controller
                     'body' => "You have recieved a query on your product: \"$stripped_ques\"'",
                     'image_link' => "/public/images/efoodbasket-logo.png",
                     'sender_text' => "From {$inserted_query->QUESTION_BY}",
-                    'main_link' => "/products/{$product_id}/",
+                    'main_link' => "/products/{$product_id}/?is_notif=true&query_id={$inserted_query->QUERY_ID}",
                     'user_id' => Product::getProductObjectById($product_id)->shop()->TRADER_ID,
                     'is_seen' => Notification::IS_NOT_SEEN
                 ]);
@@ -128,7 +128,7 @@ class Query extends \Core\Controller
                     'body' => "Your query about a product is answerd: \"$stripped_ans\"'",
                     'image_link' => "/public/images/efoodbasket-logo.png",
                     'sender_text' => "From {$fullname}",
-                    'main_link' => "/products/{$product_id}/",
+                    'main_link' => "/products/{$product_id}/?is_notif=true&query_id={$query->QUERY_ID}",
                     'user_id' => $query->USER_ID,
                     'is_seen' => Notification::IS_NOT_SEEN
                 ]);
@@ -155,19 +155,52 @@ class Query extends \Core\Controller
         }
 
         $query = Models\Query::getQueryById($query_id);
+        $product = Product::getProductObjectById($product_id);
 
         $data = [];
-        if($query->USER_ID != Auth::getUserId()){
-            $data['error'] = "You are not authorized to perform this action";
-        } else {
+        if($query->PRODUCT_ID == $product_id && Auth::getUserId() == $product->shop()->TRADER_ID){
             $data = [];
 
-            $query->delete();
             if($query->delete()) {
                 $data['success'] = "OK";
             } else {
                 $data['error'] = "Unable to delete query. Try reloading the page.";
             }
+        } else {
+            $data['error'] = "You are not authorized to perform this action";
+        }
+        
+        echo json_encode($data);
+    }
+
+    /**
+     * Delete answer action
+     * 
+     * @return void
+     */
+    public function deleteAnswerAction()
+    {
+        $product_id = $this->route_params['product_id'];
+        $query_id = $this->route_params['query_id'];
+
+        if(empty($_POST)){
+            $this->redirect("/products/$product_id/");
+        }
+
+        $product = Product::getProductObjectById($product_id);
+        $query = Models\Query::getQueryById($query_id);
+
+        $data = [];
+        if($query->PRODUCT_ID == $product_id && Auth::getUserId() == $product->shop()->TRADER_ID){
+            $data = [];
+
+            if($query->deleteAnswer()) {
+                $data['success'] = "OK";
+            } else {
+                $data['error'] = "Unable to delete answer. Try reloading the page.";
+            }
+        } else {
+            $data['error'] = "You are not authorized to perform this action";
         }
         
         echo json_encode($data);
