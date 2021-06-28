@@ -173,4 +173,13 @@ class Auth
         }
         return false;
     }
+
+    public static function getCartObject()
+    {
+        $user_id = static::getUserId();
+        if($user_id) {
+            return Models\Cart::getCartObject($user_id);
+        }
+        return false;
+    }
 }

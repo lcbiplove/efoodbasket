@@ -17,5 +17,25 @@ use Core\View;
  */
 class Cart extends \Core\Controller
 {
-    
+    /**
+     * Before filter
+     */
+    protected function before()
+    {
+        $this->requireLogin();
+
+        if(Auth::isTraderAuthenticated()){
+            $this->redirect("/");
+        }
+    }
+
+    /**
+     * Carts page
+     * 
+     * @return void
+     */
+    public function indexAction()
+    {
+        View::renderTemplate("Cart/cart.html");
+    }
 }
