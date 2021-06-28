@@ -5,8 +5,6 @@ window.addEventListener("load", function(){
     
     var MAX_QUANTITY_VALUE = stock_count > 20 ? 20 : stock_count;
 
-    console.log(MAX_QUANTITY_VALUE);
-    
     var previewImage = document.getElementById("preview-img");
     var productIndicators = document.querySelectorAll(".product-img-indicator");
 

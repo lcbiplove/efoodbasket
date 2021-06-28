@@ -8,8 +8,8 @@ DROP TABLE PRODUCT_CARTS CASCADE CONSTRAINTS;
 
 CREATE TABLE CARTS (
 	cart_id             INTEGER NOT NULL,
-	product_count       NUMBER(10) DEFAULT 0,
-    total	            NUMBER(10,2) DEFAULT 0,
+	total_items       	NUMBER(10) DEFAULT 0,
+    total_price	        NUMBER(10,2) DEFAULT 0,
     user_id             INTEGER NOT NULL UNIQUE,
 	
 	FOREIGN KEY (user_id) REFERENCES Users(user_id),
@@ -17,11 +17,11 @@ CREATE TABLE CARTS (
 );
 CREATE TABLE PRODUCT_CARTS (
     product_cart_id     INTEGER NOT NULL,
-    price       	    NUMBER(10, 2) NOT NULL,
 	quantity	        NUMBER(10) NOT NULL,
 	cart_id             INTEGER NOT NULL,
     product_id          INTEGER NOT NULL,
-	
+
+	FOREIGN KEY (product_id) REFERENCES Products(product_id),
 	CONSTRAINT	pk_PRODUCT_CART PRIMARY KEY (product_cart_id)
 );
 

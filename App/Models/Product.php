@@ -380,6 +380,17 @@ class Product extends Model
         }
         return false;
     }
+
+    /**
+     * Returns trader name of the product
+     * 
+     * @return string
+     */
+    public function traderName()
+    {
+        $owner = User::getUserObjectFromId($this->getOwnerId());
+        return $owner->fullname;
+    }
 }
 
 class ProductImage extends Model

@@ -23,7 +23,7 @@ block titleLinks %}
         <div class="check-all-carts-wrapper">
           <div class="select-check-wrapper">
             <label class="select-check-container">
-              Select all item(s) ({{ cart.PRODUCT_COUNT}} item(s))
+              Select all item(s) ({{ cart.cartItemsCount }} item(s))
               <input id="checkAllCheckbox" type="checkbox" />
               <span class="checkmark"></span>
             </label>
@@ -46,27 +46,27 @@ block titleLinks %}
                   <input
                     class="each-checkbox"
                     type="checkbox"
-                    data-product-id="1"
-                    data-product-price="50"
-                    data-product-quantity="1"
-                    data-product-total="50"
-                    data-product-discount="0"
+                    data-product-id="{{ cartItem.PRODUCT_ID }}"
+                    data-product-price="{{ cartItem.product.PRICE }}"
+                    data-product-quantity="{{ cartItem.QUANTITY }}"
+                    data-product-total="{{ cartItem.totalPrice }}"
+                    data-product-discount="{{ cartItem.product.DISCOUNT }}"
                   />
                   <span class="checkmark"></span>
                 </label>
                 <div class="card-big">
                   <div class="card-img-wrapper">
-                    <a href="product.html">
+                    <a href="/products/{{ cartItem.PRODUCT_ID }}/">
                       <img
                         class="card-big-img"
-                        src="images/placeholder-image.png"
-                        alt=""
+                        src="{{ cartItem.product.thumbnailUrl }}"
+                        alt="cart-item"
                       />
                     </a>
                   </div>
                   <div class="card-big-body">
                     <div class="card-big-title">
-                      <a href="product.html"> Product Title </a>
+                      <a href="/products/{{ cartItem.PRODUCT_ID }}/">{{ cartItem.product.PRODUCT_NAME }}</a>
                       <button class="individual-delete-btn each-delete">
                         <span
                           class="iconify"
@@ -79,18 +79,20 @@ block titleLinks %}
                       <div class="card-key-value-row">
                         <div class="card-key no-key-sm">Price</div>
                         <div class="card-value">
-                          <div class="card-big-price each-price">&pound;50</div>
+                          <div class="card-big-price each-price">&pound;{{ cartItem.product.PRICE|number_format(2) }}</div>
                         </div>
                       </div>
+                      {% if cartItem.product.DISCOUNT > 0  %}
                       <div class="card-key-value-row">
 													<div class="card-value">
-													<div class="light-text"><b>10% off</b></div>
+													<div class="light-text"><b>{{ cartItem.product.DISCOUNT|number_format(2) }}% off</b></div>
 													</div>
 											</div>
-                      <div class="card-key-value-row cart-trader-name" cl>
+                      {% endif %}
+                      <div class="card-key-value-row cart-trader-name">
                         <div class="card-key">Trader</div>
                         <div class="card-value">
-                          <span>Trader Name</span>
+                          <span>{{ cartItem.product.traderName }}</span>
                         </div>
                       </div>
                     </div>
@@ -98,19 +100,19 @@ block titleLinks %}
                       <div class="quantity-wrapper">
                         <span class="no-key-sm">Quantity</span>
                         <button class="quantity-btn each-subtract">-</button>
-                        <span class="quantity each-quantity">1</span>
+                        <span class="quantity each-quantity">{{cartItem.QUANTITY}}</span>
                         <button class="quantity-btn each-add">+</button>
                       </div>
                       <div class="total-wrapper">
                         <div class="total-text">Total</div>
-                        <div class="total-value each-total">&pound;50</div>
+                        <div class="total-value each-total">&pound;{{ cartItem.totalPrice|number_format(2) }}</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               {% else %}
-                  <div style="margin: 60px auto; text-align:center;">No cart item added</div>
+              <div style="margin: 60px auto; text-align:center;">No cart item added</div>
               {% endfor %}
             </div>
           </div>
@@ -128,11 +130,11 @@ block titleLinks %}
               <div class="cart-summary-body">
                 <div class="cart-summary-row">
                   <div class="cart-summary-key">
-                    Sub total (<span class="subtotal-items">3</span>
+                    Sub total (<span class="subtotal-items">{{ cart.cartItemsCount }}</span>
                     items)
                   </div>
                   <div id="cart-sub-total" class="cart-summary-value">
-                    &pound;200
+                    &pound;{{ cart.totalPrice|number_format(2) }}
                   </div>
                 </div>
                 <div class="cart-summary-voucher-wrapper">
@@ -149,7 +151,7 @@ block titleLinks %}
                 <div class="cart-summary-row">
                   <div class="cart-summary-key">Total</div>
                   <div class="cart-summary-value light-text cart-total-price">
-                    &pound;200
+                    &pound;{{ cart.totalPrice|number_format(2) }}
                   </div>
                 </div>
               </div>

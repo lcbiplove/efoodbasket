@@ -75,6 +75,7 @@ $router->add("ajax/wishlists/add/", ['controller' => 'WishList', 'action' => 'ad
 $router->add("ajax/wishlists/delete/", ['controller' => 'WishList', 'action' => 'delete']);
 
 $router->add("cart/", ['controller' => 'Cart', 'action' => 'index']);
+$router->add("ajax/cart/add/", ['controller' => 'Cart', 'action' => 'add']);
 
 $router->add('{controller}/{action}/');
 

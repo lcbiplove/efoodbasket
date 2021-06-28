@@ -73,6 +73,35 @@ function ajax(method, action, data, callback) {
     xhttp.open(method, action);
     xhttp.send(data);
 }
+var showJsMessage = function (message, type, timeout) {
+    var wrapper = document.createElement("div");
+    wrapper.className = "show-js-mssg-mssg-wrapper show-for-"+type;
+    var indicator = document.createElement("div");
+    indicator.className = "show-js-mssg-indicator "+type;
+    wrapper.appendChild(indicator);
+    var mssgWrapper = document.createElement("div");
+    mssgWrapper.className = "show-js-mssg-mssg";
+    mssgWrapper.innerHTML = message;
+    var close = document.createElement("div");
+    close.className = "show-js-mssg-box-close";
+    close.onclick = function () {
+        closeMessage();
+    }
+    wrapper.appendChild(mssgWrapper)
+    wrapper.appendChild(close)
+
+    wrapper.classList.add("active");
+
+    document.body.appendChild(wrapper);
+
+    setTimeout(function () {
+        closeMessage();
+    }, timeout || 10000);
+
+    var closeMessage = function () {
+        wrapper.remove();
+    }
+}
 menu_icon.onclick = function(){
     if(this.classList.contains("open")){
         closeMenu();
