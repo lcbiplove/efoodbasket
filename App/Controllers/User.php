@@ -9,6 +9,7 @@ use App\Models\Validation\UserValidation;
 use App\Models\Validation\TraderValidation;
 use App\Extra;
 use App\Email;
+use App\Models\Cart;
 use App\Models\Notification;
 use App\Models\Trader;
 
@@ -277,6 +278,9 @@ class User extends \Core\Controller
                         
                         Extra::setMessageCookie("Your email is verified successfully. You will be notified once your documents are reviewed.", Extra::COOKIE_MESSAGE_INFO);
                     } else {
+                        $cart = new Cart(['user_id' => $user->user_id]);
+                        $cart->create();
+
                         $notification = new Notification([
                             'title' => "Welcome to efoodbasket",
                             'body' => "Hi, we are happy to see you in our platform. We hope you have a great experience with us. We will be looking for your feedback.",

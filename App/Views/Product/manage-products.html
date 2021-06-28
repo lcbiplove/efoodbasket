@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Manage Products | efoodbasket{% endblock %}
+{% block title %}{% if isVisitorOwner %}Manage Products{% else %}Products{% endif %} | efoodbasket{% endblock %}
 
 {% block titleLinks %}
     <link rel="stylesheet" type="text/css" href="/public/css/stars.css">

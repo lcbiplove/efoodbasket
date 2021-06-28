@@ -52,7 +52,7 @@
                                 <div>
                                     <a class="blue-text" href="/trader/{{product.getOwnerId}}/products/">Visit Trader</a>
                                 </div>
-                                <div class="stock-text">
+                                <div id="stock-count" class="stock-text" data-stock-count="{{product.QUANTITY}}">
                                 {% if product.isAvailable %}
                                     In Stock 
                                 {% else %}
@@ -73,6 +73,7 @@
                                     </button>
                                 </form>
                             {% else %}
+                            {% if user %}
                                 <div id="wish-product" class="share-product wishlist-button {% if product.isInWishList %}active{% endif %}" data-product-id="{{product.PRODUCT_ID}}">
                                     {% if product.isInWishList %}
                                         <span class='iconify' data-icon='bi:heart-fill' data-inline='false'></span>
@@ -80,6 +81,7 @@
                                         <span class='iconify' data-icon='el:heart-empty' data-inline='false'></span>
                                     {% endif %}
                                 </div>
+                            {% endif %}
                                 <div id="share-product" class="share-product ml-5">
                                     <span class="iconify" data-icon="bi:share-fill" data-inline="false"></span>
                                 </div>
@@ -136,6 +138,7 @@
                                     <div class="card-footer">
                                         <div class="card-price">{{ similar_product.PRICE|number_format(2) }} GBP</div>
                                         <div class="d-flex">
+                                            {% if user %}
                                             <div class="card-cart wishlist-button {% if similar_product.isInWishList %}active{% endif %}" data-product-id="{{similar_product.PRODUCT_ID}}">
                                                 {% if similar_product.isInWishList %}
                                                     <span class='iconify' data-icon='bi:heart-fill' data-inline='false'></span>
@@ -143,6 +146,7 @@
                                                     <span class='iconify' data-icon='el:heart-empty' data-inline='false'></span>
                                                 {% endif %}
                                             </div>
+                                            {% endif %}
                                             {% if similar_product.isAvailable %}
                                                 <div class="card-cart">
                                                     <span></span>

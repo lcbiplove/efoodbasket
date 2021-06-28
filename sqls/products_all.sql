@@ -79,6 +79,6 @@ END;
 /
 
 -- Product categories add by admin
-INSERT INTO PRODUCT_CATEGORIES VALUES (1, 'Meat', 'Here all the data related to pure meats are placed');
-INSERT INTO PRODUCT_CATEGORIES VALUES (2, 'Bakery', 'Here all the data related to pure baked stuffs are placed');
-INSERT INTO PRODUCT_CATEGORIES VALUES (3, 'Fish', 'Here all the data related to pure fishes are placed');
+-- INSERT INTO PRODUCT_CATEGORIES VALUES (1, 'Meat', 'Here all the data related to pure meats are placed');
+-- INSERT INTO PRODUCT_CATEGORIES VALUES (2, 'Bakery', 'Here all the data related to pure baked stuffs are placed');
+-- INSERT INTO PRODUCT_CATEGORIES VALUES (3, 'Fish', 'Here all the data related to pure fishes are placed');

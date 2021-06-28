@@ -1,7 +1,11 @@
 window.addEventListener("load", function(){
     imageZoom("preview-img", "zoom-img-result"); 
+
+    var stock_count = this.document.getElementById("stock-count").getAttribute("data-stock-count");
     
-    var MAX_QUANTITY_VALUE = 20;
+    var MAX_QUANTITY_VALUE = stock_count > 20 ? 20 : stock_count;
+
+    console.log(MAX_QUANTITY_VALUE);
     
     var previewImage = document.getElementById("preview-img");
     var productIndicators = document.querySelectorAll(".product-img-indicator");
