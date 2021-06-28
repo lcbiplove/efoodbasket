@@ -425,14 +425,6 @@
     cursor:  pointer;
     color: salmon;
 }
-@keyframes focusFade {
-    from {
-        background-color: var(--light-green);
-    }
-    to {
-        background-color: transparent;
-    }
-}
 
 
 

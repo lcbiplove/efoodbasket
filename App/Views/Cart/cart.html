@@ -41,7 +41,7 @@ block titleLinks %}
           <div class="cart-items-container">
             <div class="card-row">
               {% for cartItem in cart.getCartItems %}
-              <div class="card-col-big" data-product-id="">
+              <div class="card-col-big" data-product-id="{{ cartItem.PRODUCT_ID }}">
                 <label class="select-check-container">
                   <input
                     class="each-checkbox"
@@ -99,9 +99,9 @@ block titleLinks %}
                     <div class="quantity-total-wrapper">
                       <div class="quantity-wrapper">
                         <span class="no-key-sm">Quantity</span>
-                        <button class="quantity-btn each-subtract">-</button>
+                        <button class="quantity-btn each-subtract add-to-cart" data-product-id="{{cartItem.PRODUCT_ID}}" data-quantity="{{ cartItem.QUANTITY }}">-</button>
                         <span class="quantity each-quantity">{{cartItem.QUANTITY}}</span>
-                        <button class="quantity-btn each-add">+</button>
+                        <button class="quantity-btn each-add add-to-cart" data-product-id="{{cartItem.PRODUCT_ID}}" data-quantity="{{ cartItem.QUANTITY }}">+</button>
                       </div>
                       <div class="total-wrapper">
                         <div class="total-text">Total</div>

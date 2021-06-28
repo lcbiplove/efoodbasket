@@ -124,27 +124,42 @@ window.addEventListener("load", function () {
     return selected_ids;
   };
 
+  var onAddSuccess = function(response, new_quantity, index){
+    hideBigLoader();
+    updateAllData(new_quantity, index);
+
+    checkDisableBtns(new_quantity, allSubtractBtns[index], allAddBtns[index]);
+
+    checkProceedBtnDisable(proceedBtn, getTotalQuantity(), allAddBtns);
+  }
+
   allAddBtns.forEach(function (item, index) {
     item.onclick = function () {
       var new_quantity = myProductData[index].quantity + 1;
+      var product_id = myProductData[index].id;
 
-      updateAllData(new_quantity, index);
-
-      checkDisableBtns(new_quantity, allSubtractBtns[index], allAddBtns[index]);
-
-      checkProceedBtnDisable(proceedBtn, getTotalQuantity(), allAddBtns);
+      var data = new FormData();
+      data.append("product_id", product_id);
+      data.append("quantity", new_quantity);
+      data.append("replace", true);
+      ajax("POST", "/ajax/cart/add/", data, function (response) {
+        onAddSuccess(response, new_quantity, index);
+      });
     };
   });
 
   allSubtractBtns.forEach(function (item, index) {
     item.onclick = function () {
       var new_quantity = myProductData[index].quantity - 1;
-
-      updateAllData(new_quantity, index);
-
-      checkDisableBtns(new_quantity, allSubtractBtns[index], allAddBtns[index]);
-
-      checkProceedBtnDisable(proceedBtn, getTotalQuantity(), allAddBtns);
+      var product_id = myProductData[index].id;
+      
+      var data = new FormData();
+      data.append("product_id", product_id);
+      data.append("quantity", new_quantity);
+      data.append("replace", true);
+      ajax("POST", "/ajax/cart/add/", data, function (response) {
+        onAddSuccess(response, new_quantity, index);
+      });
     };
   });
 
@@ -167,9 +182,25 @@ window.addEventListener("load", function () {
     alert("You will delete: " + str);
   };
 
+  var onEachDeleteSuccess = function (response, index, product_id) {
+    hideBigLoader();
+    updateAllData(0, index);
+    var row = document.querySelector(".card-col-big[data-product-id='"+product_id+"']");
+    row.style = "opacity: 0.1; transition: opacity 1s; pointer-events: none;";
+    setTimeout(function () {
+      row.remove();
+    }, 1000);
+  }
+
   allDeleteBtns.forEach(function (item, index) {
     item.onclick = function () {
-      alert("You will delte id: " + myProductData[index].id);
+      var product_id = myProductData[index].id;
+      
+      var data = new FormData();
+      data.append("product_id", product_id);
+      ajax("POST", "/ajax/cart/delete/", data, function (response) {
+        onEachDeleteSuccess(response, index, product_id);
+      });
     };
   });
 

@@ -15,7 +15,7 @@ window.addEventListener("load", function(){
     var subtractQuantityBtn = document.getElementById("subtract-quantity");
     var quantityValueDiv = document.getElementById("quantity-value");
 
-    var quantityValue = +quantityValueDiv.innerHTML || 0;
+    var quantityValue = +quantityValueDiv.innerHTML || 1;
 
     var totalRatingCount = document.querySelector(".rating-summary-wrapper").getAttribute("data-rating-count");
 
@@ -39,12 +39,13 @@ window.addEventListener("load", function(){
     addQuantityBtn.onclick = function(){
         quantityValue += 1;
         quantityValueDiv.innerHTML = quantityValue;
-
+        addToCartBtn.setAttribute("data-quantity", quantityValue);
         checkDisablePlusMinus();
     }
     subtractQuantityBtn.onclick = function(){
         quantityValue -= 1;
         quantityValueDiv.innerHTML = quantityValue;
+        addToCartBtn.setAttribute("data-quantity", quantityValue);
 
         checkDisablePlusMinus();
     }

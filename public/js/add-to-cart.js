@@ -1,5 +1,7 @@
 window.addEventListener("load", function(){
+    var quant = 1;
     var addToCartBtns = this.document.querySelectorAll(".add-to-cart");
+    var clickedElem = null;
 
     var onAddSuccess = function(response){
         hideBigLoader();
@@ -11,6 +13,8 @@ window.addEventListener("load", function(){
         elem.onclick = function(e){
             e.preventDefault();
             showBigLoader();
+
+            clickedElem = elem;
 
             var product_id = elem.getAttribute("data-product-id");
             var quantity = elem.getAttribute("data-quantity") || 1;

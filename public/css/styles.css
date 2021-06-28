@@ -731,6 +731,14 @@ footer {
 .show-js-mssg-box-close:hover {
   background-color: #eee;
 }
+@keyframes focusFade {
+  from {
+      background-color: var(--light-green);
+  }
+  to {
+      background-color: transparent;
+  }
+}
 .loader {
   color: #ffffff;
   font-size: 5rem;
