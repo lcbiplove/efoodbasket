@@ -119,7 +119,7 @@ window.addEventListener("load", function () {
   };
 
   var updateAllElems = function () {
-    var getValidIndex = function () {
+    this.getValidIndex = function () {
       for (var index = 0; index < myProductData.length; index++) {
         var element = myProductData[index];
         if(element) {
@@ -210,6 +210,8 @@ window.addEventListener("load", function () {
       ajax("POST", "/ajax/cart/delete-multiple/", data, function (response) {
         hideBigLoader();
 
+        checkAllCheckbox.checked = false;
+
         if(product_ids_array.length == getTotalQuantity()) {
           window.location.reload();
           return;
@@ -235,6 +237,9 @@ window.addEventListener("load", function () {
   var onEachDeleteSuccess = function (response, index, product_id) {
     hideBigLoader();
     updateAllData(0, index);
+    if(!updateAllElems()){
+      window.location.reload();
+    }
     var row = document.querySelector(".card-col-big[data-product-id='"+product_id+"']");
     row.style = "opacity: 0.1; transition: opacity 1s; pointer-events: none;";
     setTimeout(function () {
