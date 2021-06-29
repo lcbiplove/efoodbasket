@@ -1,12 +1,14 @@
 window.addEventListener("load", function(){
-    var quant = 1;
+    var mainCartCountNavElem = document.getElementById("main-cart-count");
     var addToCartBtns = this.document.querySelectorAll(".add-to-cart");
     var clickedElem = null;
 
     var onAddSuccess = function(response){
         hideBigLoader();
         var result = JSON.parse(response);
+        var newTotalCartItems = result.totalItems;
         showJsMessage(result.message, result.type);
+        mainCartCountNavElem.innerHTML = newTotalCartItems;
     }
 
     addToCartBtns.forEach(function(elem){

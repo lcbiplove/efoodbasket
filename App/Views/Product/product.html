@@ -107,7 +107,7 @@
                         {% if product.isAvailable %}
                             <div class="product-actions">
                                 <button id="buy-now" class="product-action buy-now">Buy Now</button>
-                                <button id="add-to-cart" class="product-action add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">Add to Cart</button>
+                                <button id="add-to-cart" class="product-action cart-add-btn add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">Add to Cart</button>
                             </div>
                         {% endif %}
                     {% endif %}
@@ -148,7 +148,7 @@
                                             </div>
                                             {% endif %}
                                             {% if similar_product.isAvailable %}
-                                                <div class="card-cart">
+                                                <div class="add-to-cart card-cart" data-product-id="{{ similar_product.PRODUCT_ID }}" data-quantity="1" >
                                                     <span></span>
                                                     <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
                                                 </div>
@@ -331,7 +331,6 @@
                                 {% else %}
                                     <h4 id="no-query" class="text-center grey-text" style="margin: 40px auto 20px auto;">No queries yet.</h4>
                                 {% endfor %}
-                                
                             </div>
                         </div>
                     </div>

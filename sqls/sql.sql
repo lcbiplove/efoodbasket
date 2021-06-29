@@ -20,6 +20,10 @@ DROP SEQUENCE query_id_seq;
 CREATE SEQUENCE query_id_seq START WITH 1 INCREMENT BY 1;
 DROP SEQUENCE wishlist_id_seq;
 CREATE SEQUENCE wishlist_id_seq START WITH 1 INCREMENT BY 1;
+DROP SEQUENCE cart_id_seq;
+CREATE SEQUENCE cart_id_seq START WITH 1 INCREMENT BY 1;
+DROP SEQUENCE product_cart_id_seq;
+CREATE SEQUENCE product_cart_id_seq START WITH 1 INCREMENT BY 1;
 
 
 -- Drop tables --
@@ -32,6 +36,8 @@ DROP TABLE PRODUCTS CASCADE CONSTRAINTS;
 DROP TABLE PRODUCT_IMAGES CASCADE CONSTRAINTS;
 DROP TABLE QUERIES CASCADE CONSTRAINTS;
 DROP TABLE WISHLISTS CASCADE CONSTRAINTS;
+DROP TABLE CARTS CASCADE CONSTRAINTS;
+DROP TABLE PRODUCT_CARTS CASCADE CONSTRAINTS;
 
 -- Table Creation --
 CREATE TABLE USERS(
@@ -140,6 +146,22 @@ CREATE TABLE WISHLISTS (
 	FOREIGN KEY (user_id) REFERENCES Users(user_id),
     CONSTRAINT pk_WISHLIST PRIMARY KEY (wishlist_id)  
 );
+CREATE TABLE CARTS (
+	cart_id             INTEGER NOT NULL,
+    user_id             INTEGER NOT NULL UNIQUE,
+	
+	FOREIGN KEY (user_id) REFERENCES Users(user_id),
+	CONSTRAINT	pk_CART PRIMARY KEY (cart_id)
+);
+CREATE TABLE PRODUCT_CARTS (
+    product_cart_id     INTEGER NOT NULL,
+	quantity	        NUMBER(10) NOT NULL,
+	cart_id             INTEGER NOT NULL,
+    product_id          INTEGER NOT NULL,
+
+	FOREIGN KEY (product_id) REFERENCES Products(product_id),
+	CONSTRAINT	pk_PRODUCT_CART PRIMARY KEY (product_cart_id)
+);
 
 -------------- Triggers -----------------------
 -- Triggers
@@ -232,6 +254,28 @@ BEGIN
 	IF :NEW.wishlist_id IS NULL THEN
 		SELECT wishlist_id_seq.nextval
 		INTO :new.wishlist_id
+		FROM dual;
+	END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER cart_auto_increment
+BEFORE INSERT ON carts
+FOR EACH ROW
+BEGIN
+	IF :NEW.cart_id IS NULL THEN
+		SELECT cart_id_seq.nextval
+		INTO :new.cart_id
+		FROM dual;
+	END IF;
+END;
+/
+CREATE OR REPLACE TRIGGER product_cart_auto_increment
+BEFORE INSERT ON product_carts
+FOR EACH ROW
+BEGIN
+	IF :NEW.product_cart_id IS NULL THEN
+		SELECT product_cart_id_seq.nextval
+		INTO :new.product_cart_id
 		FROM dual;
 	END IF;
 END;

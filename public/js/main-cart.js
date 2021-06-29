@@ -1,4 +1,5 @@
 window.addEventListener("load", function () {
+  var mainCartCountNavElem = document.getElementById("main-cart-count");
   /* All progress bar and main wrappers */
   var cartWrapper = document.getElementById("cart-wrapper");
   var shoppingWrapper = document.getElementById("shopping-cart");
@@ -12,6 +13,7 @@ window.addEventListener("load", function () {
   var progressSuccess = document.getElementById("progress-bar-success");
 
   /* Shopping Cart */
+  var cartItemCountSelectElem = document.getElementById("cart-items-selected");
   var checkAllCheckbox = document.getElementById("checkAllCheckbox");
   var cartTotalElements = document.querySelectorAll(".cart-total-price");
   var subTotalElement = document.getElementById("cart-sub-total");
@@ -111,14 +113,18 @@ window.addEventListener("load", function () {
     subtotalItemElems.forEach(function (elem) {
       elem.innerHTML = getTotalQuantity();
     });
+    cartItemCountSelectElem.innerHTML = getTotalQuantity();
+    mainCartCountNavElem.innerHTML = getTotalQuantity();
   };
 
   var getSelectedItems = function () {
     var selected_ids = [];
     allCheckboxes.forEach(function (item, index) {
       if (item.checked === true) {
-        var id = myProductData[index].id;
-        selected_ids.push(id);
+        if(myProductData[index]){
+          var id = myProductData[index].id;
+          selected_ids.push(id);
+        }
       }
     });
     return selected_ids;
@@ -174,12 +180,39 @@ window.addEventListener("load", function () {
   };
 
   mainDeleteBtn.onclick = function () {
-    var str = "";
-    getSelectedItems().forEach(function (item) {
-      str += item;
-      str += "  ";
-    });
-    alert("You will delete: " + str);
+    var product_ids_array = getSelectedItems();
+    if(product_ids_array.length > 0){
+      showBigLoader();
+      var product_ids = product_ids_array.join();
+
+      var data = new FormData();
+      data.append("product_ids", product_ids);
+
+      console.log(getTotalQuantity() + " / " + product_ids_array.length);
+
+      ajax("POST", "/ajax/cart/delete-multiple/", data, function (response) {
+        hideBigLoader();
+
+        if(product_ids_array.length == getTotalQuantity()) {
+          window.location.reload();
+          return;
+        }
+
+        myProductData.forEach((elem, index) => {
+          var product_id = elem.id;
+          if(product_ids_array.includes(product_id)){
+            updateAllData(0, index);
+
+            var row = document.querySelector(".card-col-big[data-product-id='"+product_id+"']");
+            row.style = "opacity: 0.1; transition: opacity 1s; pointer-events: none;";
+            setTimeout(function () {
+              row.remove();
+              delete myProductData[index];
+            }, 1000);
+          }
+        });
+      });
+    }
   };
 
   var onEachDeleteSuccess = function (response, index, product_id) {
@@ -189,6 +222,7 @@ window.addEventListener("load", function () {
     row.style = "opacity: 0.1; transition: opacity 1s; pointer-events: none;";
     setTimeout(function () {
       row.remove();
+      delete myProductData[index];
     }, 1000);
   }
 

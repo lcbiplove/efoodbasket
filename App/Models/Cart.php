@@ -68,7 +68,9 @@ class Cart extends Model
         $pdo = static::getDB();
 
         $sql = "SELECT pc.*
-                FROM CARTS c, PRODUCT_CARTS pc WHERE c.cart_id = pc.cart_id AND c.cart_id = :cart_id";
+                FROM CARTS c, PRODUCT_CARTS pc, PRODUCTS p
+                WHERE c.cart_id = pc.cart_id AND pc.product_id = p.product_id AND c.cart_id = :cart_id 
+                ORDER BY p.DISCOUNT DESC, pc.QUANTITY * p.price DESC, pc.QUANTITY DESC ";
 
         $result = $pdo->prepare($sql);
         $result->execute([$this->CART_ID]);
@@ -128,7 +130,7 @@ class Cart extends Model
      */
     public function isEmpty()
     {
-        return $this->TOTAL_ITEMS == 0;
+        return $this->cartItemsCount() == 0;
     }
 
     /**

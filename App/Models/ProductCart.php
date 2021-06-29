@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Auth;
 use Core\Model;
 
 class ProductCart extends Model
@@ -24,18 +25,23 @@ class ProductCart extends Model
     /**
      * Create cart item for the cart
      * 
-     * @return boolean
+     * @return mixed cart items count if true, false otherwise
      */
     public function save()
     {
         $pdo = static::getDB();
         $sql_query = "INSERT INTO PRODUCT_CARTS (quantity, cart_id, product_id) VALUES (:quantity, :cart_id, :product_id)";
 
-        return $pdo->prepare($sql_query)->execute([
+        $status = $pdo->prepare($sql_query)->execute([
             ':quantity' => $this->quantity,
             ':cart_id' => $this->cart_id,
             ':product_id' => $this->product_id
         ]);
+        if($status){
+            $cartObj = Cart::getCartObject(Auth::getUserId());
+            return $cartObj->cartItemsCount();
+        }
+        return false;
     }
 
     /**
@@ -56,10 +62,15 @@ class ProductCart extends Model
         
         $result = $pdo->prepare($sql);
 
-        return $result->execute([
+        $status = $result->execute([
             ':quantity' => $quantity,
             ':product_cart_id' => $this->PRODUCT_CART_ID
         ]);
+        if($status){
+            $cartObj = Cart::getCartObject(Auth::getUserId());
+            return $cartObj->cartItemsCount();
+        }
+        return false;
     }
 
     /**
@@ -85,6 +96,28 @@ class ProductCart extends Model
             ':product_id' => $product_id,
             ':user_id' => $user_id
         ]);
+    }
+
+    /**
+     * Delete multiple cart items from the cart
+     * 
+     * @param int user_id
+     * @param string product ids separated by comma: 1, 2, 3, 4
+     * @return boolean
+     */
+    public static function deleteMultiple($user_id, $product_ids)
+    {
+        $pdo = static::getDB();
+
+        $sql = "DELETE (SELECT *
+            FROM PRODUCT_CARTS pc
+            INNER JOIN CARTS c
+            ON c.cart_id = pc.cart_id
+            WHERE c.user_id = '$user_id' AND
+            pc.product_id in ($product_ids))";
+
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute();
     }
 
     /**

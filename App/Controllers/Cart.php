@@ -61,20 +61,24 @@ class Cart extends \Core\Controller
 
         $data['replace'] = $replace;
         $updatableCartProdObj = $cartObj->isProductInCart($product_id);
+        $data['totalItems'] = $cartObj->cartItemsCount();
 
         if(($cartObj->cartItemsCount() + $quantity) > Models\Cart::MAX_CART_ITEMS_COUNT && !$replace){
             $data['message'] = "Your cart is already full!!! <a class='blue-text' href='/cart/'>Edit Cart</a>";
             $data['type'] = "info" ;
         } else {
             if($updatableCartProdObj){
-                $updatableCartProdObj->update($quantity, $replace);
+                $newProductCart = $updatableCartProdObj->update($quantity, $replace);
                 $data['message'] = "Product added to cart successfully. <a class='light-text' href='/cart/'>View Cart</a>";
                 $data['type'] = "success" ;
+                $data['totalItems'] = $newProductCart;
             }
             else {
-                if($productCart->save()){
+                $newProductCart = $productCart->save();
+                if($newProductCart){
                     $data['message'] = "Product added to cart successfully. <a class='light-text' href='/cart/'>View Cart</a>";
                     $data['type'] = "success" ;
+                    $data['totalItems'] = $newProductCart;
                 } else {
                     $data['message'] = "Unable to add to cart. Try reloading page.";
                     $data['type'] = "fail" ;
@@ -100,6 +104,31 @@ class Cart extends \Core\Controller
         $user_id = Auth::getUserId();
         
         if(ProductCart::delete($user_id, $product_id)){
+            $data['message'] = "Cart item deleted successfully.";
+            $data['type'] = "success";
+        } else {
+            $data['message'] = "Unable to delete cart items. Try reloading page.";
+            $data['type'] = "fail";
+        }
+        echo json_encode($data);
+    }
+
+    /**
+     * Delete multiple items
+     * 
+     * @return void
+     */
+    public function deleteMultiple()
+    {
+        $data = [];
+        if(empty($_POST)){
+            $data['message'] = "Unable to handler request.";
+            $data['type'] = "fail";
+        }
+        $product_ids = $_POST['product_ids'];
+        $user_id = Auth::getUserId();
+
+        if(ProductCart::deleteMultiple($user_id, $product_ids)){
             $data['message'] = "Cart item deleted successfully.";
             $data['type'] = "success";
         } else {

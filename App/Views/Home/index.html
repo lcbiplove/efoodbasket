@@ -93,7 +93,7 @@
                                         </div>
                                         {% endif %}
                                         {% if product.isAvailable %}
-                                            <div class="card-cart">
+                                            <div class="card-cart add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">
                                                 <span></span>
                                                 <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
                                             </div>
@@ -117,4 +117,5 @@
     <script src="/public/js/slider.js"></script>
     <script src="/public/js/shopBySlider.js"></script>
     <script src="/public/js/main.js"></script>
+    <script src="/public/js/add-to-cart.js"></script>
 {% endblock %}

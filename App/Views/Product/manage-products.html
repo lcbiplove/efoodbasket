@@ -143,13 +143,10 @@
                                             {% endif %}
                                         </span>
                                         {% endif %}
-                                        <form action="#" method="POST">
-                                            <input type="hidden" name="value" value="value" />
-                                            <button class="card-cart">
-                                                <span></span>
-                                                <span class="iconify cart--" data-icon="fluent:cart-20-regular" data-inline="false"></span>
-                                            </button>
-                                        </form>
+                                        <span class="card-cart add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">
+                                            <span></span>
+                                            <span class="iconify cart--" data-icon="fluent:cart-20-regular" data-inline="false"></span>
+                                        </span>
                                     {% endif %}
                                 </div>
                             </div>
@@ -175,4 +172,5 @@
     <script src="/public/js/wishlist.js"></script>
     <script src="/public/js/omni-slider.min.js"></script>
     <script src="/public/js/main-search.js"></script>
+    <script src="/public/js/add-to-cart.js"></script>
 {% endblock %}
