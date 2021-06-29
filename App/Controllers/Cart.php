@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Auth;
 use App\Models;
 use App\Models\ProductCart;
+use App\Models\Voucher;
 use Core\View;
 
 /**
@@ -133,6 +134,37 @@ class Cart extends \Core\Controller
             $data['type'] = "success";
         } else {
             $data['message'] = "Unable to delete cart items. Try reloading page.";
+            $data['type'] = "fail";
+        }
+        echo json_encode($data);
+    }
+
+    /**
+     * Check for vouchers
+     * 
+     * @return void
+     */
+    public function voucherAction()
+    {
+        $data = [];
+        if(empty($_POST)){
+            $data['message'] = "Unable to handle request.";
+            $data['type'] = "fail";
+        }
+        $code = $_POST['code'];
+
+        $voucher = Voucher::checkCode($code);
+        if($voucher) {
+            if($voucher->isExpired()){
+                $data['message'] = "Code is already expired.";
+                $data['type'] = "fail";
+            } else {
+                $data['message'] = "Code used successfully.";
+                $data['type'] = "success";
+                $data['data'] = $voucher;
+            }
+        } else {
+            $data['message'] = "Code is invalid.";
             $data['type'] = "fail";
         }
         echo json_encode($data);

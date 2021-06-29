@@ -21,6 +21,7 @@ window.addEventListener("load", function () {
   var proceedBtn = document.getElementById("proceed-btn");
   var mainDeleteBtn = document.getElementById("main-delete");
   var subtotalItemElems = document.querySelectorAll(".subtotal-items");
+  var voucherBtn = document.getElementById("voucher-btn");
 
   var total = +document
     .getElementById("cart-summary")
@@ -93,6 +94,7 @@ window.addEventListener("load", function () {
 
   var updateAllData = function (new_quantity, index) {
     myProductData[index].quantity = new_quantity;
+    allQuantities[index].innerHTML = new_quantity;
 
     var item_price = myProductData[index].price;
     var total_without_discount = new_quantity * item_price;
@@ -103,7 +105,6 @@ window.addEventListener("load", function () {
     subTotal = getSubTotal(myProductData);
     total = subTotal - (subTotal * discount) / 100;
 
-    allQuantities[index].innerHTML = new_quantity;
     allTotals[index].innerHTML =
       "&pound;" + myProductData[index].total.toFixed(2);
     subTotalElement.innerHTML = "&pound;" + subTotal.toFixed(2);
@@ -117,6 +118,22 @@ window.addEventListener("load", function () {
     mainCartCountNavElem.innerHTML = getTotalQuantity();
   };
 
+  var updateAllElems = function () {
+    var getValidIndex = function () {
+      for (var index = 0; index < myProductData.length; index++) {
+        var element = myProductData[index];
+        if(element) {
+          return index;
+        }
+      }
+      return false;
+    }
+    
+    var index = getValidIndex();
+    var quantity = myProductData[index].quantity
+    updateAllData(quantity, index);
+  }
+
   var getSelectedItems = function () {
     var selected_ids = [];
     allCheckboxes.forEach(function (item, index) {
@@ -129,6 +146,8 @@ window.addEventListener("load", function () {
     });
     return selected_ids;
   };
+
+  updateAllElems();
 
   var onAddSuccess = function(response, new_quantity, index){
     hideBigLoader();
@@ -188,8 +207,6 @@ window.addEventListener("load", function () {
       var data = new FormData();
       data.append("product_ids", product_ids);
 
-      console.log(getTotalQuantity() + " / " + product_ids_array.length);
-
       ajax("POST", "/ajax/cart/delete-multiple/", data, function (response) {
         hideBigLoader();
 
@@ -237,6 +254,25 @@ window.addEventListener("load", function () {
       });
     };
   });
+
+  voucherBtn.onclick = function () {
+    var inpt = document.getElementById("voucher-inpt");
+    
+    var data = new FormData();
+    data.append("code", inpt.value);
+    ajax("POST", "/ajax/cart/voucher/", data, function (response) {
+      var result = JSON.parse(response);
+      inpt.value = "";
+      showJsMessage(result.message, result.type);
+
+      if(result.type == "success") {
+        discount = +result.data.DISCOUNT;
+        discountElement.innerHTML = result.data.DISCOUNT + "%";
+
+        updateAllElems();
+      } 
+    });
+  }
 
   proceedBtn.onclick = function () {
     shoppingWrapper.style.transform = "translateX(-100%)";
