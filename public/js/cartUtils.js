@@ -43,11 +43,13 @@ var getSubTotal = function (myProductData) {
  * @param {*} allAddBtns 
  */
 var checkProceedBtnDisable = function (proceedBtn, totalQuantity, allAddBtns) {
-    if(totalQuantity >= MAX_QUANTITY_VALUE){
+    if(totalQuantity >= MAX_QUANTITY_VALUE+1){
         proceedBtn.classList.add("disabled");
+    } 
+    else if(totalQuantity >= MAX_QUANTITY_VALUE) {
         allAddBtns.forEach(function (item) {
-           item.classList.add("disabled"); 
-        });
+            item.classList.add("disabled"); 
+         });
     }
     else {
         proceedBtn.classList.remove("disabled");

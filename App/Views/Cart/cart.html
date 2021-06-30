@@ -101,7 +101,7 @@ block titleLinks %}
                         <span class="no-key-sm">Quantity</span>
                         <button class="quantity-btn each-subtract add-to-cart" data-product-id="{{cartItem.PRODUCT_ID}}" data-quantity="{{ cartItem.QUANTITY }}">-</button>
                         <span class="quantity each-quantity">{{cartItem.QUANTITY}}</span>
-                        <button class="quantity-btn each-add add-to-cart" data-product-id="{{cartItem.PRODUCT_ID}}" data-quantity="{{ cartItem.QUANTITY }}">+</button>
+                        <button class="quantity-btn each-add add-to-cart {% if cart.cartItemsCount >= 20 %}disabled{% endif %}" data-product-id="{{cartItem.PRODUCT_ID}}" data-quantity="{{ cartItem.QUANTITY }}">+</button>
                       </div>
                       <div class="total-wrapper">
                         <div class="total-text">Total</div>
@@ -631,6 +631,6 @@ block titleLinks %}
 </div>
 {% endblock %} {% block scripts%}
 <script src="/public/js/cartUtils.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=Aafb9cx169gRRW0uWl1LFxzcN1tMib3lpw4sqsf62Mr8QNrKhmKITlaNfD4KYyomq5X-ek6QmPpgOtqU&currency=GBP"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AU7aKszPhf9B12I4wPbZqNUuAMpJLxZ7lsEGj1E2zeYLsXXpp77GGvOree4C-kqXnR1yZ7CJUfCyBZaw&currency=GBP"></script>
 <script src="/public/js/main-cart.js"></script>
 {% endblock %}
