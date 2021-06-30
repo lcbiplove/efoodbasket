@@ -92,7 +92,7 @@
                                             {% endif %}
                                         </div>
                                         {% endif %}
-                                        {% if product.isAvailable %}
+                                        {% if product.isAvailable and not is_trader %}
                                             <div class="card-cart add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">
                                                 <span></span>
                                                 <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>

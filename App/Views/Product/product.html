@@ -107,7 +107,7 @@
                         <button id="add-quantity" class="quantity-btn">+</button>
                         {% endif %}
                     </div>
-                    {% if product.isAvailable %}
+                    {% if product.isAvailable and not is_trader %}
                         <div class="product-actions">
                             <button id="buy-now" class="product-action buy-now">Buy Now</button>
                             <button id="add-to-cart" class="product-action cart-add-btn add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">Add to Cart</button>
@@ -140,7 +140,7 @@
                                     <div class="card-footer">
                                         <div class="card-price">{{ similar_product.PRICE|number_format(2) }} GBP</div>
                                         <div class="d-flex">
-                                            {% if user %}
+                                            {% if is_authenticated and not is_trader %}
                                             <div class="card-cart wishlist-button {% if similar_product.isInWishList %}active{% endif %}" data-product-id="{{similar_product.PRODUCT_ID}}">
                                                 {% if similar_product.isInWishList %}
                                                     <span class='iconify' data-icon='bi:heart-fill' data-inline='false'></span>
@@ -149,7 +149,7 @@
                                                 {% endif %}
                                             </div>
                                             {% endif %}
-                                            {% if similar_product.isAvailable %}
+                                            {% if similar_product.isAvailable and not is_trader %}
                                                 <div class="add-to-cart card-cart" data-product-id="{{ similar_product.PRODUCT_ID }}" data-quantity="1" >
                                                     <span></span>
                                                     <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
