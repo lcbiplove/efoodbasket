@@ -48,7 +48,7 @@ class Product extends Model
 
         $product_id = $db_next_array['next_id'];
         $product_name = filter_var($this->product_name, FILTER_SANITIZE_STRING);
-        $price = filter_var($this->price, FILTER_SANITIZE_NUMBER_FLOAT);
+        $price = filter_var($this->price, FILTER_SANITIZE_STRING);
         $quantity = filter_var($this->quantity, FILTER_SANITIZE_NUMBER_INT);
         $availability = isset($this->availability) ? Product::PRODUCT_AVAILABLE : Product::PRODUCT_NOT_AVAILABLE;
         $description = filter_var($this->description, FILTER_SANITIZE_STRING);
@@ -106,7 +106,7 @@ class Product extends Model
         foreach ($data as $name => $value) {
             $query .= ' '.$name.' = :'.$name.','; 
             if(in_array($name, ['price', 'quantity', 'discount'])){
-                $values[':'.$name] = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT);
+                $values[':'.$name] = filter_var($value, FILTER_SANITIZE_STRING);
             } 
             else {
                 $values[':'.$name] = filter_var($value, FILTER_SANITIZE_STRING); 
