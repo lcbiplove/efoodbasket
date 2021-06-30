@@ -241,7 +241,12 @@
   opacity: 0.8;
   color: #fff;
 }
-
+.next-week-div {
+  border-bottom: 1px dashed #999;
+  margin: 10px 0;
+  color: #555;
+  padding-bottom: 5px;
+}
 
 /* Card */
 /* Big cards */

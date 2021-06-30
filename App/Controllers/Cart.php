@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Auth;
 use App\Models;
 use App\Models\ProductCart;
+use App\Models\CollectionSlot;
 use App\Models\Voucher;
 use Core\View;
 
@@ -34,7 +35,14 @@ class Cart extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate("Cart/cart.html");
+        $collection_slots = CollectionSlot::getCollectionSlots();
+        $collection_days = CollectionSlot::getCollectionDays();
+        // var_dump($collection_days[0]->slots());
+        // exit();
+        View::renderTemplate("Cart/cart.html", [
+            'collection_slots' => $collection_slots,
+            'collection_days' => $collection_days
+        ]);
     }
 
     /**

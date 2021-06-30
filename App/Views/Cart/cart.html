@@ -182,48 +182,62 @@ block titleLinks %}
                     </div>
                   </div>
                   <div>
-                    <div
-                      class="slot-item each-collection-day disabled"
-                      data-collection-day="Wednesday"
-                      data-available-slot=""
-                    >
-                      <div class="slot-key">
-                        <span
-                          class="iconify"
-                          data-icon="gridicons:product"
-                          data-inline="false"
-                        ></span>
-                        <span>Wednesday</span>
+                    <div class="next-week-div">This week</div>
+                    {% for day in collection_days %}
+                      {% set available_slots = [] %}
+                      {% set slots_display = [] %}
+
+                      {% for slot in day.slots %}
+                        {% if not slot.isSlotClosed() %}
+                          {% set available_slots = available_slots|merge([slot.COLLECTION_SLOT_ID]) %}
+                          {% set slots_display = slots_display|merge([slot.SHIFT]) %}
+                        {% endif %}
+                      {% endfor %}
+                      <div
+                        class="slot-item each-collection-day {% if day.isDayClosed() %}disabled{% endif %}"
+                        data-collection-day="{{day.DAY}}" 
+                        {% if not day.isDayClosed() %}
+                          data-available-slot="{{available_slots|join(',')}}"
+                          data-slot-display="{{slots_display|join(',')}}"
+                        {% endif %}
+                      >
+                        <div class="slot-key">
+                          <span
+                            class="iconify"
+                            data-icon="gridicons:product"
+                            data-inline="false"
+                          ></span>
+                          <span>{{day.DAY}}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      class="slot-item each-collection-day"
-                      data-collection-day="Thursday"
-                      data-available-slot="2,3"
-                    >
-                      <div class="slot-key">
-                        <span
-                          class="iconify"
-                          data-icon="gridicons:product"
-                          data-inline="false"
-                        ></span>
-                        <span>Thursday</span>
+                    {% endfor %}
+                    <div class="next-week-div">Next week</div>
+                    {% for day in collection_days %}
+                      {% set available_slots = [] %}
+                      {% set slots_display = [] %}
+
+                      {% for slot in day.slots %}
+                          {% set available_slots = available_slots|merge([slot.COLLECTION_SLOT_ID]) %}
+                          {% set slots_display = slots_display|merge([slot.SHIFT]) %}
+                      {% endfor %}
+                      <div
+                        class="slot-item each-collection-day"
+                        data-collection-day="{{day.DAY}}"
+                        data-available-slot="{{available_slots|join(',')}}"
+                        data-slot-display="{{slots_display|join(',')}}"
+                        data-is-next-week="true"
+                      >
+                        <div class="slot-key">
+                          <span
+                            class="iconify"
+                            data-icon="gridicons:product"
+                            data-inline="false"
+                          ></span>
+                          <span>{{day.DAY}}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      class="slot-item each-collection-day"
-                      data-collection-day="Friday"
-                      data-available-slot="1,2,3"
-                    >
-                      <div class="slot-key">
-                        <span
-                          class="iconify"
-                          data-icon="gridicons:product"
-                          data-inline="false"
-                        ></span>
-                        <span>Friday</span>
-                      </div>
-                    </div>
+                    {% endfor %}
+
                   </div>
                   <div
                     id="collection-slot-container"
@@ -252,7 +266,7 @@ block titleLinks %}
                       data-icon="bx:bx-user"
                       data-inline="false"
                     ></span>
-                    <span>Biplove Lamichhane</span>
+                    <span>{{user.fullname}}</span>
                   </div>
                 </div>
                 <div class="cart-summary-row">
@@ -262,7 +276,7 @@ block titleLinks %}
                       data-icon="eva:email-outline"
                       data-inline="false"
                     ></span>
-                    <span>efoodbasket@gmail.com</span>
+                    <span>{{user.email}}</span>
                   </div>
                 </div>
                 <div class="cart-summary-row">
@@ -272,7 +286,7 @@ block titleLinks %}
                       data-icon="akar-icons:phone"
                       data-inline="false"
                     ></span>
-                    <span>+411230349</span>
+                    <span>{{user.getReadableContact}}</span>
                   </div>
                 </div>
                 <div class="cart-summary-row">

@@ -33,6 +33,7 @@ window.addEventListener("load", function () {
     +document
       .getElementById("cart-summary")
       .getAttribute("data-cart-discount") || 0;
+  var voucherId = null;
 
   var allCheckboxes = document.querySelectorAll(".each-checkbox");
   var allQuantities = document.querySelectorAll(".each-quantity");
@@ -57,10 +58,12 @@ window.addEventListener("load", function () {
   var proceedCollectionBtn = document.getElementById("proceed-slot-btn");
   var backCollectionBtn = document.getElementById("back-collection");
 
-  var slotNumber;
+  var collection_slot_id;
   var slotDay;
+  var isNextWeek = false;
 
   var collectionSlotData = {};
+  var collectionDisplayData = {};
 
   /* End collection slot */
 
@@ -272,6 +275,7 @@ window.addEventListener("load", function () {
 
       if(result.type == "success") {
         discount = +result.data.DISCOUNT;
+        voucherId = +result.data.VOUCHER_ID;
         discountElement.innerHTML = result.data.DISCOUNT + "%";
 
         updateAllElems();
@@ -290,16 +294,18 @@ window.addEventListener("load", function () {
   allCollectionDays.forEach(function (item) {
     if (!item.classList.contains("disabled")) {
       var slotsArray = item.getAttribute("data-available-slot").split(",");
-      var filteredArray = slotsArray.filter(function (value) {
-        return value === "1" || value === "2" || value === "3";
+      slotsDisp = item.getAttribute("data-slot-display").split(",");
+
+      slotsArray.forEach((element,ind) => {
+        collectionDisplayData[""+element+""] = slotsDisp[ind];
       });
-      collectionSlotData["" + item.getAttribute("data-collection-day") + ""] =
-        filteredArray;
+
+      collectionSlotData["" + item.getAttribute("data-collection-day") + ""] = slotsArray;
     }
   });
 
   var slotItemClickedHandler = function () {
-    slotNumber = this.slotNumber;
+    collection_slot_id = this.collection_slot_id;
 
     var allCollectionSlots = document.querySelectorAll(".each-collection-slot");
     allCollectionSlots.forEach(function (elem) {
@@ -308,10 +314,10 @@ window.addEventListener("load", function () {
     this.classList.add("active");
 
     summarySlotElements.forEach(function (elem) {
-      elem.innerHTML = getSlotValueFromNumber(slotNumber);
+      elem.innerHTML = collectionDisplayData[collection_slot_id];
     });
 
-    checkProceedToPaymentBtn(slotNumber, slotDay, proceedCollectionBtn);
+    checkProceedToPaymentBtn(collection_slot_id, slotDay, proceedCollectionBtn);
   };
 
   allCollectionDays.forEach(function (item) {
@@ -324,7 +330,8 @@ window.addEventListener("load", function () {
       collectionSlotContainer.style.height = "0";
 
       slotDay = item.getAttribute("data-collection-day");
-      slotNumber = null;
+      isNextWeek = item.getAttribute("data-is-next-week") == "true" ? true : false;
+      collection_slot_id = null;
 
       allCollectionDays.forEach(function (elem) {
         elem.classList.remove("active");
@@ -335,23 +342,23 @@ window.addEventListener("load", function () {
         elem.innerHTML = slotDay;
       });
 
-      var createEachSlotRow = function (slotNumber) {
+      var createEachSlotRow = function (collection_slot_id) {
         var slotItem = document.createElement("div");
-        slotItem.slotNumber = slotNumber;
+        slotItem.collection_slot_id = collection_slot_id;
         slotItem.className = "slot-item each-collection-slot";
-        slotItem.setAttribute("data-slot-number", slotNumber);
+        slotItem.setAttribute("data-slot-number", collection_slot_id);
 
         var slotKey = document.createElement("div");
         slotKey.className = "slot-key";
         slotKey.innerHTML =
           '<span class="iconify" data-icon="gridicons:product" data-inline="false"></span><span> Collection Slot ' +
-          slotNumber +
+          collection_slot_id +
           "</span>";
         slotItem.append(slotKey);
 
         var slotValue = document.createElement("div");
         slotValue.className = "slot-value";
-        slotValue.innerHTML = getSlotValueFromNumber(slotNumber);
+        slotValue.innerHTML = collectionDisplayData[collection_slot_id];
         slotItem.append(slotValue);
 
         slotItemsDiv.append(slotItem);
@@ -370,7 +377,7 @@ window.addEventListener("load", function () {
       collectionSlotContainer.style.height =
         2 * upperDiv.offsetHeight + slotItemsDiv.offsetHeight + "px";
 
-      checkProceedToPaymentBtn(slotNumber, slotDay, proceedCollectionBtn);
+      checkProceedToPaymentBtn(collection_slot_id, slotDay, proceedCollectionBtn);
     };
   });
 
