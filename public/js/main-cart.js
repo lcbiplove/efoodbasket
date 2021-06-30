@@ -34,6 +34,7 @@ window.addEventListener("load", function () {
       .getElementById("cart-summary")
       .getAttribute("data-cart-discount") || 0;
   var voucherId = null;
+  var voucherCode = null;
 
   var allCheckboxes = document.querySelectorAll(".each-checkbox");
   var allQuantities = document.querySelectorAll(".each-quantity");
@@ -276,6 +277,7 @@ window.addEventListener("load", function () {
       if(result.type == "success") {
         discount = +result.data.DISCOUNT;
         voucherId = +result.data.VOUCHER_ID;
+        voucherCode = result.data.CODE;
         discountElement.innerHTML = result.data.DISCOUNT + "%";
 
         updateAllElems();
@@ -295,12 +297,14 @@ window.addEventListener("load", function () {
     if (!item.classList.contains("disabled")) {
       var slotsArray = item.getAttribute("data-available-slot").split(",");
       slotsDisp = item.getAttribute("data-slot-display").split(",");
-
-      slotsArray.forEach((element,ind) => {
-        collectionDisplayData[""+element+""] = slotsDisp[ind];
-      });
-
+     
       collectionSlotData["" + item.getAttribute("data-collection-day") + ""] = slotsArray;
+
+      var slotsDispArray = [];
+      slotsArray.forEach((element,ind) => {
+        slotsDispArray[element] = slotsDisp[ind];
+      });
+      collectionDisplayData[""+item.getAttribute("data-collection-day")+""] = slotsDispArray;
     }
   });
 
@@ -314,7 +318,7 @@ window.addEventListener("load", function () {
     this.classList.add("active");
 
     summarySlotElements.forEach(function (elem) {
-      elem.innerHTML = collectionDisplayData[collection_slot_id];
+      elem.innerHTML = collectionDisplayData[slotDay][collection_slot_id];
     });
 
     checkProceedToPaymentBtn(collection_slot_id, slotDay, proceedCollectionBtn);
@@ -358,7 +362,8 @@ window.addEventListener("load", function () {
 
         var slotValue = document.createElement("div");
         slotValue.className = "slot-value";
-        slotValue.innerHTML = collectionDisplayData[collection_slot_id];
+        
+        slotValue.innerHTML = collectionDisplayData[slotDay][collection_slot_id];
         slotItem.append(slotValue);
 
         slotItemsDiv.append(slotItem);

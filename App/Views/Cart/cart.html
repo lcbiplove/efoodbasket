@@ -222,7 +222,7 @@ block titleLinks %}
                       {% endfor %}
                       <div
                         class="slot-item each-collection-day"
-                        data-collection-day="{{day.DAY}}"
+                        data-collection-day="NEXT {{day.DAY}}"
                         data-available-slot="{{available_slots|join(',')}}"
                         data-slot-display="{{slots_display|join(',')}}"
                         data-is-next-week="true"
@@ -292,13 +292,13 @@ block titleLinks %}
                 <div class="cart-summary-row">
                   <div class="cart-summary-key">Collection Slot</div>
                   <div class="cart-summary-value">
-                    <b class="summary-slot">9:00 - 11:00</b>
+                    <b class="summary-slot">----</b>
                   </div>
                 </div>
                 <div class="cart-summary-row">
                   <div class="cart-summary-key">Collection Day</div>
                   <div class="cart-summary-value">
-                    <b class="summary-day">Thursday</b>
+                    <b class="summary-day">----</b>
                   </div>
                 </div>
                 <div class="cart-summary-row">

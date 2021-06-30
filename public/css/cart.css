@@ -247,7 +247,9 @@
   color: #555;
   padding-bottom: 5px;
 }
-
+.cart-summary-value {
+  text-align: right;
+}
 /* Card */
 /* Big cards */
 .card-row {
