@@ -103,9 +103,11 @@ class Product extends \Core\Controller
         $this->requireTrader();
 
         $products = Models\Product::getAllProductsByTrader(Auth::getUserId());
+        $isVisitorOwner = true;
 
         View::renderTemplate('Product/manage-products.html', [
-            'products' => $products
+            'products' => $products,
+            'isVisitorOwner' =>  $isVisitorOwner
         ]);
     }
 

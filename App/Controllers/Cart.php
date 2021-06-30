@@ -37,8 +37,6 @@ class Cart extends \Core\Controller
     {
         $collection_slots = CollectionSlot::getCollectionSlots();
         $collection_days = CollectionSlot::getCollectionDays();
-        // var_dump($collection_days[0]->slots());
-        // exit();
         View::renderTemplate("Cart/cart.html", [
             'collection_slots' => $collection_slots,
             'collection_days' => $collection_days
