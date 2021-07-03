@@ -447,13 +447,26 @@ window.addEventListener("load", function () {
       },
       onApprove: function (data, actions) {
         // This function captures the funds from the transaction.
-        console.log(data);
-        return actions.order.capture().then(function (details) {
-          console.log(details);
+          showBigLoader();
+          var payerID = data.payerID;
+          var orderID = data.orderID;
+          var amount = total.toFixed(2);
+
+          var sendData = new FormData();
+          sendData.append('amount', amount);
+          sendData.append('paypal_payer_id', payerID);
+          sendData.append('paypal_order_id', orderID);
+          sendData.append('collection_date', collection_date);
+          sendData.append('collection_slot_id', collection_slot_id);
+          sendData.append('voucher_id', voucherId);
+
+          ajax("POST", "/ajax/cart/payment/", sendData, function (response) {
+            console.log(response);
+            hideBigLoader();
             paymentWrapper.style.transform = "translateX(-300%)";
             orderSuccessWrapper.style.transform = "translateX(-300%)";
             progressSuccess.classList.add("active");
-        });
+          });
       },
     })
     .render("#paypal-btn");

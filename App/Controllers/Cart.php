@@ -6,6 +6,9 @@ use App\Auth;
 use App\Models;
 use App\Models\ProductCart;
 use App\Models\CollectionSlot;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Payment;
 use App\Models\Voucher;
 use Core\View;
 
@@ -173,6 +176,59 @@ class Cart extends \Core\Controller
             $data['message'] = "Code is invalid.";
             $data['type'] = "fail";
         }
+        echo json_encode($data);
+    }
+
+    /**
+     * Add payment of the cart
+     * 
+     * @return void
+     */
+    public function paymentAction()
+    {
+        $data = [];
+        if(empty($_POST)){
+            $data['message'] = "Unable to handle request.";
+            $data['type'] = "fail";
+        }
+
+        $args = [];
+        $args['amount'] = $_POST['amount'];
+        $args['user_id'] = Auth::getUserId();
+        $args['paypal_order_id'] = $_POST['paypal_order_id'];
+        $args['paypal_payer_id'] = $_POST['paypal_payer_id'];
+
+        $payment = new Payment($args);
+        $new_payment = $payment->save();
+
+        $args = [];
+
+        $args['collection_date'] = $_POST['collection_date'];
+        $args['collection_slot_id'] = $_POST['collection_slot_id'];
+        $args['voucher_id'] = $_POST['voucher_id'];
+        $args['payment_id'] = $new_payment->PAYMENT_ID;
+
+        $order = new Order($args);
+        $new_order = $order->save();
+
+        $args = [];
+        $args['order_id'] = $new_order->ORDER_ID;
+
+        $cartObj = Models\Cart::getCartObject(Auth::getUserId());
+        $cartItems = $cartObj->getCartItems();
+
+        foreach ($cartItems as $key => $value) {
+            $orderProduct = new OrderProduct([
+                'quantity' => $value->QUANTITY,
+                'product_id' => $value->PRODUCT_ID,
+                'order_id' => $new_order->ORDER_ID,
+            ]);
+            $orderProduct->save();
+        }
+
+        $data['payment'] = $new_payment;
+        $data['order'] = $new_order;
+
         echo json_encode($data);
     }
 }

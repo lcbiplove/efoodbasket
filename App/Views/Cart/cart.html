@@ -461,7 +461,7 @@ block titleLinks %}
         <div class="order-thank-you">
           <img
             class="thank-you-img"
-            src="images/thank-you.png"
+            src="/public/images/thank-you.png"
             alt="thank-you-image"
           />
         </div>
@@ -476,7 +476,7 @@ block titleLinks %}
                     data-icon="bx:bx-user"
                     data-inline="false"
                   ></span>
-                  <span>Biplove Lamichhane</span>
+                  <span>{{user.fullname}}</span>
                 </div>
               </div>
               <div class="cart-summary-row">
@@ -486,7 +486,7 @@ block titleLinks %}
                     data-icon="eva:email-outline"
                     data-inline="false"
                   ></span>
-                  <span>efoodbasket@gmail.com</span>
+                  <span>{{user.email}}</span>
                 </div>
               </div>
               <div class="cart-summary-row">
@@ -496,7 +496,7 @@ block titleLinks %}
                     data-icon="akar-icons:phone"
                     data-inline="false"
                   ></span>
-                  <span>+411230349</span>
+                  <span>{{user.getReadableContact}}</span>
                 </div>
               </div>
               <div class="cart-summary-row">

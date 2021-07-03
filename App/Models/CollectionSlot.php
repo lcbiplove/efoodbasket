@@ -101,7 +101,7 @@ class CollectionSlot extends Model
         $collection_day = $this->DAY;
         $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
 
-        return $collection_datetime->format("d M Y");
+        return $collection_datetime->format("Y-m-d");
     }
 
     /**
@@ -118,7 +118,7 @@ class CollectionSlot extends Model
 
         $tomorrow_datetime = $collection_datetime->modify('+7 day');
 
-        return $tomorrow_datetime->format("d M Y");
+        return $tomorrow_datetime->format("Y-m-d");
     }
 
     /**
