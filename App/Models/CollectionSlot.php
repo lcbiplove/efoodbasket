@@ -86,7 +86,39 @@ class CollectionSlot extends Model
         $collection_day = $this->DAY;
         $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
 
-        return $current_datetime <= $collection_datetime || $current_day == $collection_day;
+        return $current_datetime >= $collection_datetime || $current_day == $collection_day;
+    }
+
+    /**
+     * Get date of the collection slot
+     * 
+     * @return string
+     */
+    public function getDate()
+    {
+        date_default_timezone_set('Asia/Kathmandu');
+        
+        $collection_day = $this->DAY;
+        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
+
+        return $collection_datetime->format("d M Y");
+    }
+
+    /**
+     * Get next week date of the collection slot
+     * 
+     * @return string
+     */
+    public function getNextDate()
+    {
+        date_default_timezone_set('Asia/Kathmandu');
+        
+        $collection_day = $this->DAY;
+        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
+
+        $tomorrow_datetime = $collection_datetime->modify('+7 day');
+
+        return $tomorrow_datetime->format("d M Y");
     }
 
     /**

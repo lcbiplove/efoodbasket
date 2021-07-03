@@ -199,6 +199,7 @@ block titleLinks %}
                         {% if not day.isDayClosed() %}
                           data-available-slot="{{available_slots|join(',')}}"
                           data-slot-display="{{slots_display|join(',')}}"
+                          data-collection-date="{{day.getDate}}"
                         {% endif %}
                       >
                         <div class="slot-key">
@@ -207,7 +208,7 @@ block titleLinks %}
                             data-icon="gridicons:product"
                             data-inline="false"
                           ></span>
-                          <span>{{day.DAY}}</span>
+                          <span>{{day.DAY}} ({{day.getDate|date("d M")}})</span>
                         </div>
                       </div>
                     {% endfor %}
@@ -225,7 +226,7 @@ block titleLinks %}
                         data-collection-day="NEXT {{day.DAY}}"
                         data-available-slot="{{available_slots|join(',')}}"
                         data-slot-display="{{slots_display|join(',')}}"
-                        data-is-next-week="true"
+                        data-collection-date="{{day.getNextDate}}"
                       >
                         <div class="slot-key">
                           <span
@@ -233,7 +234,7 @@ block titleLinks %}
                             data-icon="gridicons:product"
                             data-inline="false"
                           ></span>
-                          <span>{{day.DAY}}</span>
+                          <span>{{day.DAY}} ({{day.getNextDate|date("d M")}})</span>
                         </div>
                       </div>
                     {% endfor %}

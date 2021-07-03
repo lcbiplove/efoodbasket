@@ -11,11 +11,12 @@ DROP TABLE ORDER_PRODUCTS CASCADE CONSTRAINTS;
 
 CREATE TABLE PAYMENTS (
 	payment_id          INTEGER NOT NULL,   
-    invoice_id          VARCHAR2(50) NOT NULL UNIQUE,
-	payment_type        VARCHAR2(20) NOT NULL,
+	payment_type        VARCHAR2(20) DEFAULT 'PAYPAL',
     amount	            NUMBER(10, 2) NOT NULL,
 	payment_date	    DATE NOT NULL,
 	user_id             INTEGER NOT NULL,
+	paypal_order_id		VARCHAR2(128) NOT NULL,
+	paypal_payer_id		VARCHAR2(128) NOT NULL,
 
 	FOREIGN KEY (user_id) REFERENCES Users(user_id),
     CONSTRAINT	pk_PAYMENT PRIMARY KEY (payment_id)

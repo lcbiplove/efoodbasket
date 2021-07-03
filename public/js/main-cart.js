@@ -61,7 +61,7 @@ window.addEventListener("load", function () {
 
   var collection_slot_id;
   var slotDay;
-  var isNextWeek = false;
+  var collection_date;
 
   var collectionSlotData = {};
   var collectionDisplayData = {};
@@ -334,7 +334,7 @@ window.addEventListener("load", function () {
       collectionSlotContainer.style.height = "0";
 
       slotDay = item.getAttribute("data-collection-day");
-      isNextWeek = item.getAttribute("data-is-next-week") == "true" ? true : false;
+      collection_date = item.getAttribute("data-collection-date");
       collection_slot_id = null;
 
       allCollectionDays.forEach(function (elem) {
@@ -447,9 +447,9 @@ window.addEventListener("load", function () {
       },
       onApprove: function (data, actions) {
         // This function captures the funds from the transaction.
-
+        console.log(data);
         return actions.order.capture().then(function (details) {
-          // This function shows a transaction success message to your buyer.
+          console.log(details);
             paymentWrapper.style.transform = "translateX(-300%)";
             orderSuccessWrapper.style.transform = "translateX(-300%)";
             progressSuccess.classList.add("active");
