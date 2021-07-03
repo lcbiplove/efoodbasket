@@ -7,6 +7,7 @@ use App\Extra;
 use App\Models;
 use App\Models\ProductCategory;
 use App\Models\Shop;
+use App\Models\User;
 use App\Models\Validation\ProductValidation;
 use Core\View;
 
@@ -120,6 +121,7 @@ class Product extends \Core\Controller
     {
         $trader_id = $this->route_params['trader_id'];
         $products = Models\Product::getAllProductsByTrader($trader_id);
+        $trader = User::getUserObjectFromId($trader_id);
 
         if(!$products){
             $this->show404();
@@ -128,7 +130,8 @@ class Product extends \Core\Controller
 
         View::renderTemplate('Product/manage-products.html', [
             'products' => $products,
-            'isVisitorOwner' => $isVisitorOwner
+            'isVisitorOwner' => $isVisitorOwner,
+            'trader' => $trader,
         ]);
     }
 

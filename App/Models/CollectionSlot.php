@@ -84,8 +84,9 @@ class CollectionSlot extends Model
         $current_day = strtoupper($current_datetime->format('l'));
         
         $collection_day = $this->DAY;
+        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
 
-        return $current_day == $collection_day;
+        return $current_datetime <= $collection_datetime || $current_day == $collection_day;
     }
 
     /**

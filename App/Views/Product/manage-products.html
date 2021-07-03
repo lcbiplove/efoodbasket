@@ -15,11 +15,11 @@
         <div class="search-headers">
             <div class="search-results">
                 {% if isVisitorOwner %}
-                    Manage Products
+                    Manage Products ({{ products|length }})
                 {% else %}
-                    Products
+                    Products by {{trader.fullname}}
                 {% endif %}
-                  ({{ products|length }})
+                  
             </div>
             {% if isVisitorOwner  %}
                 <a href="/trader/add-product/" class="add-product">Add Product</a>

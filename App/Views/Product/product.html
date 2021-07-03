@@ -99,11 +99,11 @@
                     </div>
                     <div class="quantity-wrapper">
                         <span>Quantity</span>
-                        {% if product.getOwnerId == user.user_id %}
-                        <span id="quantity-value" class="quantity">1</span>
+                        {% if is_trader %}
+                        <span id="quantity-value" class="quantity">{{ product.QUANTITY }}</span>
                         {% else %}
                         <button id="subtract-quantity" class="quantity-btn">-</button>
-                        <span id="quantity-value" class="quantity">1</span>
+                        <span id="quantity-value" class="quantity">{{ product.QUANTITY }}</span>
                         <button id="add-quantity" class="quantity-btn">+</button>
                         {% endif %}
                     </div>

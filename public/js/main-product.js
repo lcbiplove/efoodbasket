@@ -11,8 +11,8 @@ window.addEventListener("load", function(){
     var buyNowBtn = document.getElementById("buy-now");
     var addToCartBtn = document.getElementById("add-to-cart");
 
-    var addQuantityBtn = document.getElementById("add-quantity");
-    var subtractQuantityBtn = document.getElementById("subtract-quantity");
+    var addQuantityBtn = document.getElementById("add-quantity") || 0;
+    var subtractQuantityBtn = document.getElementById("subtract-quantity") || 0;
     var quantityValueDiv = document.getElementById("quantity-value");
 
     var quantityValue = +quantityValueDiv.innerHTML || 1;
@@ -34,7 +34,10 @@ window.addEventListener("load", function(){
         }
     }
 
-    checkDisablePlusMinus();
+    if(subtractQuantityBtn || addQuantityBtn)
+    {
+        checkDisablePlusMinus();
+    }
 
     addQuantityBtn.onclick = function(){
         quantityValue += 1;
