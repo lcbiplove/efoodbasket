@@ -218,11 +218,13 @@ block titleLinks %}
                       {% set slots_display = [] %}
 
                       {% for slot in day.slots %}
+                        {% if not slot.isNextSlotClosed() %}
                           {% set available_slots = available_slots|merge([slot.COLLECTION_SLOT_ID]) %}
                           {% set slots_display = slots_display|merge([slot.SHIFT]) %}
+                        {% endif %}
                       {% endfor %}
                       <div
-                        class="slot-item each-collection-day"
+                        class="slot-item each-collection-day {% if slots_display|length == 0 %}disabled{% endif %}"
                         data-collection-day="NEXT {{day.DAY}}"
                         data-available-slot="{{available_slots|join(',')}}"
                         data-slot-display="{{slots_display|join(',')}}"

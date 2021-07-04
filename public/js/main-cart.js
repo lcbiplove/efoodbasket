@@ -438,9 +438,7 @@ window.addEventListener("load", function () {
     var orderSuccessCollectionDay = document.getElementById("order-success-collection-day");
     var orderSuccessCollectionTime = document.getElementById("order-success-collection-time");
 
-    console.log(response);
     var result = JSON.parse(response);
-    console.log(result);
 
     var orderItems = result.orderProduct;
 

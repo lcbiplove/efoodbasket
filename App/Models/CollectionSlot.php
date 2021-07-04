@@ -128,6 +128,69 @@ class CollectionSlot extends Model
      */
     public function isSlotClosed()
     {
+        date_default_timezone_set('Asia/Kathmandu');
+        
+        $collection_day = $this->DAY;
+        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
+
+        $pdo = static::getDB();
+        $sql = "select count(*) from orders 
+                where collection_date = TO_DATE(:collection_date, 'YYYY-MM-DD HH24:MI:SS') AND collection_slot_id = :collection_slot_id";
+        $result = $pdo->prepare($sql);
+        $result->execute([
+            ':collection_date' => $collection_datetime->format("Y-m-d"),
+            ':collection_slot_id' => $this->COLLECTION_SLOT_ID
+        ]);
+
+        $rowsCount = $result->fetchColumn(); 
+
+        if($rowsCount >= 20){
+            return true;
+        }
+
+        $shift = $this->SHIFT;
+        $shifts_array = explode(" - ", $shift);
+
+        date_default_timezone_set('Asia/Kathmandu');
+        $current_datetime = new DateTime();
+
+        $from = $this->DAY. " ". $shifts_array[0];
+        $from_date = \DateTime::createFromFormat("l H:i", $from);
+
+        $tomorrow_datetime = $current_datetime->modify('+1 day');
+
+        return $tomorrow_datetime > $from_date;
+    }
+
+    /**
+     * Check if time slot is closed or not
+     * 
+     * @return boolean
+     */
+    public function isNextSlotClosed()
+    {
+        date_default_timezone_set('Asia/Kathmandu');
+        
+        $collection_day = $this->DAY;
+        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
+
+        $tomorrow_datetime = $collection_datetime->modify('+7 day');
+
+        $pdo = static::getDB();
+        $sql = "select count(*) from orders 
+                where collection_date = TO_DATE(:collection_date, 'YYYY-MM-DD HH24:MI:SS') AND collection_slot_id = :collection_slot_id";
+        $result = $pdo->prepare($sql);
+        $result->execute([
+            ':collection_date' => $tomorrow_datetime->format("Y-m-d"),
+            ':collection_slot_id' => $this->COLLECTION_SLOT_ID
+        ]);
+
+        $rowsCount = $result->fetchColumn(); 
+
+        if($rowsCount >= 20){
+            return true;
+        }
+
         $shift = $this->SHIFT;
         $shifts_array = explode(" - ", $shift);
 
