@@ -37,8 +37,13 @@ class Cart extends \Core\Controller
      * 
      * @return void
      */
-    public function indexAction()
+    public function index()
     {
+        if(!Auth::isAuthenticated()){
+            View::renderTemplate("Cart/cart-local.html");
+            return;
+        }
+        
         $collection_slots = CollectionSlot::getCollectionSlots();
         $collection_days = CollectionSlot::getCollectionDays();
         View::renderTemplate("Cart/cart.html", [

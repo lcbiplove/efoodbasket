@@ -9,6 +9,10 @@
     <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
     {% block titleLinks %}{% endblock %}
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    {% if not user %}
+    <script src="/public/js/cart-localstorage.min.js"></script>
+    <script src="/public/js/header-cart-local.js"></script>
+    {% endif %}
 </head>
 <body>
     <header>

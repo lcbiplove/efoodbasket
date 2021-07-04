@@ -110,7 +110,14 @@
                     {% if product.isAvailable and not is_trader %}
                         <div class="product-actions">
                             <button id="buy-now" class="product-action buy-now">Buy Now</button>
-                            <button id="add-to-cart" class="product-action cart-add-btn add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">Add to Cart</button>
+                            <button id="add-to-cart" class="product-action cart-add-btn add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1"
+                            {% if not user %}
+                            data-price="{{ product.PRICE }}"
+                            data-image="{{ product.thumbnailUrl }}"
+                            data-discount="{{ product.DISCOUNT }}"
+                            data-product-name="{{ product.PRODUCT_NAME }}"
+                            {% endif %}
+                            >Add to Cart</button>
                         </div>
                     {% endif %}
                 </div>
@@ -150,7 +157,14 @@
                                             </div>
                                             {% endif %}
                                             {% if similar_product.isAvailable and not is_trader %}
-                                                <div class="add-to-cart card-cart" data-product-id="{{ similar_product.PRODUCT_ID }}" data-quantity="1" >
+                                                <div class="add-to-cart card-cart" data-product-id="{{ similar_product.PRODUCT_ID }}" data-quantity="1"
+                                                {% if not user %}
+                                                data-price="{{ similar_product.PRICE }}"
+                                                data-image="{{ similar_product.thumbnailUrl }}"
+                                                data-discount="{{ similar_product.DISCOUNT }}"
+                                                data-product-name="{{ similar_product.PRODUCT_NAME }}"
+                                                {% endif %}
+                                                >
                                                     <span></span>
                                                     <span class="iconify" data-icon="fluent:cart-20-regular" data-inline="false"></span>
                                                 </div>
@@ -349,5 +363,9 @@
     <script src="/public/js/imageZoom.js"></script>
     <script src="/public/js/queries.js"></script>
     <script src="/public/js/main-product.js"></script>
+    {% if user %}
     <script src="/public/js/add-to-cart.js"></script>
+    {% else %}
+    <script src="/public/js/add-to-cart-local.js"></script>
+    {% endif %}
 {% endblock %}

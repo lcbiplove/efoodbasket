@@ -143,7 +143,14 @@
                                             {% endif %}
                                         </span>
                                         {% endif %}
-                                        <span class="card-cart add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1">
+                                        <span class="card-cart add-to-cart" data-product-id="{{ product.PRODUCT_ID }}" data-quantity="1" 
+                                        {% if not is_authenticated %}
+                                        data-price="{{ product.PRICE }}"
+                                        data-image="{{ product.thumbnailUrl }}"
+                                        data-discount="{{ product.DISCOUNT }}"
+                                        data-product-name="{{ product.PRODUCT_NAME }}"
+                                        {% endif %}
+                                        >
                                             <span></span>
                                             <span class="iconify cart--" data-icon="fluent:cart-20-regular" data-inline="false"></span>
                                         </span>
@@ -172,5 +179,9 @@
     <script src="/public/js/wishlist.js"></script>
     <script src="/public/js/omni-slider.min.js"></script>
     <script src="/public/js/main-search.js"></script>
+    {% if user %}
     <script src="/public/js/add-to-cart.js"></script>
+    {% else %}
+    <script src="/public/js/add-to-cart-local.js"></script>
+    {% endif %}
 {% endblock %}
