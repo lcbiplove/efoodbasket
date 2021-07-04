@@ -62,6 +62,7 @@ window.addEventListener("load", function () {
   var collection_slot_id;
   var slotDay;
   var collection_date;
+  var collection_time;
 
   var collectionSlotData = {};
   var collectionDisplayData = {};
@@ -318,7 +319,8 @@ window.addEventListener("load", function () {
     this.classList.add("active");
 
     summarySlotElements.forEach(function (elem) {
-      elem.innerHTML = collectionDisplayData[slotDay][collection_slot_id];
+      collection_time = collectionDisplayData[slotDay][collection_slot_id];
+      elem.innerHTML = collection_time;
     });
 
     checkProceedToPaymentBtn(collection_slot_id, slotDay, proceedCollectionBtn);
@@ -423,6 +425,65 @@ window.addEventListener("load", function () {
     progressPayment.classList.remove("active");
   };
 
+  var onPaymentSuccess = function (response) {
+    hideBigLoader();
+
+    var orderResultContainer = document.getElementById("order-result-main-container");
+    var billContainer = document.getElementById("bill-container-id");
+    var orderSuccessDiscount = document.getElementById("order-success-discount");
+    var orderSuccessSubtotal = document.getElementById("order-success-subtotal");
+    var orderSuccessTotal = document.getElementById("order-success-total");
+    var orderSuccessVoucherCode = document.getElementById("order-success-voucher-code");
+    var orderSuccessTotalItems = document.getElementById("order-success-total-items");
+    var orderSuccessCollectionDay = document.getElementById("order-success-collection-day");
+    var orderSuccessCollectionTime = document.getElementById("order-success-collection-time");
+
+    console.log(response);
+    var result = JSON.parse(response);
+    console.log(result);
+
+    var orderItems = result.orderProduct;
+
+    function zeroPad(num, places) {
+      var zero = places - num.toString().length + 1;
+      return Array(+(zero > 0 && zero)).join("0") + num;
+    }
+    billContainer.innerHTML = "#"+zeroPad(result.order.ORDER_ID, 10);
+
+    orderItems.forEach(function (item) {
+      var price = +item.price;
+      var total_price = item.quantity * item.price * (100-item.discount)/100;
+      var order_row = `<div class='success-card-row'> <div class='success-img-wrapper'> <img class='success-prod-img' src='${item.image}' alt='product-order' /> </div> <div class='success-body'> <div class='success-body-row'> <div class='success-prod-title'>${item.product_name}</div> <div class='success-prod-price-quantity'> ${item.quantity} x &pound;${price.toFixed(2)} </div> </div> <div class='success-body-row'> <div class='light-text'>${item.discount > 0 ? (item.discount + "% off") : ""}</div> <div class='success-prod-price-quantity'> = &pound;${total_price.toFixed(2)} </div> </div> </div> </div>`;
+      orderResultContainer.innerHTML += order_row;
+    });
+
+    orderSuccessDiscount.innerHTML = discount + "%";
+    orderSuccessSubtotal.innerHTML = "&pound;" + subTotal.toFixed(2);
+    orderSuccessTotalItems.innerHTML = orderItems.length;
+    orderSuccessTotal.innerHTML = "&pound;" + total.toFixed(2);
+    orderSuccessCollectionTime.innerHTML = collection_time;
+
+    if(voucherId) {
+      orderSuccessVoucherCode.innerHTML = voucherCode;
+    }
+    
+    var slotDayArray = slotDay.split("NEXT ");
+    var slotDayBeauty = slotDay;
+
+    if(slotDayArray.length != 1) {
+      slotDayBeauty = slotDayArray[1];
+    }
+    slotDayBeauty = slotDayBeauty.toLowerCase();
+    
+    slotDayBeauty = slotDayBeauty.charAt(0).toUpperCase() + slotDayBeauty.slice(1);
+
+    orderSuccessCollectionDay.innerHTML = slotDayBeauty + " ("+ result.collectionDate +")";
+
+
+    paymentWrapper.style.transform = "translateX(-300%)";
+    orderSuccessWrapper.style.transform = "translateX(-300%)";
+    progressSuccess.classList.add("active");
+  }
 
 
   /* Paypal */
@@ -460,13 +521,7 @@ window.addEventListener("load", function () {
           sendData.append('collection_slot_id', collection_slot_id);
           sendData.append('voucher_id', voucherId);
 
-          ajax("POST", "/ajax/cart/payment/", sendData, function (response) {
-            console.log(response);
-            hideBigLoader();
-            paymentWrapper.style.transform = "translateX(-300%)";
-            orderSuccessWrapper.style.transform = "translateX(-300%)";
-            progressSuccess.classList.add("active");
-          });
+          ajax("POST", "/ajax/cart/payment/", sendData, onPaymentSuccess);
       },
     })
     .render("#paypal-btn");

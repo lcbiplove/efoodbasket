@@ -97,7 +97,7 @@ class Product extends Model
     {
         $pdo = static::getDB();
 
-        $product_id = $this->product_id;
+        $product_id = isset($this->product_id) ? $this->product_id : $this->PRODUCT_ID;
 
         $query = 'UPDATE products SET';
         $values = array();

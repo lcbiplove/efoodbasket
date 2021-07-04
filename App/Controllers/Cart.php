@@ -6,6 +6,7 @@ use App\Auth;
 use App\Models;
 use App\Models\ProductCart;
 use App\Models\CollectionSlot;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Payment;
@@ -217,17 +218,56 @@ class Cart extends \Core\Controller
         $cartObj = Models\Cart::getCartObject(Auth::getUserId());
         $cartItems = $cartObj->getCartItems();
 
+        $orderProductArray = [];
         foreach ($cartItems as $key => $value) {
-            $orderProduct = new OrderProduct([
+            $array = [
                 'quantity' => $value->QUANTITY,
                 'product_id' => $value->PRODUCT_ID,
                 'order_id' => $new_order->ORDER_ID,
-            ]);
+                'product_name' => $value->product()->PRODUCT_NAME,
+                'price' => $value->product()->PRICE,
+                'discount' => $value->product()->DISCOUNT,
+                'image' => $value->product()->thumbnailUrl(),
+            ];
+            $orderProduct = new OrderProduct($array);
             $orderProduct->save();
+            array_push($orderProductArray, $array);
+        } 
+
+        $cartItemsCount = $cartObj->cartItemsCount();
+
+        $notification = new Notification([
+            'title' => "Order Placed",
+            'body' => "Your order of $cartItemsCount ".($cartItemsCount > 1 ? "items" : "item")." is being placed. You can collect them from collection slot after {$_POST['collection_date']}.",
+            'image_link' => "/public/images/notif-order.png",
+            'sender_text' => "From efoodbasket",
+            'main_link' => "#",
+            'user_id' => Auth::getUserId(),
+            'is_seen' => Notification::IS_NOT_SEEN
+        ]);
+        $notification->save();
+
+        foreach ($cartItems as $key => $value) {
+            $notification = new Notification([
+                'title' => "Order Received",
+                'body' => "Customer has ordered {$value->QUANTITY} ". ($value->QUANTITY > 1 ? "items" : "item") ." of ".$value->product()->PRODUCT_NAME." from your shop.",
+                'image_link' => "/public/images/notif-order.png",
+                'sender_text' => "From efoodbasket",
+                'main_link' => "/products/{$value->PRODUCT_ID}/",
+                'user_id' => $value->product()->getOwnerId(),
+                'is_seen' => Notification::IS_NOT_SEEN
+            ]);
+            $notification->save();
+
+            $value->product()->update(['quantity' => $value->product()->QUANTITY - $value->QUANTITY, 'availability' => true ]);
         }
+
+        ProductCart::deleteAll(Auth::getUserId());
 
         $data['payment'] = $new_payment;
         $data['order'] = $new_order;
+        $data['orderProduct'] = $orderProductArray;
+        $data['collectionDate'] = date("d M", strtotime($_POST['collection_date'])); 
 
         echo json_encode($data);
     }

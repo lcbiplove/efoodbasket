@@ -121,6 +121,26 @@ class ProductCart extends Model
     }
 
     /**
+     * Delete all cart product of user
+     * 
+     * @param int user_id
+     * @return boolean
+     */
+    public static function deleteAll($user_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "DELETE (SELECT *
+        FROM PRODUCT_CARTS pc
+        INNER JOIN CARTS c
+        ON c.cart_id = pc.cart_id
+        WHERE c.user_id = '$user_id')";
+
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute();
+    }
+
+    /**
      * Get product object
      * 
      * @return object 

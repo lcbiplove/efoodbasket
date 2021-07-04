@@ -506,7 +506,7 @@ block titleLinks %}
                     data-icon="bx:bx-time"
                     data-inline="false"
                   ></span>
-                  <span>9:00 - 11:00</span>
+                  <span id="order-success-collection-time">9:00 - 11:00</span>
                 </div>
               </div>
               <div class="cart-summary-row">
@@ -516,7 +516,7 @@ block titleLinks %}
                     data-icon="bi:calendar-week"
                     data-inline="false"
                   ></span>
-                  <span>Thursday</span>
+                  <span id="order-success-collection-day">Thursday</span>
                 </div>
               </div>
               <div class="cart-summary-row">
@@ -536,96 +536,34 @@ block titleLinks %}
             <div class="order-success-items-container">
               <div class="bill-row">
                 <div>Bill Number</div>
-                <div>#887788</div>
+                <div id="bill-container-id"></div>
               </div>
-              <div class="order-success-products-container">
-                <div class="success-card-row">
-                  <div class="success-img-wrapper">
-                    <img
-                      class="success-prod-img"
-                      src="images/placeholder-image.png"
-                      alt=""
-                    />
-                  </div>
-                  <div class="success-body">
-                    <div class="success-body-row">
-                      <div class="success-prod-title">Product Name</div>
-                      <div class="success-prod-price-quantity">
-                        3 x &pound;15.00
-                      </div>
-                    </div>
-                    <div class="success-body-row">
-                      <div></div>
-                      <div class="success-prod-price-quantity">
-                        = &pound;45.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="success-card-row">
-                  <div class="success-img-wrapper">
-                    <img
-                      class="success-prod-img"
-                      src="images/placeholder-image.png"
-                      alt=""
-                    />
-                  </div>
-                  <div class="success-body">
-                    <div class="success-body-row">
-                      <div class="success-prod-title">Product Name</div>
-                      <div class="success-prod-price-quantity">
-                        3 x &pound;15.00
-                      </div>
-                    </div>
-                    <div class="success-body-row">
-                      <div></div>
-                      <div class="success-prod-price-quantity">
-                        = &pound;45.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="success-card-row">
-                  <div class="success-img-wrapper">
-                    <img
-                      class="success-prod-img"
-                      src="images/placeholder-image.png"
-                      alt=""
-                    />
-                  </div>
-                  <div class="success-body">
-                    <div class="success-body-row">
-                      <div class="success-prod-title">Product Name</div>
-                      <div class="success-prod-price-quantity">
-                        3 x &pound;15.00
-                      </div>
-                    </div>
-                    <div class="success-body-row">
-                      <div></div>
-                      <div class="success-prod-price-quantity">
-                        = &pound;45.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div id="order-result-main-container" class="order-success-products-container"></div>
               <div class="success-prices-summary">
                 <div class="success-price-row">
-                  <div>Sub totals (3 items)</div>
-                  <div>&pound;45.00</div>
+                  <div>Sub totals (<span id="order-success-total-items"></span> items)</div>
+                  <div id="order-success-subtotal"></div>
+                </div>
+                <div class="success-price-row">
+                  <div>Voucher Code</div>
+                  <div id="order-success-voucher-code">-----</div>
                 </div>
                 <div class="success-price-row">
                   <div>Discount</div>
-                  <div>0%</div>
+                  <div id="order-success-discount">0%</div>
                 </div>
                 <div class="success-price-row">
                   <div>Total</div>
-                  <div>&pound;45.00</div>
+                  <div id="order-success-total"></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <a href="/" class="back-btn" style="margin-top: 20px; float: right; margin-right: -10px;">
+          <span class="iconify" data-icon="akar-icons:arrow-back" data-inline="false"></span>
+          Go Shopping
+        </a>
       </div>
     </div>
   </div>
