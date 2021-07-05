@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Auth;
 use App\Models;
+use App\Models\Product;
 
 /**
  * Query controller
@@ -20,6 +21,8 @@ class Review extends \Core\Controller
     protected function before()
     {
         $this->requireLogin();
+
+
     }
 
     /**
@@ -30,6 +33,12 @@ class Review extends \Core\Controller
     public function add()
     {
         $product_id = $this->route_params['product_id'];
+
+        $product = Product::getProductObjectById($product_id);
+
+        if(!$product->hasUserOrderedProduct()){
+            $this->redirect("/products/$product_id/");
+        }
 
         if(empty($_POST)){
             $this->redirect("/products/$product_id/");
@@ -73,6 +82,12 @@ class Review extends \Core\Controller
     {
         $product_id = $this->route_params['product_id'];
 
+        $product = Product::getProductObjectById($product_id);
+
+        if(!$product->hasUserOrderedProduct()){
+            $this->redirect("/products/$product_id/");
+        }
+        
         if(empty($_POST)){
             $this->redirect("/products/$product_id/");
         }

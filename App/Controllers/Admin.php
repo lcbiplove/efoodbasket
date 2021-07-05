@@ -28,6 +28,7 @@ class Admin extends \Core\Controller
 
     public function traderRequestsAction()
     {
+        $this->redirect('/');
         View::renderTemplate('Admin/trader-requests.html');
     }
 

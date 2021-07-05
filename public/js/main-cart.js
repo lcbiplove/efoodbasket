@@ -1,13 +1,11 @@
 window.addEventListener("load", function () {
   var mainCartCountNavElem = document.getElementById("main-cart-count");
   /* All progress bar and main wrappers */
-  var cartWrapper = document.getElementById("cart-wrapper");
   var shoppingWrapper = document.getElementById("shopping-cart");
   var collectionWrapper = document.getElementById("collection-slot");
   var paymentWrapper = document.getElementById("payment");
   var orderSuccessWrapper = document.getElementById("order-success");
 
-  var progressShopping = document.getElementById("progress-bar-shopping");
   var progressCollection = document.getElementById("progress-bar-collection");
   var progressPayment = document.getElementById("progress-bar-payment");
   var progressSuccess = document.getElementById("progress-bar-success");
@@ -437,6 +435,8 @@ window.addEventListener("load", function () {
     var orderSuccessTotalItems = document.getElementById("order-success-total-items");
     var orderSuccessCollectionDay = document.getElementById("order-success-collection-day");
     var orderSuccessCollectionTime = document.getElementById("order-success-collection-time");
+
+    mainCartCountNavElem.innerHTML = 0;
 
     var result = JSON.parse(response);
 
