@@ -31,6 +31,8 @@ function resetForm(formElement) {
 
 window.addEventListener("load", function () {
     var filterForm = document.getElementById("filter-form");
+    var sortBySelect = document.getElementById("search-sortBy");
+    var filterRowRating = document.querySelectorAll(".filter-row-rating");
 
     var filterBtn = document.querySelector(".filter-btn");
     var resetBtn = document.querySelector(".filter-reset-btn");
@@ -42,10 +44,10 @@ window.addEventListener("load", function () {
     var options = {
         isDate: false,
         min: 0,
-        max: 5000,
-        step: 50,
-        start: minPrice.value || 0,
-        end: maxPrice.value || 5000,
+        max: 200,
+        step: 10,
+        start: +minPrice.value,
+        end: +maxPrice.value,
         overlap: false
     };
 
@@ -57,13 +59,40 @@ window.addEventListener("load", function () {
     });
 
     filterBtn.onclick = function () {
-        filterForm.submit();
+        var urlParams = new URLSearchParams(window.location.search);
+
+        urlParams.set('minPrice', minPrice.value);
+        urlParams.set('maxPrice', maxPrice.value);
+        window.location.search = urlParams.toString();
     }
-    
     
     resetBtn.onclick = function () {
-        mySlider.move({left: 0.2, right: 5000});
+        var urlParams = new URLSearchParams(window.location.search);
 
-        resetForm(filterForm);
+        urlParams.delete('minPrice');
+        urlParams.delete('maxPrice');
+        urlParams.delete('rating');
+        window.location.search = urlParams.toString();
     }
+
+    sortBySelect.onchange = function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var elem = (typeof this.selectedIndex === "undefined" ? window.event.srcElement : this);
+        var value = elem.value || elem.options[elem.selectedIndex].value;
+
+        urlParams.set('orderBy', value);
+        window.location.search = urlParams.toString();
+    }
+
+    filterRowRating.forEach(function(item){
+        item.onclick = function (e) {
+            e.preventDefault();
+
+            var ratingAbove = item.getAttribute("href");
+
+            var urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('rating', ratingAbove);
+            window.location.search = urlParams.toString();
+        }
+    });
 })

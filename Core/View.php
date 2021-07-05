@@ -54,6 +54,7 @@ class View
             $twig->addGlobal('cart', \App\Auth::getCartObject());
             $twig->addGlobal('notif_count', \App\Auth::getNotifCount());
             $twig->addGlobal('cookieMessage', \App\Extra::getMessageCookie());
+            $twig->addGlobal('categories', \App\Extra::getCategories());
 
             $contactFilter = new \Twig\TwigFilter('getBeautifulContact', function ($phone) {
                 return \App\Extra::getBeautifulPhone($phone);

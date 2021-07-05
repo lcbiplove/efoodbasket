@@ -28,13 +28,13 @@
                 </a>
             </div>
             <div class="search-box-wrapper">
-                <form class="search-form" action="search.html" method="get">
+                <form class="search-form" action="/search/" method="get">
                     <div class="search-categories">
                         <select class="category-select" name="searchBy">
                             <option value="">All categories</option>
-                            <option value="">Meat</option>
-                            <option value="">Veg</option>
-                            <option value="">Fish</option>
+                            {% for category in categories %}
+                                <option value="{{category.CATEGORY_ID}}" {% if selected_category == category.CATEGORY_ID %}selected{% endif %}>{{category.CATEGORY_NAME}}</option>
+                            {% endfor %}
                         </select>
                         <span class="iconify select-arrow" data-icon="ic:round-keyboard-arrow-down" data-inline="false"></span>
                     </div>

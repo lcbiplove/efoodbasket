@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 /**
  * Extra class
@@ -100,6 +101,11 @@ class Extra
         return $current;
     }
 
+    /**
+     * Give time ago like expression
+     * 
+     * @return string
+     */
     public static function timeAgo($datetime, $full = false)
     {
         date_default_timezone_set('Europe/London');
@@ -129,5 +135,15 @@ class Extra
     
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
+    }
+
+    /**
+     * All product categories for search
+     * 
+     * @return array
+     */
+    public static function getCategories()
+    {
+        return ProductCategory::getAllCategories();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Auth;
 use App\Extra;
 use Core\Model;
 
