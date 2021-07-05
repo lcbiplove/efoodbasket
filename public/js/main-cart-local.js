@@ -32,7 +32,7 @@ window.addEventListener("load", function () {
 
     var getSelectedItems = function () {
         var selected_ids = [];
-        allCheckboxes.forEach(function (item, index) {
+        (document.querySelectorAll(".each-checkbox")).forEach(function (item, index) {
           if (item.checked === true) {
             var myProductData = cartLS.list();
             if(myProductData[index]){

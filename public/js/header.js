@@ -74,6 +74,11 @@ function ajax(method, action, data, callback) {
     xhttp.send(data);
 }
 var showJsMessage = function (message, type, timeout) {
+    var already = document.querySelector(".show-js-mssg-mssg-wrapper");
+    if(already){
+        already.remove();
+    }
+
     var wrapper = document.createElement("div");
     wrapper.className = "show-js-mssg-mssg-wrapper show-for-"+type;
     var indicator = document.createElement("div");
