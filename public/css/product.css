@@ -129,7 +129,6 @@
     color: #000;
 }
 .edit-delete-product {
-
     border: 0;
     background-color: transparent;
     padding: 5px;
@@ -244,6 +243,48 @@
 .main-rating-wrapper {
     margin-right: 50px;
 }
+.review-form-wrapper {
+    margin: 50px 0;
+}
+.give-rating-wrapper {
+    margin: 20px 0;
+}
+.give-rating-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 10px 0;
+}
+.rating-form-wrapper {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.give-rating-star {
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.rate-btn {
+    flex-shrink: 0;
+    width: 5rem;
+    padding: 6px 0;
+    background-color: var(--star-color);
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 1rem;
+    border: 0;
+}
+.rate-btn.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+.rate-btn:hover {
+    opacity: 0.8;
+}
 .advance-rating-wrapper {
     margin: 30px 0;
     display: flex;
@@ -310,7 +351,11 @@
 .raters-text {
     margin-top: 3px;
 }
-
+.edit-review {
+    cursor:  pointer;
+    color: var(--light-green);
+    margin-right: 10px;
+}
 /* Queries */
 .queries-heading {
     font-size: 1.3rem;

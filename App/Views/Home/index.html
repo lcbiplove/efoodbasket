@@ -78,7 +78,7 @@
                                         {{ product.PRODUCT_NAME }}
                                     </a>
                                 </div>
-                                <div class="sm-stars" style="--rating: 2.5;"></div>
+                                <div class="sm-stars" style="--rating: {{product.rating.average}};"></div>
 
                                 <div class="card-footer">
                                     <div class="card-price">{{ product.PRICE|number_format(2) }} GBP</div>

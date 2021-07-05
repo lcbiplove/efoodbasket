@@ -262,6 +262,27 @@ class Product extends Model
      * 
      * @return array
      */
+    public function getReviewsOnly()
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT r.*
+                FROM reviews r, products p 
+                WHERE r.product_id = p.product_id AND p.product_id = :product_id AND review_text IS NOT NULL
+                ORDER BY r.rating DESC";
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute([$this->PRODUCT_ID]);
+
+        return $result->fetchAll(\PDO::FETCH_CLASS, 'App\Models\Review');
+    }
+
+    /**
+     * All queries of the product
+     * 
+     * @return array
+     */
     public function getQueries()
     {
         $pdo = static::getDB();
@@ -390,6 +411,107 @@ class Product extends Model
     {
         $owner = User::getUserObjectFromId($this->getOwnerId());
         return $owner->fullname;
+    }
+
+    /**
+     * Returns if user has ordered the item
+     * 
+     * @return mixed boolean, obj
+     */
+    public function hasUserOrderedProduct()
+    {
+        $pdo = static::getDB();
+        $sql = "select count(*) from products p, orders o, order_products op, payments pm
+                where p.product_id = op.product_id and op.order_id = o.order_id and pm.payment_id = o.payment_id and pm.user_id = :user_id and p.product_id = :product_id";
+        $result = $pdo->prepare($sql);
+        $result->execute([
+            'user_id' => Auth::getUserId(),
+            'product_id' => $this->PRODUCT_ID
+        ]);
+
+        $rowsCount = $result->fetchColumn(); 
+
+        if($rowsCount >= 1){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Reviewer of product
+     * 
+     * @return object
+     */
+    public function reviewer()
+    {
+        return Review::getReviewByUserOfProduct(Auth::getUserId(), $this->PRODUCT_ID);
+    }
+
+    /**
+     * Average rating of the product
+     * 
+     * @return object
+     */
+    public function rating()
+    {
+        $pdo = static::getDB();
+        $sql = "select ROUND(AVG(rating),2) AS AVERAGE, count(*) AS TOTAL from reviews r, products p where r.product_id = p.product_id and p.product_id = :product_id";
+
+        $result = $pdo->prepare($sql);
+        $result->execute([
+            $this->PRODUCT_ID
+        ]);
+        $row = $result->fetch(); 
+
+        $rating = [];
+        $rating['average'] = $row['AVERAGE'] ? $row['AVERAGE'] : 0;
+        $rating['total'] = $row['TOTAL'];
+        return $rating;
+    }
+
+    /**
+     * Analyzing ratings
+     * 
+     * @return array
+     */
+    public function analyzeRating()
+    {
+        $pdo = static::getDB();
+        $sql = "select ROUND(rating) AS RATING_OF , count(*) AS TOTAL, count(*) * 100 / (
+                    select count(*) from reviews r, products p where r.product_id = p.product_id and p.product_id = :product_id) AS PERCENT
+                from reviews r, products p 
+                where r.product_id = p.product_id and p.product_id = :product_id
+                group by rating
+                order by rating";
+
+        $result = $pdo->prepare($sql);
+        $result->execute([
+            $this->PRODUCT_ID
+        ]);
+        $rows = $result->fetchAll(); 
+
+        $ratings = [];
+        for ($i=0; $i < 5; $i++) { 
+            $num = $i+1;
+
+            if(isset($rows[$i])) {
+                $rateInd = $rows[$i]['RATING_OF'];
+                $ratings[$rateInd]['RATING_OF'] = $rateInd;
+                $ratings[$rateInd]['TOTAL'] = $rows[$i]['TOTAL'];
+                $ratings[$rateInd]['PERCENT'] = $rows[$i]['PERCENT'];
+
+                $ratings[$num]['RATING_OF'] = $num;
+                $ratings[$num]['TOTAL'] = 0;
+                $ratings[$num]['PERCENT'] = 0;
+            } 
+            else if(!isset($ratings[$num])) {
+                $ratings[$num]['RATING_OF'] = $num;
+                $ratings[$num]['TOTAL'] = 0;
+                $ratings[$num]['PERCENT'] = 0;
+            }  
+        }
+        asort($ratings);
+        return array_reverse($ratings);
     }
 }
 
