@@ -35,21 +35,26 @@ class Search extends Model
 
         $sql = "SELECT * FROM products p WHERE upper(product_name) LIKE :key";
 
+        $priceSql = "";
+        $ratingSql = "";
+        $leftOrInner =  " LEFT ";
+
         if(filter_var($category_id, FILTER_VALIDATE_INT)){
             $sql = "SELECT p.* FROM products p, PRODUCT_CATEGORIES pc
                     WHERE p.category_id = pc.category_id AND p.category_id = '$category_id' AND upper(product_name) LIKE :key ";
         }
 
         if(filter_var($rating, FILTER_VALIDATE_INT)) {
+            $leftOrInner  = " INNER ";
+            $ratingSql = " HAVING avg(rating) >= '$rating' ";
             $sql = "
             SELECT p.* FROM products p, (
-                SELECT product_id, avg(rating) as average from reviews group by product_id HAVING avg(rating) >= '$rating'
+                SELECT product_id, avg(rating) as average from reviews group by product_id $ratingSql
             ) r 
             WHERE p.product_id = r.product_id AND upper(product_name) LIKE :key 
             ";
         }
 
-        $priceSql = "";
 
         if((filter_var($minPrice, FILTER_VALIDATE_INT) || $minPrice == 0) && filter_var($maxPrice, FILTER_VALIDATE_INT)){
             $priceSql = " and price BETWEEN $minPrice AND $maxPrice";
@@ -64,23 +69,27 @@ class Search extends Model
         }
         else if($order_by == static::ORDER_BY_RATING_HIGH){
             $sql = "
-            SELECT p.* FROM products p, (
-                SELECT product_id, avg(rating) as average from reviews group by product_id 
+            SELECT p.* FROM products p 
+            $leftOrInner JOIN (
+                            SELECT product_id, avg(rating) as average from reviews group by product_id $ratingSql
             ) r 
-            WHERE p.product_id = r.product_id AND upper(product_name) LIKE :key 
+            ON p.product_id = r.product_id 
+            WHERE upper(product_name) LIKE :key 
             ";
             $sql .= $priceSql;
-            $sql .= "ORDER BY r.average DESC";
+            $sql .= " ORDER BY r.average DESC NULLS LAST";
         }
         else if($order_by == static::ORDER_BY_RATING_LOW){
             $sql = "
-            SELECT p.* FROM products p, (
-                SELECT product_id, avg(rating) as average from reviews group by product_id 
+            SELECT p.* FROM products p 
+            $leftOrInner JOIN (
+                SELECT product_id, avg(rating) as average from reviews group by product_id $ratingSql
             ) r 
-            WHERE p.product_id = r.product_id AND upper(product_name) LIKE :key 
+            ON p.product_id = r.product_id 
+            WHERE upper(product_name) LIKE :key
             ";
             $sql .= $priceSql;
-            $sql .= " ORDER BY r.average ASC";
+            $sql .= " ORDER BY r.average ASC NULLS FIRST";
         }
         else {
             $sql .= " order by added_date DESC";
