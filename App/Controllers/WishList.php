@@ -36,9 +36,16 @@ class WishList extends \Core\Controller
      */
     public function indexAction()
     {
-        $products = Models\WishList::getProductsByUserId(Auth::getUserId());
+        $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
+        $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
+        $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+
+        $products = Models\WishList::search(Auth::getUserId(), $rating, $minPrice, $maxPrice);
         View::renderTemplate("WishList/wishlists.html", [
-            'products' => $products
+            'products' => $products,
+            'selected_rating' => $rating,
+            'selected_minPrice' => $minPrice,
+            'selected_maxPrice' => $maxPrice
         ]);
     }
 

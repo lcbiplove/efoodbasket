@@ -72,5 +72,44 @@ class WishList extends Model
         $result->execute([$user_id]);
         return $result->fetchAll(\PDO::FETCH_CLASS, 'App\Models\Product');
     }
+
+    /**
+     * Search with options for the wishlist
+     * 
+     * @return array
+     */
+    public static function search($user_id, $rating, $minPrice, $maxPrice)
+    {
+        $pdo = static::getDB();
+
+        $priceSql = "";
+        $ratingSql = "";
+        $orderBy = " ORDER BY w.added_date DESC ";
+
+        $sql = "SELECT w.wishlist_id, p.* FROM WISHLISTS w, products p WHERE w.product_id = p.product_id AND user_id = '$user_id'";
+
+        if(filter_var($rating, FILTER_VALIDATE_INT)) {
+            $ratingSql = " HAVING avg(rating) >= '$rating' ";
+            $sql = "
+            SELECT p.* FROM products p, (
+                SELECT product_id, avg(rating) as average from reviews group by product_id $ratingSql
+            ) r, WISHLISTS w where
+            r.product_id = p.product_id AND w.product_id = p.product_id AND user_id = '$user_id'
+            ";
+            $orderBy .= " , r.average DESC NULLS LAST";
+        }
+        if((filter_var($minPrice, FILTER_VALIDATE_INT) || $minPrice == 0) && filter_var($maxPrice, FILTER_VALIDATE_INT)){
+            $priceSql = " and price BETWEEN $minPrice AND $maxPrice";
+            $sql .= $priceSql;
+            $orderBy .= " , price DESC";
+        }
+        $sql .= $orderBy;
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute();
+
+        return $result->fetchAll(\PDO::FETCH_CLASS, 'App\Models\Product');
+    }
     
 }

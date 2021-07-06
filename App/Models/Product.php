@@ -135,7 +135,47 @@ class Product extends Model
         return $result->execute([$this->product_id]);
     }
 
-     /**
+    /**
+     * Search products based on params
+     * 
+     * @return array
+     */
+    public static function searchByTrader($traderId, $rating, $minPrice, $maxPrice)
+    {
+        $pdo = static::getDB();
+
+        $priceSql = "";
+        $ratingSql = "";
+        $orderBy = " ORDER BY added_date DESC ";
+
+        $sql = "SELECT p.* FROM products p, shops s, users u
+        WHERE p.shop_id = s.shop_id AND s.trader_id = u.user_id AND u.user_id = '$traderId'
+        ";
+        if(filter_var($rating, FILTER_VALIDATE_INT)) {
+            $ratingSql = " HAVING avg(rating) >= '$rating' ";
+            $sql = "
+            SELECT p.* FROM products p, (
+                SELECT product_id, avg(rating) as average from reviews group by product_id $ratingSql
+            ) r, shops s, users u where
+            r.product_id = p.product_id AND p.shop_id = s.shop_id AND s.trader_id = u.user_id AND u.user_id = '$traderId'
+            ";
+            $orderBy .= " , r.average DESC NULLS LAST";
+        }
+        if((filter_var($minPrice, FILTER_VALIDATE_INT) || $minPrice == 0) && filter_var($maxPrice, FILTER_VALIDATE_INT)){
+            $priceSql = " and price BETWEEN $minPrice AND $maxPrice";
+            $sql .= $priceSql;
+            $orderBy .= " , price DESC";
+        }
+        $sql .= $orderBy;
+
+        $result = $pdo->prepare($sql);
+        
+        $result->execute();
+
+        return $result->fetchAll(\PDO::FETCH_CLASS, self::class);
+    }
+
+    /**
      * Get all products from the table
      * 
      * @param int from index

@@ -103,12 +103,19 @@ class Product extends \Core\Controller
     {
         $this->requireTrader();
 
+        $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
+        $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
+        $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+
         $products = Models\Product::getAllProductsByTrader(Auth::getUserId());
         $isVisitorOwner = true;
 
         View::renderTemplate('Product/manage-products.html', [
             'products' => $products,
-            'isVisitorOwner' =>  $isVisitorOwner
+            'isVisitorOwner' =>  $isVisitorOwner,
+                'selected_rating' => $rating,
+            'selected_minPrice' => $minPrice,
+            'selected_maxPrice' => $maxPrice
         ]);
     }
 
@@ -120,18 +127,23 @@ class Product extends \Core\Controller
     public function traderProductsAction()
     {
         $trader_id = $this->route_params['trader_id'];
-        $products = Models\Product::getAllProductsByTrader($trader_id);
         $trader = User::getUserObjectFromId($trader_id);
 
-        if(!$products){
-            $this->show404();
-        }
+        $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
+        $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
+        $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+
+        $products = Models\Product::searchByTrader($trader_id, $rating, $minPrice, $maxPrice);
+
         $isVisitorOwner = Auth::getUserId() == $trader_id;
 
         View::renderTemplate('Product/manage-products.html', [
             'products' => $products,
             'isVisitorOwner' => $isVisitorOwner,
             'trader' => $trader,
+            'selected_rating' => $rating,
+            'selected_minPrice' => $minPrice,
+            'selected_maxPrice' => $maxPrice
         ]);
     }
 

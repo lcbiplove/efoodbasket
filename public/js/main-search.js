@@ -75,15 +75,17 @@ window.addEventListener("load", function () {
         window.location.search = urlParams.toString();
     }
 
-    sortBySelect.onchange = function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        var elem = (typeof this.selectedIndex === "undefined" ? window.event.srcElement : this);
-        var value = elem.value || elem.options[elem.selectedIndex].value;
-
-        urlParams.set('orderBy', value);
-        window.location.search = urlParams.toString();
+    if(sortBySelect){
+        sortBySelect.onchange = function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var elem = (typeof this.selectedIndex === "undefined" ? window.event.srcElement : this);
+            var value = elem.value || elem.options[elem.selectedIndex].value;
+    
+            urlParams.set('orderBy', value);
+            window.location.search = urlParams.toString();
+        }
     }
-
+    
     filterRowRating.forEach(function(item){
         item.onclick = function (e) {
             e.preventDefault();
