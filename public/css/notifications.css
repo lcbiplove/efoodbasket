@@ -56,6 +56,9 @@
     margin: 8px 0;
     color: #555;
 }
+.order-details-item {
+    margin: 5px 0;
+}
 .notif-footer {
     font-size: 0.9rem;
 }
@@ -67,7 +70,12 @@
     position: relative;
     color: #777;
 }
-.notif-date::before {
+.order-date {
+    margin-left: 15px;
+    position: relative;
+    color: #777;
+}
+.order-date::before, .notif-date::before {
     content: '';
     display: inline-block;
     width: 5px;

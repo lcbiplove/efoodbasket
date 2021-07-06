@@ -37,4 +37,14 @@ class OrderProduct extends Model
             ':product_id' => $this->product_id
         ]);
     }
+
+    /**
+     * Product for the order product
+     * 
+     * @return object
+     */
+    public function product()
+    {
+        return Product::getProductObjectById($this->PRODUCT_ID);
+    }
 }

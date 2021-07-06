@@ -250,6 +250,20 @@
 .cart-summary-value {
   text-align: right;
 }
+.review-prod-btn {
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--dark-green);
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin: auto 0;
+  font-size: 0.9rem;
+}
+.review-prod-btn:hover {
+  color: #fff;
+  opacity: 0.9;
+}
 /* Card */
 /* Big cards */
 .card-row {

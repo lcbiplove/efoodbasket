@@ -86,6 +86,9 @@ $router->add("ajax/cart/delete-multiple/", ['controller' => 'Cart', 'action' => 
 $router->add("ajax/cart/voucher/", ['controller' => 'Cart', 'action' => 'voucher']);
 $router->add("ajax/cart/payment/", ['controller' => 'Cart', 'action' => 'payment']);
 
+$router->add("orders/", ['controller' => 'Order', 'action' => 'index']);
+$router->add("orders/{order_id:\d+}/", ['controller' => 'Order', 'action' => 'details']);
+
 
 $router->add('{controller}/{action}/');
 

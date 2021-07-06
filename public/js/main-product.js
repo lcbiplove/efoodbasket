@@ -72,5 +72,21 @@ window.addEventListener("load", function(){
         }
     });
 
+    // Check if from notification
+    var url_string = this.window.location.href;
+    var url = new URL(url_string);
+    var give_review = url.searchParams.get("give_review");
+    var orderId = url.searchParams.get("order_id");
+
+    if(give_review && orderId) {
+        var eachRow = document.querySelector(".review-form-wrapper");
+
+        eachRow.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+        });
+        eachRow.style = "animation: focusFade 2s";
+    }
 });
 

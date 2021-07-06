@@ -36,6 +36,25 @@ class CollectionSlot extends Model
         $result->execute([$this->DAY]);
         return $result->fetchAll(\PDO::FETCH_CLASS, self::class);
     }
+
+    /**
+     * Collection slot object 
+     * 
+     * @param int id
+     * @return object
+     */
+    public static function getCollectionSlotById($id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT * FROM COLLECTION_SLOTS WHERE COLLECTION_SLOT_ID = :id";
+
+        $result = $pdo->prepare($sql);
+        $result->execute([$id]);
+        $result->setFetchMode(\PDO::FETCH_CLASS, self::class);
+        $row = $result->fetch();
+        return $row;
+    }
     
 
     /**

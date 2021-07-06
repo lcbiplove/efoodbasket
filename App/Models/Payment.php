@@ -70,4 +70,23 @@ class Payment extends Model
         $row = $result->fetch();
         return $row;
     }
+    
+    /**
+     * Get voucher object
+     * 
+     * @param int payment_id
+     * @return object payment object
+     */
+    public static function getPaymentById($payment_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT * FROM PAYMENTS WHERE payment_id = :payment_id";
+
+        $result = $pdo->prepare($sql);
+        $result->execute([$payment_id]);
+        $result->setFetchMode(\PDO::FETCH_CLASS, self::class);
+        $row = $result->fetch();
+        return $row;
+    }
 }

@@ -23,6 +23,25 @@ class Voucher extends Model
     }
 
     /**
+     * Get voucher object
+     * 
+     * @param int voucher_id
+     * @return object voucher object
+     */
+    public static function getVoucherById($voucher_id)
+    {
+        $pdo = static::getDB();
+
+        $sql = "SELECT * FROM VOUCHERS WHERE voucher_id = :voucher_id";
+
+        $result = $pdo->prepare($sql);
+        $result->execute([$voucher_id]);
+        $result->setFetchMode(\PDO::FETCH_CLASS, self::class);
+        $row = $result->fetch();
+        return $row;
+    }
+
+    /**
      * Check if code is in table
      * 
      * @param string code
