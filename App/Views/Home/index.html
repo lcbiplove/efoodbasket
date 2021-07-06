@@ -64,7 +64,9 @@
             </div>
             <div class="home-row-content">
                 <div class="card-row">
-                {% for product in products %}
+                {% set pageIndex = page-1 %}
+                {% set itemStart = pageIndex*2 %}
+                {% for product in products|slice(itemStart, 2) %}
                     <div class="card-col">
                         <div class="card">
                             <div class="card-img-wrapper">
@@ -113,6 +115,14 @@
                 {% endfor %}
                 </div>
             </div>
+            {% if products|length > page*2 %}
+            <div class="more-btn-wrapper">
+                <a href="/page/{{page+1}}/" class="more-btn">
+                    <span>More Products</span>
+                    <span class="iconify" data-icon="ant-design:caret-down-outlined" data-inline="false"></span>
+                </a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

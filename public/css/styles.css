@@ -732,6 +732,30 @@ footer {
 .show-js-mssg-box-close:hover {
   background-color: #eee;
 }
+.more-btn-wrapper {
+  display: block;
+  text-align: center;
+  margin: 40px 0;
+}
+.more-btn {
+  display: inline-flex;
+  padding: 13px;
+  margin: auto;
+  border: 0;
+  background-color: var(--dark-green);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+.more-btn span {
+  margin: 0 8px;
+}
+.more-btn:hover {
+  opacity: 0.9;
+  color: #fff;
+}
 @keyframes focusFade {
   from {
       background-color: var(--light-green);

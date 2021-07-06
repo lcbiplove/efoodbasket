@@ -30,6 +30,7 @@ $router = new Core\Router();
 
 // Add the routes
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
+$router->add('page/{page:\d+}/', ['controller' => 'Home', 'action' => 'index']);
 $router->add('search/', ['controller' => 'Home', 'action' => 'search']);
 
 // Login related routes

@@ -39,13 +39,15 @@ class WishList extends \Core\Controller
         $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
         $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
         $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $products = Models\WishList::search(Auth::getUserId(), $rating, $minPrice, $maxPrice);
         View::renderTemplate("WishList/wishlists.html", [
             'products' => $products,
             'selected_rating' => $rating,
             'selected_minPrice' => $minPrice,
-            'selected_maxPrice' => $maxPrice
+            'selected_maxPrice' => $maxPrice,
+            'page' => $page
         ]);
     }
 

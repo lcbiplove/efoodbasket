@@ -106,6 +106,7 @@ class Product extends \Core\Controller
         $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
         $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
         $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $products = Models\Product::getAllProductsByTrader(Auth::getUserId());
         $isVisitorOwner = true;
@@ -115,7 +116,8 @@ class Product extends \Core\Controller
             'isVisitorOwner' =>  $isVisitorOwner,
                 'selected_rating' => $rating,
             'selected_minPrice' => $minPrice,
-            'selected_maxPrice' => $maxPrice
+            'selected_maxPrice' => $maxPrice,
+            'page' => $page
         ]);
     }
 
@@ -132,6 +134,7 @@ class Product extends \Core\Controller
         $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
         $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
         $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $products = Models\Product::searchByTrader($trader_id, $rating, $minPrice, $maxPrice);
 
@@ -143,7 +146,8 @@ class Product extends \Core\Controller
             'trader' => $trader,
             'selected_rating' => $rating,
             'selected_minPrice' => $minPrice,
-            'selected_maxPrice' => $maxPrice
+            'selected_maxPrice' => $maxPrice,
+            'page' => $page
         ]);
     }
 

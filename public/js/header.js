@@ -9,6 +9,8 @@ var header = document.querySelector("header");
 var cookie_mssg_box = document.getElementById("cookie-mssg-box") || 0;
 var cookie_close = document.getElementById("cookie-box-close") || 0;
 
+var moreItemsBtn = document.getElementById("more-item-btn");
+
 function resetToDefault(){
     closeMenu();
     hideOverlay();
@@ -125,11 +127,18 @@ search_icon.onclick = function(){
     document.querySelectorAll(".search-inpt")[1].focus();
     showOverlay();
 }
-
 cookie_close.onclick = function(){
     hideMessageBox();
 }
+if(moreItemsBtn){
+    moreItemsBtn.onclick = function (e) {
+        e.preventDefault();
 
+        var urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', this.getAttribute("href"));
+        window.location.search = urlParams.toString();
+    }
+}
 if(cookie_close){
     showMessageBox();
 }

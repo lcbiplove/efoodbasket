@@ -28,9 +28,11 @@ class Home extends \Core\Controller
     public function indexAction()
     {
         $products = Product::getAllProducts();
+        $page = isset($this->route_params['page']) ? $this->route_params['page'] : 1;
 
         View::renderTemplate('Home/index.html', [
-            'products' => $products
+            'products' => $products,
+            'page' => $page
         ]);
     }
 
@@ -47,6 +49,7 @@ class Home extends \Core\Controller
         $rating = isset($_GET['rating']) ? $_GET['rating'] : "";
         $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : 0;
         $maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : 200;
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $products = Search::search($product_key, $order_by, $category_id, $rating, $minPrice, $maxPrice);
         $sortsBy = Search::sortsBy();
@@ -60,6 +63,7 @@ class Home extends \Core\Controller
             'selected_rating' => $rating,
             'selected_minPrice' => $minPrice,
             'selected_maxPrice' => $maxPrice,
+            'page' => $page
         ]);
     }
 }
