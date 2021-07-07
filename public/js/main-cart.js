@@ -1,5 +1,5 @@
 window.addEventListener("load", function () {
-  var mainCartCountNavElem = document.getElementById("main-cart-count");
+  var mainCartCountNavElem = document.querySelectorAll(".main-cart-count");
   /* All progress bar and main wrappers */
   var shoppingWrapper = document.getElementById("shopping-cart");
   var collectionWrapper = document.getElementById("collection-slot");
@@ -118,7 +118,9 @@ window.addEventListener("load", function () {
       elem.innerHTML = getTotalQuantity();
     });
     cartItemCountSelectElem.innerHTML = getTotalQuantity();
-    mainCartCountNavElem.innerHTML = getTotalQuantity();
+    mainCartCountNavElem.forEach(function(item){
+        item.innerHTML = getTotalQuantity();
+    });  
   };
 
   var updateAllElems = function () {
@@ -436,7 +438,9 @@ window.addEventListener("load", function () {
     var orderSuccessCollectionDay = document.getElementById("order-success-collection-day");
     var orderSuccessCollectionTime = document.getElementById("order-success-collection-time");
 
-    mainCartCountNavElem.innerHTML = 0;
+    mainCartCountNavElem.forEach(function(item){
+        item.innerHTML = 0;
+    }); 
 
     var result = JSON.parse(response);
 

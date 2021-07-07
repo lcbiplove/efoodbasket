@@ -1,5 +1,6 @@
 window.addEventListener("load", function(){
-    var mainCartCountNavElem = document.getElementById("main-cart-count");
+    var mainCartCountNavElem = document.querySelectorAll(".main-cart-count");
+
     var addToCartBtns = this.document.querySelectorAll(".add-to-cart");
     var clickedElem = null;
 
@@ -8,7 +9,9 @@ window.addEventListener("load", function(){
         var result = JSON.parse(response);
         var newTotalCartItems = result.totalItems;
         showJsMessage(result.message, result.type);
-        mainCartCountNavElem.innerHTML = newTotalCartItems;
+        mainCartCountNavElem.forEach(function(item){
+            item.innerHTML = newTotalCartItems; 
+        }); 
     }
 
     addToCartBtns.forEach(function(elem){

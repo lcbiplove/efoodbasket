@@ -71,10 +71,14 @@
                         </a>
                         {% if is_trader %}
                         <a href="/trader/manage-products/">
+                            <span class="iconify" data-icon="ant-design:dashboard-outlined" data-inline="false"></span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/trader/manage-products/">
                             <span class="iconify" data-icon="ic:baseline-manage-search" data-inline="false"></span>
                             <span>Manage Products</span>
                         </a>
-                        {% endif %}
+                        {% else %}
                         <a href="/orders/">
                             <span class="iconify" data-icon="la:box" data-inline="false"></span>
                             <span>Orders</span>
@@ -83,6 +87,8 @@
                             <span class="iconify" data-icon="el:heart-empty" data-inline="false"></span>
                             <span>Wishlist</span>
                         </a>
+                        {% endif %}
+                        
                         <a href="/notifications/">
                             <span class="link-icon-count-wrapper">
                                 <span class="link-icon-count"> {% if notif_count > 9 %}9+{% else %}{{notif_count}}{% endif %} </span>
@@ -117,7 +123,7 @@
                     <a href="/cart/" class="cart-account-item">
                         <span class="cart-icon-wrapper">
                             <span class="iconify" data-icon="bx:bx-basket" data-inline="false"></span>
-                            <span id="main-cart-count" class="cart-count">{{ cart.cartItemsCount }}</span>
+                            <span class="cart-count main-cart-count">{{ cart.cartItemsCount }}</span>
                         </span>
                         <span class="cart-icon-title">Cart</span>
                     </a>
@@ -140,10 +146,10 @@
                         <span class="cart-icon-title">Trader</span>
                     </div>
                 {% else %}
-                    <a href="cart.html" class="cart-account-item  ml-5">
+                    <a href="/cart/" class="cart-account-item  ml-5">
                         <span class="cart-icon-wrapper">
                             <span class="iconify" data-icon="bx:bx-basket" data-inline="false"></span>
-                            <span class="cart-count">5</span>
+                            <span class="cart-count main-cart-count">{{ cart.cartItemsCount }}</span>
                         </span>
                     </a>
                 {% endif %}
@@ -173,10 +179,33 @@
                         <span>Account</span>
                         <span class="iconify menu-link-icon" data-icon="line-md:account" data-inline="false"></span>
                     </a>
-                    <a class="menu-link" href="">
-                        <span>Notifications</span>
-                        <span class="iconify menu-link-icon" data-icon="ic:baseline-notifications-none" data-inline="false"></span>
+                    {% if is_trader %}
+                    <a class="menu-link" href="/manage-products/">
+                        <span>Dashboard</span>
+                        <span class="iconify menu-link-icon" data-icon="ant-design:dashboard-outlined" data-inline="false"></span>
                     </a>
+                    <a class="menu-link" href="/manage-products/">
+                        <span>Manage Products</span>
+                        <span class="iconify menu-link-icon" data-icon="line-md:account" data-inline="false"></span>
+                    </a>
+                    {% endif %}
+                    <a class="menu-link" href="/notifications/">
+                        <span>Notifications</span>
+                        <span class="link-icon-count-wrapper">
+                            <span class="link-icon-count" style="right: -12px;"> {% if notif_count > 9 %}9+{% else %}{{notif_count}}{% endif %} </span>
+                            <span class="iconify menu-link-icon" data-icon="bi:bell" data-inline="false"></span>
+                        </span>
+                    </a>
+                    {% if not is_trader %}
+                    <a class="menu-link" href="/orders/">
+                        <span>Orders</span>
+                        <span class="iconify menu-link-icon" data-icon="la:box" data-inline="false"></span>
+                    </a>
+                    <a class="menu-link" href="/wishlists/">
+                        <span>Wishlist</span>
+                        <span class="iconify menu-link-icon" data-icon="el:heart-empty" data-inline="false"></span>
+                    </a>
+                    {% endif %}
                     <form action="/logout/" method="POST" class="d-flex">
                         <input name="val" type="hidden" value="val">
                         <button class="menu-link" type="submit" name="logout" value="logout">

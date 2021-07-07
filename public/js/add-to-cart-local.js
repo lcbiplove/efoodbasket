@@ -1,5 +1,5 @@
 window.addEventListener("load", function(){
-    var mainCartCountNavElem = document.getElementById("main-cart-count");
+    var mainCartCountNavElem = document.querySelectorAll(".main-cart-count");
     var addToCartBtns = this.document.querySelectorAll(".add-to-cart");
     var clickedElem = null;
 
@@ -26,7 +26,9 @@ window.addEventListener("load", function(){
             if(getCartItemsCount() < 20) {
                 cartLS.add({id: product_id, name: product_name, price: +price, quantity: +quantity, discount: +discount, image: image});
                 showJsMessage("Product added to cart", "success");
-                mainCartCountNavElem.innerHTML = getCartItemsCount(); 
+                mainCartCountNavElem.forEach(function(item){
+                    item.innerHTML = getCartItemsCount(); 
+                }); 
             } else {
                 showJsMessage("Product is already full.", "info");
             }

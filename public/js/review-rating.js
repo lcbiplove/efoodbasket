@@ -34,6 +34,7 @@ window.addEventListener("load", function () {
 
         ajax("POST", action, formData, function(response){
             hideBigLoader();
+            window.location.reload();
             ratingInpt.value = rating;
         });
     }
