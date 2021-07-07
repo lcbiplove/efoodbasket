@@ -11,7 +11,7 @@ window.addEventListener("load", function () {
 
     giveRating.onmousemove = function (e) {
         var width = giveRating.offsetWidth;
-        var x = e.clientX - width; 
+        var x = e.pageX - width; 
 
         var my_rating = x/width * 5;
         rating = (Math.round(my_rating * 2) / 2).toFixed(1)
@@ -24,7 +24,6 @@ window.addEventListener("load", function () {
         console.log("X: "+x);
 
         console.log("Rating: "+rating);
-
         this.style = "--rating: "+rating;
     }
 
