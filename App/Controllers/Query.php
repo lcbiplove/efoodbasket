@@ -158,7 +158,7 @@ class Query extends \Core\Controller
         $product = Product::getProductObjectById($product_id);
 
         $data = [];
-        if($query->PRODUCT_ID == $product_id && Auth::getUserId() == $product->shop()->TRADER_ID){
+        if($query->PRODUCT_ID == $product_id && Auth::getUserId() == $query->USER_ID){
             $data = [];
 
             if($query->delete()) {

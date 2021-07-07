@@ -114,6 +114,7 @@ window.addEventListener("load", function(){
     }
 
     var onDeleteSuccess = function(response) {
+        console.log(response);
         hideBigLoader();
         var eachRow = document.querySelector(".each-query[data-query-id='"+query_id+"']");
         eachRow.style = "opacity: 0.3; transition: opacity 1s; pointer-events: none;";
