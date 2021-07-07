@@ -2,7 +2,7 @@ showBigLoader();
 window.addEventListener("load", function () {
     hideBigLoader();
 
-    var mainCartCountNavElem = document.getElementById("main-cart-count");
+    var mainCartCountNavElem = document.querySelectorAll(".main-cart-count");
 
     var cartItemCountSelectElem = document.getElementById("cart-items-selected");
     var checkAllCheckbox = document.getElementById("checkAllCheckbox");
@@ -53,7 +53,9 @@ window.addEventListener("load", function () {
     }
 
     var updateElems = function () {
-        mainCartCountNavElem.innerHTML = getCartItemsCount(); 
+        mainCartCountNavElem.forEach(function(item){
+            item.innerHTML = getCartItemsCount(); 
+        }); 
         cartItemCountSelectElem.innerHTML = getCartItemsCount(); 
 
         cartTotalElements.innerHTML = "&pound;"+getGrandTotal().toFixed(2);
