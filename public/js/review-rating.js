@@ -10,16 +10,18 @@ window.addEventListener("load", function () {
     var rating;
 
     giveRating.onmousemove = function (e) {
-        var rect = e.target.getBoundingClientRect();
-        var x = e.clientX - rect.left; 
+        var width = giveRating.offsetWidth;
+        var x = e.clientX - width; 
 
-        var my_rating = x/rect.left * 5;
+        var my_rating = x/width * 5;
         rating = (Math.round(my_rating * 2) / 2).toFixed(1)
 
         rateBtn.classList.remove("disabled");
         if(rating <= 1) {
             rating = 1;
         }
+
+        console.log("Rating: "+rating);
 
         this.style = "--rating: "+rating;
     }
