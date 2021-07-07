@@ -21,9 +21,6 @@ window.addEventListener("load", function () {
             rating = 1;
         }
 
-        console.log("X: "+x);
-
-        console.log("Rating: "+rating);
         this.style = "--rating: "+rating;
     }
 
