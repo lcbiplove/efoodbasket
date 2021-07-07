@@ -11,8 +11,8 @@ window.addEventListener("load", function () {
 
     giveRating.onmousemove = function (e) {
         var width = giveRating.offsetWidth;
-        var x = e.pageX - width; 
-
+        var x = e.offsetX;
+        
         var my_rating = x/width * 5;
         rating = (Math.round(my_rating * 2) / 2).toFixed(1)
 
