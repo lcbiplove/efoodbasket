@@ -209,19 +209,7 @@ class CollectionSlot extends Model
         if($rowsCount >= 20){
             return true;
         }
-
-        $shift = $this->SHIFT;
-        $shifts_array = explode(" - ", $shift);
-
-        date_default_timezone_set('Asia/Kathmandu');
-        $current_datetime = new DateTime();
-
-        $from = $this->DAY. " ". $shifts_array[0];
-        $from_date = \DateTime::createFromFormat("l H:i", $from);
-
-        $tomorrow_datetime = $current_datetime->modify('+1 day');
-
-        return $tomorrow_datetime > $from_date;
+        return false;
     }
 }
 
