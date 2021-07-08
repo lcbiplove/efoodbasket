@@ -509,7 +509,7 @@ window.addEventListener("load", function () {
         });
       },
       onApprove: function (data, actions) {
-        // This function captures the funds from the transaction.
+        return actions.order.capture().then(function(details) {
           showBigLoader();
           var payerID = data.payerID;
           var orderID = data.orderID;
@@ -524,6 +524,8 @@ window.addEventListener("load", function () {
           sendData.append('voucher_id', voucherId);
 
           ajax("POST", "/ajax/cart/payment/", sendData, onPaymentSuccess);
+        });
+
       },
     })
     .render("#paypal-btn");
