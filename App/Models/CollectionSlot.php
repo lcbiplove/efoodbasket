@@ -99,13 +99,11 @@ class CollectionSlot extends Model
     public function isDayClosed()
     {
         date_default_timezone_set('Asia/Kathmandu');
-        $current_datetime = new DateTime();
-        $current_day = strtoupper($current_datetime->format('l'));
-        
+        $current_datetime = strtotime("now");
         $collection_day = $this->DAY;
-        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
+        $collection_datetime = strtotime("$collection_day this week");
 
-        return $current_datetime >= $collection_datetime || $current_day == $collection_day;
+        return $current_datetime >= $collection_datetime;
     }
 
     /**
@@ -116,11 +114,8 @@ class CollectionSlot extends Model
     public function getDate()
     {
         date_default_timezone_set('Asia/Kathmandu');
-        
-        $collection_day = $this->DAY;
-        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
-
-        return $collection_datetime->format("Y-m-d");
+        $day = $this->DAY;
+        return date('Y-m-d', strtotime("$day this week"));
     }
 
     /**
@@ -131,13 +126,8 @@ class CollectionSlot extends Model
     public function getNextDate()
     {
         date_default_timezone_set('Asia/Kathmandu');
-        
-        $collection_day = $this->DAY;
-        $collection_datetime = \DateTime::createFromFormat("l", $collection_day);
-
-        $tomorrow_datetime = $collection_datetime->modify('+7 day');
-
-        return $tomorrow_datetime->format("Y-m-d");
+        $day = $this->DAY;
+        return date('Y-m-d', strtotime("$day next week"))  ;
     }
 
     /**
