@@ -122,7 +122,7 @@ CREATE TABLE PRODUCTS (
 	quantity	        NUMBER(10) NOT NULL,
 	availability 	    VARCHAR2(1) DEFAULT 'Y',
 	description	        VARCHAR2(2000) NOT NULL,
-	allergy_information VARCHAR2(2000) NOT NULL,
+	allergy_information VARCHAR2(2000),
 	discount			NUMBER(5,2) DEFAULT 0.00,
     shop_id        		INTEGER NOT NULL,
 	category_id			INTEGER NOT NULL,
@@ -425,9 +425,6 @@ BEGIN
 	END IF;
 END;
 /
-
-
-
 
 -- insert vouchers
 INSERT INTO VOUCHERS (voucher_id, code, discount, valid_till) VALUES (1, 'EFOODBASKET', 20, DATE '2021-07-20');
