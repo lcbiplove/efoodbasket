@@ -66,4 +66,14 @@ class Home extends \Core\Controller
             'page' => $page
         ]);
     }
+
+    /**
+     * Dashboard page
+     *
+     * @return void
+     */
+    public function dashboardAction()
+    {
+        echo "This will be redirected to dashboard login";
+    }
 }

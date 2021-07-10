@@ -529,5 +529,32 @@ class User extends \Core\Model
     {
         return Extra::getBeautifulPhone($this->contact);
     }
+
+    /**
+     * Add trader data to login in dashboard
+     * 
+     * @param string password
+     * @param string status
+     * @return boolean
+     */
+    public function addToDashboard($password, $status='Y')
+    {
+        $connection = static::getDB();
+        $sql_query = "INSERT INTO DB_ACCESS (id, username, password, status, user_role) VALUES (:id, :username, :password, :status, :user_role)";
+
+        $prepared = $connection->prepare($sql_query);
+        $data = [
+            ':id' => $this->user_id,
+            ':username' => $this->email,
+            ':password' => $password,
+            ':status' => $status,
+            ':user_role' => $this->user_role,
+        ];
+        try {
+            return $prepared->execute($data);
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
 }
 

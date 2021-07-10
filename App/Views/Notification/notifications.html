@@ -22,7 +22,9 @@
                 <div class="notif-body-wrapper">
                     <div class="notif-body-ttl">{{ notification.TITLE }}</div>
                     <div class="notif-text">
-                        {{ notification.BODY }}
+                        {% autoescape %}
+                            {{ notification.BODY|raw }}
+                        {% endautoescape %}
                     </div>
                     <div class="notif-text notif-footer">
                         <span class="notif-by">{{notification.SENDER_TEXT}}</span>

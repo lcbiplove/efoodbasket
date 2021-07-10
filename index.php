@@ -32,6 +32,7 @@ $router = new Core\Router();
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('page/{page:\d+}/', ['controller' => 'Home', 'action' => 'index']);
 $router->add('search/', ['controller' => 'Home', 'action' => 'search']);
+$router->add('my-dashboard/', ['controller' => 'Home', 'action' => 'dashboard']);
 
 // Login related routes
 $router->add('signup/', ['controller' => 'User', 'action' => 'signup']);
