@@ -250,6 +250,15 @@
 .cart-summary-value {
   text-align: right;
 }
+.cart-succ-summary-value {
+  display: block;
+  width: 100%;
+}
+.str-wrap-long {
+  word-wrap: break-word; 
+  display: inline-block;  
+  width: calc(100% - 1.5rem);
+}
 .review-prod-btn {
   display: inline-block;
   align-self: flex-start;
