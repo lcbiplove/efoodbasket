@@ -11,6 +11,7 @@ use App\Extra;
 use App\Email;
 use App\Models\Cart;
 use App\Models\Notification;
+use App\Models\ProductCart;
 use App\Models\Trader;
 
 /**
@@ -85,12 +86,68 @@ class User extends \Core\Controller
     {
         $this->restrictForAuthenticated();
         $nextRoute = isset($_GET['next']) ? "?next=" . $_GET['next'] : "";
+        $checkLoadCart = $nextRoute == "?next=/cart/" ? true : false;
 
         if(!empty($_POST)){
             $email = $_POST['email'];
             $password = $_POST['password'];
 
             $logged_user = Auth::authenticate($email, $password);
+
+            if($checkLoadCart) {
+                $response = [];
+
+                if($logged_user){
+                    if($logged_user->canLogin()){   
+
+                        Auth::login($logged_user);
+
+                        if($logged_user->isTrader()) {
+                            $this->redirect('/');
+                        } 
+                        else {
+                            $cartsArray = json_decode($_POST['cart']);
+                            $cartItemsCount = $_POST['cartItemsCount'];
+                            $cartObj = Cart::getCartObject($logged_user->user_id);
+
+                            $totalCartItemsCount = $cartObj->cartItemsCount() + $cartItemsCount;
+
+                            Extra::setMessageCookie("Logged in successfully.");
+
+                            if($totalCartItemsCount > Cart::MAX_CART_ITEMS_COUNT) {
+                                Extra::setMessageCookie("Cart items that you added before logging in cannot be loaded because cart items exceeded the maximum limit of 20.", Extra::COOKIE_MESSAGE_INFO);
+                            } 
+                            else {
+                                foreach ($cartsArray as $value) {
+                                    $productCart = new ProductCart([
+                                        'quantity' => $value->quantity,
+                                        'product_id' => $value->product_id,
+                                        'cart_id' => $cartObj->CART_ID
+                                    ]);
+
+                                    $updatableCartProdObj = $cartObj->isProductInCart($value->product_id);
+
+                                    if($updatableCartProdObj) {
+                                        $updatableCartProdObj->update($value->quantity, false);
+                                    } else {
+                                        $productCart->save();
+                                    }
+                                }
+                                $response['clearLocal'] = true;
+                            }
+                            $response['success'] = true;
+                        }
+                    }
+                    $response['error'] = "Verify your email.";
+                } 
+                else {
+                    Extra::setMessageCookie("Incorrect email or password.", Extra::COOKIE_MESSAGE_FAIL);
+                    $response['error'] = "Incorrect email or password.";
+                }
+
+                echo json_encode($response);
+                exit();
+            }
 
             if($logged_user){
                 if($logged_user->canLogin()){
@@ -112,6 +169,7 @@ class User extends \Core\Controller
 
         View::renderTemplate('User/login.html', [
             'nextRoute' => $nextRoute,
+            'checkLoadCart' => $checkLoadCart
         ]);
     }
 

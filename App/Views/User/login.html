@@ -46,3 +46,9 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    {% if checkLoadCart %}
+        <script src="/public/js/load-local-cart-to-db.js"></script>
+    {% endif %}
+{% endblock %}
