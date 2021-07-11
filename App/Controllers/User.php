@@ -103,7 +103,7 @@ class User extends \Core\Controller
                         Auth::login($logged_user);
 
                         if($logged_user->isTrader()) {
-                            $this->redirect('/');
+                            $response['error'] = true;
                         } 
                         else {
                             $cartsArray = json_decode($_POST['cart']);
