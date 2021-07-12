@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                                 <div class="card-big-links">
-                                    {% if not is_trader %}
+                                    {% if not is_trader and not is_admin %}
                                         {% if is_authenticated %}
                                         <span class="card-cart wishlist-button {% if product.isInWishList %}active{% endif %}" data-product-id="{{ product.PRODUCT_ID }}">
                                             {% if product.isInWishList %}

@@ -69,6 +69,12 @@
                             <span class="iconify" data-icon="line-md:account" data-inline="false"></span>
                             <span>Manage Account</span>
                         </a>
+                        {% if is_admin %}
+                            <a href="/trader/manage-products/">
+                                <span class="iconify" data-icon="ant-design:dashboard-outlined" data-inline="false"></span>
+                                <span>Dashboard</span>
+                            </a>
+                        {% endif %}
                         {% if is_trader %}
                         <a href="/trader/manage-products/">
                             <span class="iconify" data-icon="ant-design:dashboard-outlined" data-inline="false"></span>
@@ -78,7 +84,7 @@
                             <span class="iconify" data-icon="ic:baseline-manage-search" data-inline="false"></span>
                             <span>Manage Products</span>
                         </a>
-                        {% else %}
+                        {% elseif is_customer %}
                         <a href="/orders/">
                             <span class="iconify" data-icon="la:box" data-inline="false"></span>
                             <span>Orders</span>
@@ -179,8 +185,14 @@
                         <span>Account</span>
                         <span class="iconify menu-link-icon" data-icon="line-md:account" data-inline="false"></span>
                     </a>
+                    {% if is_admin %}
+                    <a class="menu-link" href="/my-dashboard/">
+                        <span>Dashboard</span>
+                        <span class="iconify menu-link-icon" data-icon="ant-design:dashboard-outlined" data-inline="false"></span>
+                    </a>
+                    {% endif %}
                     {% if is_trader %}
-                    <a class="menu-link" href="/manage-products/">
+                    a class="menu-link" href="/my-dashboard/">
                         <span>Dashboard</span>
                         <span class="iconify menu-link-icon" data-icon="ant-design:dashboard-outlined" data-inline="false"></span>
                     </a>
@@ -196,7 +208,7 @@
                             <span class="iconify menu-link-icon" data-icon="bi:bell" data-inline="false"></span>
                         </span>
                     </a>
-                    {% if not is_trader %}
+                    {% if is_customer %}
                     <a class="menu-link" href="/orders/">
                         <span>Orders</span>
                         <span class="iconify menu-link-icon" data-icon="la:box" data-inline="false"></span>

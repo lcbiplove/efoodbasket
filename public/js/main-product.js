@@ -19,6 +19,22 @@ window.addEventListener("load", function(){
 
     var totalRatingCount = document.querySelector(".rating-summary-wrapper").getAttribute("data-rating-count");
 
+    var shareProduct = document.getElementById("share-product");
+
+    if(shareProduct) {
+        shareProduct.onclick = function() {
+            var copyText = window.location.href;
+            var fakeInpt = document.createElement("input");
+            document.body.appendChild(fakeInpt);
+            fakeInpt.value = copyText;
+            fakeInpt.select();
+            document.execCommand("copy");
+            document.body.removeChild(fakeInpt);
+
+            showJsMessage("Link copied to clipboard.", 'success', 5000)
+        }
+    }
+
     var checkDisablePlusMinus = function() {
         if(quantityValue <= 1){
             subtractQuantityBtn.classList.add("disabled");

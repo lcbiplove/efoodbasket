@@ -243,10 +243,10 @@ class Cart extends \Core\Controller
 
         $notification = new Notification([
             'title' => "Order Placed",
-            'body' => "Your order of $cartItemsCount ".($cartItemsCount > 1 ? "items" : "item")." is being placed. You can collect them from collection slot after {$_POST['collection_date']}.",
+            'body' => "Your order of $cartItemsCount ".($cartItemsCount > 1 ? "items" : "item")." is placed. You will be able to collect them from collection slot after {$_POST['collection_date']}.",
             'image_link' => "/public/images/notif-order.png",
             'sender_text' => "From efoodbasket",
-            'main_link' => "#",
+            'main_link' => "/orders/{$new_order->ORDER_ID}/",
             'user_id' => Auth::getUserId(),
             'is_seen' => Notification::IS_NOT_SEEN
         ]);

@@ -20,20 +20,24 @@ window.addEventListener("load", function(){
     var onQuerySuccess = function(response) {
         hideBigLoader();
 
-        var data = JSON.parse(response);
+        try {
+            var data = JSON.parse(response);
 
-        queryError.innerHTML = "";
-        if(data.hasOwnProperty("error")){
-            queryError.innerHTML = data.error;
-        } 
-        else if(data.hasOwnProperty("data")) {
-            var obj = data.data;
-            if(noQuery) noQuery.remove();
-            var addedRow = "<div class='each-query' data-query-id='"+obj.QUERY_ID+"'><div class='query-wrapper'><div class='query-indicator'></div><div><div class='query-text'>"+obj.QUESTION+"</div><div class='querer-detail'><span>by "+obj.QUESTION_BY+"</span><span class='stock-text'>"+obj.AGO_QUESTION+"</span></div><div class='delete-item delete-query' data-query-id='"+obj.QUERY_ID+"' data-product-id="+obj.PRODUCT_ID+"><span>Delete</span></div></div></div></div>";
-            queriesContainer.insertAdjacentHTML("afterbegin", addedRow);
-            queryForm.reset();
-            deleteQueriesElems = document.querySelectorAll(".delete-query");
-            resetDeleteQuery();
+            queryError.innerHTML = "";
+            if(data.hasOwnProperty("error")){
+                queryError.innerHTML = data.error;
+            } 
+            else if(data.hasOwnProperty("data")) {
+                var obj = data.data;
+                if(noQuery) noQuery.remove();
+                var addedRow = "<div class='each-query' data-query-id='"+obj.QUERY_ID+"'><div class='query-wrapper'><div class='query-indicator'></div><div><div class='query-text'>"+obj.QUESTION+"</div><div class='querer-detail'><span>by "+obj.QUESTION_BY+"</span><span class='stock-text'>"+obj.AGO_QUESTION+"</span></div><div class='delete-item delete-query' data-query-id='"+obj.QUERY_ID+"' data-product-id="+obj.PRODUCT_ID+"><span>Delete</span></div></div></div></div>";
+                queriesContainer.insertAdjacentHTML("afterbegin", addedRow);
+                queryForm.reset();
+                deleteQueriesElems = document.querySelectorAll(".delete-query");
+                resetDeleteQuery();
+            }
+        } catch (error) {
+            window.location.reload();
         }
     }
 
@@ -76,28 +80,32 @@ window.addEventListener("load", function(){
     var onAnswerSuccess = function(response) {
         hideBigLoader();
 
-        var data = JSON.parse(response);
+        try {
+            var data = JSON.parse(response);
 
-        queryError.innerHTML = "";
-        if(data.hasOwnProperty("error")){
-            queryError.innerHTML = data.error;
-        } 
-        else if(data.hasOwnProperty("data")) {
-            var obj = data.data;
-            var answerRow = "<div class='query-wrapper answer-wrapper'><div class='query-indicator answer'></div><div><div class='query-text'>"+obj.ANSWER+"</div><div class='querer-detail'><span>by trader</span><span class='stock-text'> "+obj.AGO_ANSWER+"</span></div><div class='delete-item delete-answer' data-query-id='"+obj.QUERY_ID+"' data-product-id="+obj.PRODUCT_ID+"><span>Delete</span></div></div></div></div>";
-            var eachRow = document.querySelector(".each-query[data-query-id='"+query_id+"']");
-            eachRow.innerHTML += answerRow;
-            answerForm.reset();
-            answeringToText.innerHTML = "";
-            answerForm.classList.add("d-none");
-            deleteAnswerElems = document.querySelectorAll(".delete-answer");
-            resetDeleteAnswer();
+            queryError.innerHTML = "";
+            if(data.hasOwnProperty("error")){
+                queryError.innerHTML = data.error;
+            } 
+            else if(data.hasOwnProperty("data")) {
+                var obj = data.data;
+                var answerRow = "<div class='query-wrapper answer-wrapper'><div class='query-indicator answer'></div><div><div class='query-text'>"+obj.ANSWER+"</div><div class='querer-detail'><span>by trader</span><span class='stock-text'> "+obj.AGO_ANSWER+"</span></div><div class='delete-item delete-answer' data-query-id='"+obj.QUERY_ID+"' data-product-id="+obj.PRODUCT_ID+"><span>Delete</span></div></div></div></div>";
+                var eachRow = document.querySelector(".each-query[data-query-id='"+query_id+"']");
+                eachRow.innerHTML += answerRow;
+                answerForm.reset();
+                answeringToText.innerHTML = "";
+                answerForm.classList.add("d-none");
+                deleteAnswerElems = document.querySelectorAll(".delete-answer");
+                resetDeleteAnswer();
 
-            eachRow.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-                inline: 'center'
-            });
+                eachRow.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'center'
+                });
+            }
+        } catch (error) {
+            window.location.reload();
         }
     }
 
@@ -114,7 +122,6 @@ window.addEventListener("load", function(){
     }
 
     var onDeleteSuccess = function(response) {
-        console.log(response);
         hideBigLoader();
         var eachRow = document.querySelector(".each-query[data-query-id='"+query_id+"']");
         eachRow.style = "opacity: 0.3; transition: opacity 1s; pointer-events: none;";

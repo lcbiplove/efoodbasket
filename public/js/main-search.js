@@ -45,7 +45,7 @@ window.addEventListener("load", function () {
         isDate: false,
         min: 0,
         max: 200,
-        step: 10,
+        step: 1,
         start: +minPrice.value,
         end: +maxPrice.value,
         overlap: false
