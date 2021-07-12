@@ -74,6 +74,7 @@ class Home extends \Core\Controller
      */
     public function dashboardAction()
     {
-        echo "This will be redirected to dashboard login";
+        header('Location: http://localhost:8080/apex/f?p=110:LOGIN_DESKTOP::::::');
+        exit();
     }
 }
