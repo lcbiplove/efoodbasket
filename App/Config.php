@@ -50,11 +50,11 @@ class Config
      * Mailing username
      * @var string
      */
-    const MAIL_USERNAME   = 'bisheshpanta12@gmail.com';                     
+    const MAIL_USERNAME   = 'efood.basket2021@gmail.com';                     
         
     /**
      * Mailing password
      * @var string
      */
-    const MAIL_PASSWORD   = '12bisheshpanta'; 
+    const MAIL_PASSWORD   = 'group4-2021'; 
 }
