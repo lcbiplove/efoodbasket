@@ -30,7 +30,7 @@ class Email
     {
         $mail = new PHPMailer(true);
 
-        $mail->SMTPDebug = SMTP::DEBUG_CLIENT;                      
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      
         $mail->isSMTP();                                            
         $mail->Host       = Config::SMTP_HOST;                     
         $mail->SMTPAuth   = true;                                   
@@ -45,7 +45,6 @@ class Email
             $mail->addAddress($email);     
         }
         $mail->addReplyTo('efoodbasket@noreply.com', 'No Reply');
-
 
         $mail->isHTML(true);                                  
         $mail->Subject = $subject;
