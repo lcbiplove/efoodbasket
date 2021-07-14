@@ -30,7 +30,7 @@ class Email
     {
         $mail = new PHPMailer(true);
 
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      
+        $mail->SMTPDebug = SMTP::DEBUG_CLIENT;                      
         $mail->isSMTP();                                            
         $mail->Host       = Config::SMTP_HOST;                     
         $mail->SMTPAuth   = true;                                   
