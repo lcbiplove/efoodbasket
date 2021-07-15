@@ -21,6 +21,9 @@
                 {% endif %}
                   
             </div>
+            {% if is_admin %}
+                <div>Total ({{ products|length }})</div>
+            {% endif %}
             {% if isVisitorOwner  %}
                 <a href="/trader/add-product/" class="add-product">Add Product</a>
             {% endif %}
@@ -121,11 +124,11 @@
                                 </div>
                                 <div class="card-big-links">
 
-                                    {% if isVisitorOwner %}
+                                    {% if isVisitorOwner or is_admin %}
                                         <a href="/trader/products/{{product.PRODUCT_ID}}/edit/" class="card-cart">
                                             <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
                                         </a>
-                                        <form action="/trader/products/{{product.PRODUCT_ID}}/delete/" method="POST">
+                                        <form action="/trader/products/{{product.PRODUCT_ID}}/delete/?next=/trader/{{product.getOwnerId}}/products/" method="POST">
                                             <input type="hidden" name="value" value="value" />
                                             <button class="card-cart" onclick="return confirm('Are you sure you want to delete this product?\n\nIt will remove all data related to this product.');">
                                                 <span></span>

@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="d-flex">
-                            {% if product.getOwnerId == user.user_id %}
+                            {% if product.getOwnerId == user.user_id or is_admin %}
                                 <a href="/trader/products/{{product.PRODUCT_ID}}/edit/" class="edit-delete-product">
                                     <span class="iconify" data-icon="akar-icons:edit" data-inline="false"></span>
                                 </a>

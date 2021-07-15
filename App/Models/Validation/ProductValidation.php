@@ -135,10 +135,7 @@ class ProductValidation extends Product
      * @return string Error message if invalid, true otherwise
      */
     public function validateAllergyInformation(){
-        if(strlen($this->allergy_information) > 50){
-            return true;
-        }
-        return $this->errors['allergy_information'] = "Please enter allergy information with at least 50 characters.";
+        return true;
     }
 
     /**
@@ -155,7 +152,7 @@ class ProductValidation extends Product
             foreach ($trader_shops as $value) {
                 array_push($shop_id_owned_by_trader, $value['SHOP_ID']);
             }
-            if(!in_array($this->shop_id, $shop_id_owned_by_trader)){
+            if(!in_array($this->shop_id, $shop_id_owned_by_trader) && !Auth::isAdminAuthenticated()){
                 return $this->errors['shop_id'] = "You are not authorized to use this shop or shop does not exist.";
             }
             return true;

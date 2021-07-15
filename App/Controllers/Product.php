@@ -46,7 +46,7 @@ class Product extends \Core\Controller
     {
         $product_owner_id = $product->getOwnerId();
 
-        if($product_owner_id != Auth::getUserId()){
+        if($product_owner_id != Auth::getUserId() && !Auth::isAdminAuthenticated()){
             $this->redirect("/products/{$product->product_id}");
         }
     }
@@ -165,7 +165,7 @@ class Product extends \Core\Controller
 
         $errors = [];
 
-        $shops = Shop::getTraderShops(Auth::getUserId());
+        $shops = Shop::getTraderShops($product->getOwnerId());
         $categories = ProductCategory::getAllCategories();
 
         if(!empty($_POST)){
@@ -204,6 +204,7 @@ class Product extends \Core\Controller
     {
         $product_id = $this->route_params['product_id'];
         $product = Models\Product::getProductObjectForFormById($product_id);
+        $nextRoute = isset($_GET['next']) ? "?next=" . $_GET['next'] : "/";
 
         $this->restrictToProductOwner($product);
         
@@ -213,6 +214,9 @@ class Product extends \Core\Controller
 
         if($product->delete()){
             Extra::setMessageCookie("Product deleted successfully");
+            if(isset($_GET['next'])){
+                $this->redirect($_GET['next']);
+            }
             $this->redirect("/");
         }
         Extra::setMessageCookie("Could not delete product.", Extra::COOKIE_MESSAGE_FAIL);
