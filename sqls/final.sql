@@ -11,7 +11,7 @@ CREATE SEQUENCE notification_id_seq START WITH 500 INCREMENT BY 1;
 DROP SEQUENCE shop_id_seq;
 CREATE SEQUENCE shop_id_seq START WITH 100 INCREMENT BY 1;
 DROP SEQUENCE product_category_id_seq;
-CREATE SEQUENCE product_category_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE product_category_id_seq START WITH 100 INCREMENT BY 1;
 DROP SEQUENCE product_id_seq;
 CREATE SEQUENCE product_id_seq START WITH 500 INCREMENT BY 1;
 DROP SEQUENCE product_image_id_seq;
