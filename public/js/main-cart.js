@@ -235,6 +235,7 @@ window.addEventListener("load", function () {
             }, 1000);
           }
         });
+        window.location.reload();
       });
     }
   };
