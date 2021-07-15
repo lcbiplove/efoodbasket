@@ -60,6 +60,7 @@ DROP TABLE REVIEWS CASCADE CONSTRAINTS;
 DROP TABLE DB_ACCESS CASCADE CONSTRAINTS;
 
 -- Table Creation --
+-- Table Creation --
 CREATE TABLE USERS(
 	user_id INTEGER NOT NULL,
 	email VARCHAR2(128) NOT NULL UNIQUE,
@@ -108,7 +109,7 @@ CREATE TABLE SHOPS (
     contact	                NUMBER(10) NOT NULL,
 	trader_id	            INTEGER NOT NULL,
 	
-	FOREIGN KEY (trader_id) REFERENCES Users(user_id),
+	FOREIGN KEY (trader_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     CONSTRAINT   pk_SHOPS PRIMARY KEY (shop_id)
 );
 CREATE TABLE PRODUCT_CATEGORIES (
@@ -131,8 +132,8 @@ CREATE TABLE PRODUCTS (
 	category_id			INTEGER NOT NULL,
 	added_date			DATE NOT NULL,
     
-	FOREIGN KEY (shop_id) REFERENCES Shops(shop_id),
-	FOREIGN KEY (category_id) REFERENCES Product_Categories(category_id),
+	FOREIGN KEY (shop_id) REFERENCES Shops(shop_id) ON DELETE CASCADE,
+	FOREIGN KEY (category_id) REFERENCES Product_Categories(category_id) ON DELETE CASCADE,
 	CONSTRAINT	pk_PRODUCTS PRIMARY KEY (product_id)
 );
 CREATE TABLE PRODUCT_IMAGES (
@@ -140,7 +141,7 @@ CREATE TABLE PRODUCT_IMAGES (
     image_name              VARCHAR2(255),
 	product_id          	INTEGER NOT NULL,
 
-	FOREIGN KEY (product_id) REFERENCES products(product_id),
+	FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
     CONSTRAINT	pk_PRODUCT_IMAGES PRIMARY KEY (product_image_id)
 );
 CREATE TABLE QUERIES(
@@ -152,8 +153,8 @@ CREATE TABLE QUERIES(
 	product_id	        INTEGER NOT NULL,
     user_id             INTEGER NOT NULL,
 	
-	FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
-	FOREIGN KEY (user_id) REFERENCES Users(user_id),
+	FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     CONSTRAINT	pk_QUERY PRIMARY KEY (query_id)
 );
 CREATE TABLE WISHLISTS (
@@ -162,15 +163,15 @@ CREATE TABLE WISHLISTS (
     product_id          	INTEGER NOT NULL,    
     added_date              DATE,
 
-	FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id),
-	FOREIGN KEY (user_id) REFERENCES Users(user_id),
+	FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id) ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     CONSTRAINT pk_WISHLIST PRIMARY KEY (wishlist_id)  
 );
 CREATE TABLE CARTS (
 	cart_id             INTEGER NOT NULL,
     user_id             INTEGER NOT NULL UNIQUE,
 	
-	FOREIGN KEY (user_id) REFERENCES Users(user_id),
+	FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
 	CONSTRAINT	pk_CART PRIMARY KEY (cart_id)
 );
 CREATE TABLE PRODUCT_CARTS (
@@ -179,7 +180,7 @@ CREATE TABLE PRODUCT_CARTS (
 	cart_id             INTEGER NOT NULL,
     product_id          INTEGER NOT NULL,
 
-	FOREIGN KEY (product_id) REFERENCES Products(product_id),
+	FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE,
 	CONSTRAINT	pk_PRODUCT_CART PRIMARY KEY (product_cart_id)
 );
 CREATE TABLE COLLECTION_SLOTS (
@@ -206,7 +207,7 @@ CREATE TABLE PAYMENTS (
 	paypal_order_id		VARCHAR2(128) NOT NULL,
 	paypal_payer_id		VARCHAR2(128) NOT NULL,
 
-	FOREIGN KEY (user_id) REFERENCES Users(user_id),
+	FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     CONSTRAINT	pk_PAYMENT PRIMARY KEY (payment_id)
 );
 CREATE TABLE ORDERS(
@@ -217,9 +218,9 @@ CREATE TABLE ORDERS(
     payment_id              INTEGER NOT NULL,
 	voucher_id              INTEGER,
 	
-	FOREIGN KEY (collection_slot_id) REFERENCES Collection_Slots(collection_slot_id),
-	FOREIGN KEY (payment_id) REFERENCES Payments(payment_id),
-	FOREIGN KEY (voucher_id) REFERENCES Vouchers(voucher_id),
+	FOREIGN KEY (collection_slot_id) REFERENCES Collection_Slots(collection_slot_id) ON DELETE CASCADE,
+	FOREIGN KEY (payment_id) REFERENCES Payments(payment_id) ON DELETE CASCADE,
+	FOREIGN KEY (voucher_id) REFERENCES Vouchers(voucher_id) ON DELETE CASCADE,
 	CONSTRAINT	pk_ORDER PRIMARY KEY (order_id)
 );
 CREATE TABLE ORDER_PRODUCTS (
@@ -228,8 +229,8 @@ CREATE TABLE ORDER_PRODUCTS (
 	product_id          INTEGER NOT NULL,
     order_id            INTEGER NOT NULL,
 	
-    FOREIGN KEY (product_id) REFERENCES Products(product_id),
-	FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE,
+	FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
 	CONSTRAINT	pk_ORDER_PRODUCT PRIMARY KEY (order_product_id)
 );
 CREATE TABLE REVIEWS (
@@ -240,8 +241,8 @@ CREATE TABLE REVIEWS (
 	user_id	            INTEGER NOT NULL,
     product_id          INTEGER NOT NULL,
 	
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE,
     CONSTRAINT	pk_REVIEW PRIMARY KEY (review_id)
 );
 create table DB_ACCESS(
