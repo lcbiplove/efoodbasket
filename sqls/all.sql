@@ -510,10 +510,10 @@ delete from shops;
 ----------------------------------------------------BUTCHERS------------------------------------------------------------------------------------------------
     -----Shops---------    
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (1,'Butcher Shop','Cleckhuddersfax',9876463210,butcher_id);
+        VALUES (1,'Butcher Shop','Cleckhuddersfax',4472137189,butcher_id);
 
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (2,'Butcher Fresh Shop','Cleckhuddersfax',9876463210,butcher_id);
+        VALUES (2,'Butcher Fresh Shop','Cleckhuddersfax',4487124567,butcher_id);
     -----Category Chicken 1---------
         INSERT INTO PRODUCT_CATEGORIES (category_id, category_name, category_description)
         VALUES (1, 'Chicken', 'Our free-range chicken is exceptionally active, producing healthy and natural fats because of their varied diet and lifestyle.');
@@ -821,10 +821,10 @@ delete from shops;
 ----------------------------------------------------GREENGROCERS--------------------------------------------------------------------------------------------
     -----Shops---------    
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (3,'Greengroshers Shop','Cleckhuddersfax',9876463210,greengrocer_id);
+        VALUES (3,'Greengroshers Shop','Cleckhuddersfax',4491247319,greengrocer_id);
 
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (4,'Greengroshers Fresh Shop','Cleckhuddersfax',9876463210,greengrocer_id);
+        VALUES (4,'Greengroshers Fresh Shop','Cleckhuddersfax',4490125638,greengrocer_id);
     -----Category Fruit 7---------
         INSERT INTO PRODUCT_CATEGORIES (category_id, category_name, category_description)
         VALUES (7, 'Fruit', 'We''re proud to source the freshest and sweetest selection of fruits.');
@@ -920,7 +920,7 @@ delete from shops;
             VALUES (111,'Blueberry3.jpg',37);
 
         INSERT INTO PRODUCTS (product_id, product_name, price, quantity, availability, description, allergy_information, discount, shop_id, category_id, added_date)
-        VALUES (38, 'Papaya', 7.55, 30, 'Y', 'They have a musky taste and buttery consistency. Papayas reduce the risk of macular degeneration, a disease that affects the eyes as people age.', '', 0, 3, 1, sysdate);
+        VALUES (38, 'Papaya', 7.55, 30, 'Y', 'They have a musky taste and buttery consistency. Papayas reduce the risk of macular degeneration, a disease that affects the eyes as people age.', '', 0, 3, 7, sysdate);
 
             INSERT INTO PRODUCT_IMAGES (product_image_id, image_name, product_id)
             VALUES (112,'Papaya1.jpg',38);
@@ -1034,7 +1034,7 @@ delete from shops;
             VALUES (144,'Shitake Mushroom3.jpg',48);
 
         INSERT INTO PRODUCTS (product_id, product_name, price, quantity, availability, description, allergy_information, discount, shop_id, category_id, added_date)
-        VALUES (49, 'Yellow Zucchini', 13.55, 30, 'Y', 'Yellow zucchini is a long and slightly fat vegetable, also known as squash. Yellow variant has comparatively softer flesh and tastes sweeter than the green one. Zucchinis are rich in vitamin A, magnesium, folate, potassium, copper, and phosphorus.', '', 0, 3, 1, sysdate);
+        VALUES (49, 'Yellow Zucchini', 13.55, 30, 'Y', 'Yellow zucchini is a long and slightly fat vegetable, also known as squash. Yellow variant has comparatively softer flesh and tastes sweeter than the green one. Zucchinis are rich in vitamin A, magnesium, folate, potassium, copper, and phosphorus.', '', 0, 3, 8, sysdate);
 
             INSERT INTO PRODUCT_IMAGES (product_image_id, image_name, product_id)
             VALUES (145,'Yellow Zucchini1.jpg',49);
@@ -1044,7 +1044,7 @@ delete from shops;
             VALUES (147,'Yellow Zucchini3.jpg',49);
 
         INSERT INTO PRODUCTS (product_id, product_name, price, quantity, availability, description, allergy_information, discount, shop_id, category_id, added_date)
-        VALUES (50, 'Watercress', 14.15, 30, 'Y', 'Watercress adds Sharp, bold, and bitter, with parsley''s juiciness and fresh flavor. It mellows when cooked, so enjoy this nutrient-packed green in soups and sautés.', '', 0, 3, 1, sysdate);
+        VALUES (50, 'Watercress', 14.15, 30, 'Y', 'Watercress adds Sharp, bold, and bitter, with parsley''s juiciness and fresh flavor. It mellows when cooked, so enjoy this nutrient-packed green in soups and sautés.', '', 0, 3, 8, sysdate);
 
             INSERT INTO PRODUCT_IMAGES (product_image_id, image_name, product_id)
             VALUES (148,'Watercress1.jpg',50);
@@ -1234,10 +1234,10 @@ delete from shops;
 ----------------------------------------------------FISHMONGER--------------------------------------------------------------------------------------------
     -----Shops---------    
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (5,'Fishmongers Shop','Cleckhuddersfax',9876463210,fishmonger_id);
+        VALUES (5,'Fishmongers Shop','Cleckhuddersfax',4410352861,fishmonger_id);
 
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (6,'Fishmongers Fresh Shop','Cleckhuddersfax',9876463210,fishmonger_id);
+        VALUES (6,'Fishmongers Fresh Shop','Cleckhuddersfax',4401724367,fishmonger_id);
 
     -----Category Seafood 11---------
         INSERT INTO PRODUCT_CATEGORIES (category_id, category_name, category_description)
@@ -1347,10 +1347,10 @@ delete from shops;
 
     -----Shops---------    
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (7,'Bakery Shop','Cleckhuddersfax',9876463210,bakery_id);
+        VALUES (7,'Bakery Shop','Cleckhuddersfax',4419250187,bakery_id);
 
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (8,'Bakery Fresh Shop','Cleckhuddersfax',9876463210,bakery_id);
+        VALUES (8,'Bakery Fresh Shop','Cleckhuddersfax',4410257194,bakery_id);
 
     -----Category Viennoiserie 12---------
         INSERT INTO PRODUCT_CATEGORIES (category_id, category_name, category_description)
@@ -1484,10 +1484,10 @@ delete from shops;
 ----------------------------------------------------DELICATESSEN----------------------------------------------------------------------------------------------
     -----Shops---------    
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (9,'Delicatessen Shop','Cleckhuddersfax',9876463210,delicatessen_id);
+        VALUES (9,'Delicatessen Shop','Cleckhuddersfax',4410634271,delicatessen_id);
 
         INSERT INTO SHOPS (shop_id,shop_name,address,contact,trader_id) 
-        VALUES (10,'Delicatessen Fresh Shop','Cleckhuddersfax',9876463210,delicatessen_id);
+        VALUES (10,'Delicatessen Fresh Shop','Cleckhuddersfax',4412903527,delicatessen_id);
 
       -----Category Cheese 14---------
         INSERT INTO PRODUCT_CATEGORIES (category_id, category_name, category_description)
@@ -1652,9 +1652,6 @@ delete from shops;
             VALUES (312,'Creamy Coconut Fish Pie3.jpg',104);
 END;
 /
-
-
-
 
 -- FUNCTION
 --PAYMENTS
