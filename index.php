@@ -90,7 +90,6 @@ $router->add("ajax/cart/payment/", ['controller' => 'Cart', 'action' => 'payment
 $router->add("orders/", ['controller' => 'Order', 'action' => 'index']);
 $router->add("orders/{order_id:\d+}/", ['controller' => 'Order', 'action' => 'details']);
 
-
 $router->add('{controller}/{action}/');
 
 $url = $_SERVER['QUERY_STRING'];
