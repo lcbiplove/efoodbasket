@@ -9,7 +9,16 @@ This is the final efoodbasket repository. [Previous repo](https://lcbiplove.gith
 To check the development of the website,  you need to have following tools:
 1. [Xampp of PHP version 7.3.28 / PHP 7.3.28](https://www.apachefriends.org/download.html)
 2. [Oracle Database Express](https://www.oracle.com/database/technologies/xe-downloads.html)
-3. [Windows 64-bit with JDK 8 included](https://www.oracle.com/tools/downloads/sqldev-downloads.html)
+3. [Sql developer tool(Windows 64-bit with JDK 8 included)](https://www.oracle.com/tools/downloads/sqldev-downloads.html)(Optional)
+
+### Installation
+
+To start the database tables and sample inserts. Simply, load [this](https://github.com/lcbiplove/efoodbasket/blob/main/sqls/all.sql) sql file or sql file from the directory:
+```
+sqls/all.sql
+```
+
+*Note:- You will be able to install the tables with sample data only after you have successfully completed **OCI connection**.
 
 ### OCI connection
 
